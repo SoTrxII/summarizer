@@ -1,0 +1,10 @@
+name: EpisodeAgent
+template: |
+  Combine the following scene summaries into a single session summary in {{$language}}.
+  Keep chronology; preserve key events, character actions, lore changes, and open threads.
+  
+template_format: semantic-kernel
+description: An agent that summarizes TTRPG scenes.
+input_variables:
+  - name: language
+    description: Language to use for the summary

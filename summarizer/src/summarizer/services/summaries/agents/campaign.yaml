@@ -1,0 +1,12 @@
+name: campaign_summarizer
+template: |
+  Summarize an entire tabletop RPG campaign in {{$language}} based on multiple episode summaries.
+  The AI should aggregate story arcs, track character development, recurring NPCs,
+  important items, and unresolved plot threads. The output must be strict JSON
+  matching the CampaignSummary Pydantic model.
+
+template_format: semantic-kernel
+description: An agent that summarizes TTRPG campaign.
+input_variables:
+  - name: language
+    description: Language to use for the summary

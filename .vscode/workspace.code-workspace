@@ -1,0 +1,22 @@
+{
+  "folders": [
+    {
+      "path": ".."
+    },
+    {
+      "path": "../summarizer",
+      "name": "Summarizer",
+      "settings": {
+        "python.defaultInterpreterPath": "../summarizer/.venv/bin/python",
+      }
+    },
+    {
+      "path": "../infra",
+      "name": "Infra"
+    },
+  ],
+  "settings": {
+    "debug.internalConsoleOptions": "neverOpen",
+    "debugpy.debugJustMyCode": false
+  }
+}

@@ -1,0 +1,26 @@
+[
+    {
+        "start": 0.638,
+        "end": 2.54,
+        "speaker": "SPEAKER_01",
+        "text": "A vous, c'est Préor."
+    },
+    {
+        "start": 3.822,
+        "end": 23.847,
+        "speaker": "SPEAKER_01",
+        "text": "Du coup, mon personnage s'appelle Préor. C'est un clair guerrier qui a été recruté par Basile, le personnage de Thomas, dans sa religion. Il a fui les nains à cause de leur avidité et il peut vous heal et frapper fort."
+    },
+    {
+        "start": 23.867,
+        "end": 55.772,
+        "speaker": "SPEAKER_02",
+        "text": "Ok. Merci. A toi. Moi, je suis Ben Thaï, donc un nef qui fait ce qu'il fait depuis maintenant à peu près deux siècles. Ça fait une dizaine d'années que je suis à Valboisais. Je suis plutôt apprécié ici. Et ce que je fais, c'est que je passe des contrats avec les gens, des contrats magiques, qui en général ne sont pas brisés, parce que les répercussions sont inconnues et hors de contrôle. Et ces contrats sont bien sûr des contrats à Bible en Tante, où chacun est plus que 50, pour aider les gens, aider la population,"
+    },
+    {
+        "start": 56.613,
+        "end": 59.991,
+        "speaker": "SPEAKER_02",
+        "text": "Le souci, c'est que certaines personnes se croient au-dessus des voitures."
+    }
+]

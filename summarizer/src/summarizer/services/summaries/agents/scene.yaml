@@ -1,0 +1,16 @@
+name: SceneAgent
+template: |
+  You are summarizing the TTRPG scene below in {{$language}}. Distinguish GM narration from player actions.
+  You'll be given the previous scene summary as context
+  Return strict JSON with fields:
+  - gm: narration/world info, NPCs, locations, lore
+  - players: map of speaker (or player name) to actions/decisions
+  - items: list of items, clues, or objects of note
+  - open_threads: list of unresolved hooks/questions
+  - timestamps: { "start": {scene["start"]}, "end": {scene["end"]} }
+
+template_format: semantic-kernel
+description: An agent that summarizes TTRPG scenes.
+input_variables:
+  - name: language
+    description: Language to use for the summary

@@ -1,0 +1,29 @@
+locals {
+  resource_lowercase_array  = [lower(var.environment), substr(lower(var.location), 0, 2), substr(lower(var.domain), 0, 3), substr(lower(var.application), 0, 3), random_id.resource_group_name_suffix.hex]
+  resource_suffix_kebabcase = join("-", local.resource_lowercase_array)
+  resource_suffix_lowercase = join("", local.resource_lowercase_array)
+
+  tags = merge(
+    var.tags,
+    tomap(
+      {
+        "Deployment"      = "terraform",
+        "ProjectName"     = "ai-shop",
+        "Environment"     = var.environment,
+        "Location"        = var.location,
+        "SecurityControl" = "Ignore",
+        "CostControl"     = "Ignore",
+        "azd-env-name"    = var.environment
+      }
+    )
+  )
+
+  tags_azapi = merge(
+    local.tags,
+    tomap(
+      {
+        "TypeOfDeployment" = "azapi"
+      }
+    )
+  )
+}

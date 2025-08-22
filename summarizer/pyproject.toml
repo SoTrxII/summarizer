@@ -1,0 +1,36 @@
+[project]
+name = "summarizer"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "SoTrx",email = "11771975+SoTrx@users.noreply.github.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "whisperx (>=3.4.2,<4.0.0)",
+    "numpy (>=2.3.2,<3.0.0)",
+    "sentence-transformers (>=5.1.0,<6.0.0)",
+    "semantic-kernel (>=1.35.3,<2.0.0)",
+    "asyncio (>=4.0.0,<5.0.0)",
+    "azure-ai-projects (>=1.0.0,<2.0.0)",
+    "azure-identity (>=1.24.0,<2.0.0)",
+    "pydantic (>=2.11.7,<3.0.0)",
+    "dapr-ext-workflow (>=1.15.0,<2.0.0)",
+    "dapr (>=1.15.0,<2.0.0)",
+    "opentelemetry-api (>=1.36.0,<2.0.0)",
+    "opentelemetry-sdk (>=1.36.0,<2.0.0)",
+    "opentelemetry-exporter-otlp-proto-grpc (>=1.36.0,<2.0.0)",
+    "pytest (>=8.4.1,<9.0.0)",
+    "pytest-asyncio (>=1.1.0,<2.0.0)",
+    "dependency-injector (>=4.48.1,<5.0.0)",
+    "requests (>=2.25.0,<3.0.0)",
+]
+
+[tool.poetry]
+packages = [{include = "summarizer", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
