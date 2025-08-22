@@ -93,17 +93,26 @@ def audio_to_summary(ctx: DaprWorkflowContext, audio_payload_str: str):
     Workflow to transcribe audio and summarize the content.
     """
     logging.info(
-        f"Starting audio to summary workflow with payload: {audio_payload_str}")
+        f"🎵 Starting audio to summary workflow with payload: {audio_payload_str}")
+
+    # Add detailed logging for debugging
+    logging.info("📝 Step 1: Starting transcription...")
     sentences: List[Sentence] = yield ctx.call_activity(transcribe_audio, input=audio_payload_str)
-    logging.info(f"Complete. Transcribed {len(sentences)} sentences")
+    logging.info(f"✅ Step 1 Complete. Transcribed {len(sentences)} sentences")
 
-    logging.info("Splitting sentences into scenes...")
+    logging.info("🎬 Step 2: Starting scene splitting...")
     scenes: List[Scene] = yield ctx.call_activity(split_into_scenes, input=sentences)
-    logging.info(f"Complete. Split into {len(scenes)} scenes")
+    logging.info(f"✅ Step 2 Complete. Split into {len(scenes)} scenes")
 
-    logging.info("Summarizing scenes...")
+    logging.info("📝 Step 3: Starting scene summarization...")
     scenes_summaries = yield ctx.call_activity(summarize_scenes, input=scenes)
+    logging.info(
+        f"✅ Step 3 Complete. Generated {len(scenes_summaries)} scene summaries")
 
-    logging.info("Summarizing episode...")
+    logging.info("📖 Step 4: Starting episode summarization...")
     episode_summary = yield ctx.call_activity(summarize_episode, input=scenes_summaries)
-    print(episode_summary)
+    logging.info(
+        f"✅ Step 4 Complete. Episode summary generated: {type(episode_summary)}")
+
+    logging.info(f"🎉 Workflow completed successfully!")
+    return episode_summary

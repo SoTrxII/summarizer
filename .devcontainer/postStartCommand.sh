@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 
-dapr uninstall && dapr init --runtime-version 1.15.9
+dapr uninstall && dapr init --runtime-version 1.15.10
 
 # Start the Aspire Dashboard
 # 18888 is the WEB UI port
