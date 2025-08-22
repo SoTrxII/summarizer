@@ -2,6 +2,7 @@
 Base models for RPG session summaries to ensure consistency across scene, episode, and campaign levels.
 """
 from typing import List, Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -25,7 +26,8 @@ class NPCInfo(BaseModel):
 
 class ItemOrClue(BaseModel):
     """Items, clues, or notable objects."""
-    name: str = Field(..., description="Name or brief description of the item/clue")
+    name: str = Field(...,
+                      description="Name or brief description of the item/clue")
     description: Optional[str] = Field(
         None,
         description="Additional details about the item or clue"
@@ -38,7 +40,8 @@ class ItemOrClue(BaseModel):
 
 class OpenThread(BaseModel):
     """Unresolved storylines, questions, or hooks."""
-    description: str = Field(..., description="Description of the unresolved thread")
+    description: str = Field(...,
+                             description="Description of the unresolved thread")
     priority: Optional[str] = Field(
         None,
         description="Priority level: 'high', 'medium', 'low'"
@@ -53,7 +56,7 @@ class Timestamps(BaseModel):
     """Time markers for audio/video content."""
     start: float = Field(..., description="Start time in seconds")
     end: float = Field(..., description="End time in seconds")
-    
+
     @property
     def duration(self) -> float:
         """Calculate duration in seconds."""

@@ -2,7 +2,7 @@ from typing import List
 
 from pydantic import BaseModel, Field
 
-from .base_models import CharacterUpdate, NPCInfo, ItemOrClue, OpenThread
+from .base_models import CharacterUpdate, ItemOrClue, NPCInfo, OpenThread
 
 
 class StoryArc(BaseModel):

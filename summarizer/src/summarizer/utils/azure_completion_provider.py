@@ -4,7 +4,7 @@ from azure.identity import DefaultAzureCredential
 from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion
 
 
-async def azure_completion_provider(foundry_endpoint: str, deployment_name: str) -> AzureChatCompletion:
+def azure_completion_provider(foundry_endpoint: str, deployment_name: str) -> AzureChatCompletion:
     """
         Authenticates with Azure IAFoundry and build an AzureChatCompletion using it
     """
