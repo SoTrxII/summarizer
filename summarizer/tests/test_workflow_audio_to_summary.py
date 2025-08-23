@@ -3,7 +3,7 @@ import logging
 import pytest
 from dapr.ext.workflow import DaprWorkflowClient
 
-from summarizer.main import setup_DI, start_workflow_server
+from summarizer.main import setup_DI
 from summarizer.workflows.audio_to_summary import audio_to_summary
 
 
@@ -11,7 +11,6 @@ from summarizer.workflows.audio_to_summary import audio_to_summary
 async def test_workflow_audio_to_summary(wf_client: DaprWorkflowClient):
     """Test the audio to summary workflow with Dapr sidecar."""
     setup_DI()
-    start_workflow_server()
     audio_payload = "1m.ogg"
 
     id = wf_client.schedule_new_workflow(audio_to_summary, input=audio_payload)
@@ -39,13 +38,3 @@ async def test_workflow_audio_to_summary(wf_client: DaprWorkflowClient):
     except Exception as e:
         logging.error(f"Test failed with exception: {e}")
         raise
-
-
-@pytest.mark.asyncio
-async def test_workflow_audio_to_summary2(wf_client: DaprWorkflowClient):
-    """Test the audio to summary workflow with Dapr sidecar."""
-
-    setup_DI()
-    start_workflow_server()
-
-    audio_to_summary()

@@ -13,6 +13,7 @@ from _pytest.fixtures import FixtureRequest
 from dapr.ext.workflow import DaprWorkflowClient
 from dotenv import load_dotenv
 from opentelemetry._logs import set_logger_provider
+from opentelemetry.instrumentation.logging import LoggingInstrumentor
 from opentelemetry.metrics import set_meter_provider
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.semconv.attributes import service_attributes
@@ -27,6 +28,7 @@ from summarizer.utils.telemetry import (
     setup_metrics_provider,
     setup_traces_provider,
 )
+from summarizer.workflows.runtime import wfr
 
 load_dotenv()
 
@@ -43,6 +45,9 @@ def exporter(request: FixtureRequest):
     set_logger_provider(setup_log_provider(resource, ASPIRE_DASHBOARD))
     set_meter_provider(setup_metrics_provider(resource, ASPIRE_DASHBOARD))
 
+    # Enable automatic logging instrumentation for tests
+    LoggingInstrumentor().instrument(set_logging_format=True)
+
 
 @pytest.fixture(scope="session")
 def data_dir() -> Path:
@@ -51,7 +56,7 @@ def data_dir() -> Path:
 
 @pytest_asyncio.fixture(scope="session")
 async def azure_provider() -> AzureChatCompletion:
-    return await azure_completion_provider(
+    return azure_completion_provider(
         foundry_endpoint=os.environ["AI_FOUNDRY_PROJECT_ENDPOINT"],
         deployment_name=os.environ["CHAT_DEPLOYMENT_NAME"]
     )
@@ -86,6 +91,7 @@ def wf_client() -> Generator[DaprWorkflowClient, None, None]:
         "--placement-host-address", "0.0.0.0:50005",
         "--scheduler-host-address", "0.0.0.0:50006",
         "--resources-path", str(components_path.resolve()),
+        "--config", str((components_path / "dapr-config.yaml").resolve()),
         "--log-level", "debug",  # Enable debug logs
     ]
 
@@ -109,17 +115,18 @@ def wf_client() -> Generator[DaprWorkflowClient, None, None]:
             raise RuntimeError("Dapr sidecar failed to start")
 
         try:
+            wfr.start()
             yield DaprWorkflowClient(host="0.0.0.0", port=dapr_grpc_port)
+            wfr.shutdown()
         finally:
             # Cleanup Dapr process
             logging.info("Shutting down Dapr sidecar...")
             process.terminate()
             try:
-                process.wait(timeout=10)
+                process.wait(timeout=1)
             except subprocess.TimeoutExpired:
                 logging.warning("Force killing Dapr sidecar process...")
                 process.kill()
-                process.wait()
 
 
 def _wait_for_dapr_sidecar(port, max_attempts=10, delay=1):

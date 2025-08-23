@@ -5,3 +5,4 @@ apps:
   - appID: summarizer
     appDirPath: ./summarizer
     command: ["poetry", "run", "python", "src/summarizer/workflows/audio_to_summary.py"]
+    config: dapr-config

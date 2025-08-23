@@ -8,7 +8,9 @@
 			"resourcesPath": "/workspaces/summarizer/components",
 			"args": [
 				"--scheduler-host-address",
-				"localhost:50006"
+				"localhost:50006",
+				"--config",
+				"/workspaces/summarizer/components/dapr-config.yaml"
 			]
 			
 		},

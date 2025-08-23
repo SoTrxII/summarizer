@@ -1,12 +1,22 @@
 import asyncio
 import logging
+from os import environ
 from typing import Never
 
-from dapr.ext.workflow import DaprWorkflowClient
 from dotenv import load_dotenv
+from opentelemetry._logs import set_logger_provider
+from opentelemetry.metrics import set_meter_provider
+from opentelemetry.sdk.resources import Resource
+from opentelemetry.semconv.attributes import service_attributes
+from opentelemetry.trace import set_tracer_provider
 
 from summarizer.container import Container
-from summarizer.workflows.audio_to_summary import audio_to_summary
+from summarizer.utils.telemetry import (
+    setup_log_provider,
+    setup_metrics_provider,
+    setup_traces_provider,
+)
+from summarizer.workflows import audio_to_summary
 from summarizer.workflows.runtime import wfr
 
 load_dotenv()
@@ -37,60 +47,39 @@ def setup_DI() -> None:
         .chat_deployment_name
         .from_env("CHAT_DEPLOYMENT_NAME", required=True)
     )
+    (
+        container
+        .config
+        .inference_device
+        .from_env("INFERENCE_DEVICE", required=True, default="cpu")
+    )
     container.wire(modules=[audio_to_summary])
 
 
-def start_workflow_server() -> None:
-    """
-    Start the remote workflow runtime
-    """
-    wfr.start()
+def setup_telemetry() -> None:
+    otlp_endpoint = environ["OTLP_ENDPOINT"]
+    resource = Resource.create({service_attributes.SERVICE_NAME: "summarizer"})
+    set_tracer_provider(setup_traces_provider(resource, otlp_endpoint))
+    set_logger_provider(setup_log_provider(resource, otlp_endpoint))
+    set_meter_provider(setup_metrics_provider(resource, otlp_endpoint))
 
 
 async def main() -> Never:
     """
     Runs the workflow server and waits indefinitely.
     """
+    setup_telemetry()
     setup_DI()
-    start_workflow_server()
-    await asyncio.Event().wait()
-    raise RuntimeError("Unreachable")
-
-
-async def main2() -> None:
-    """
-    Runs the workflow server and waits indefinitely.
-    """
-    setup_DI()
-    start_workflow_server()
-    wf_client = DaprWorkflowClient()
-    audio_payload = "1m.ogg"
-
-    id = wf_client.schedule_new_workflow(audio_to_summary, input=audio_payload)
+    wfr.start()
 
     try:
-        state = wf_client.wait_for_workflow_completion(
-            id, timeout_in_seconds=24*60*60)
-        if not state:
-            logging.warning("Workflow not found!")
-        elif state.runtime_status.name == 'COMPLETED':
-            logging.info(
-                f'Workflow completed! Result: {state.serialized_output}')
-        else:
-            # not expected
-            logging.error(
-                f'Workflow failed! Status: {state.runtime_status.name}')
+        await asyncio.Event().wait()
+        raise RuntimeError("Unreachable")
 
-        # Assert that the workflow completed successfully
-        assert state is not None, "Workflow state should not be None"
-        assert state.runtime_status.name == 'COMPLETED', f"Workflow should complete successfully, but got status: {state.runtime_status.name}"
-
-    except TimeoutError:
-        logging.error('*** Workflow timed out!')
-        raise
     except Exception as e:
-        logging.error(f"Test failed with exception: {e}")
+        wfr.shutdown()
+        logging.error(f"Error occurred: {e}")
         raise
 
 if __name__ == "__main__":
-    asyncio.run(main2())
+    asyncio.run(main())
