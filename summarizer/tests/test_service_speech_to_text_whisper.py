@@ -13,7 +13,7 @@ async def test_service_speech_to_text_whisper(data_dir: Path):
     if not hf_token:
         raise ValueError("HUGGING_FACE_TOKEN environment variable is not set")
 
-    whisper = WhisperX(hf_token)
+    whisper = WhisperX(hf_token, device="cpu")
     sample_audio = data_dir / "audios" / "1m.ogg"
 
     sentences = whisper.transcribe(sample_audio, diarize=True)
