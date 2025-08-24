@@ -4,7 +4,7 @@ import pytest
 from dapr.ext.workflow import DaprWorkflowClient
 
 from summarizer.main import setup_DI
-from summarizer.workflows.audio_to_summary import audio_to_summary
+from summarizer.workflows.summarize_new_episode import audio_to_summary
 
 
 @pytest.mark.asyncio

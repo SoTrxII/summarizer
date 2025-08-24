@@ -6,7 +6,7 @@ from dapr.ext.workflow import DaprWorkflowClient
 
 from summarizer.main import setup_DI
 from summarizer.models.sentence import Sentence
-from summarizer.workflows.audio_to_summary import transcript_to_summary
+from summarizer.workflows.summarize_new_episode import transcript_to_summary
 
 from .utils.json import read_test_data
 
@@ -17,6 +17,8 @@ async def test_workflow_transcript_to_summary(wf_client: DaprWorkflowClient, dat
     setup_DI()
     sentences = read_test_data(
         data_dir / "transcriptions" / "10m_diarized.json", Sentence)
+    # sentences = read_test_data(
+    #     data_dir / "past_campaigns" / "20" / "02.json", Sentence)
     id = wf_client.schedule_new_workflow(
         transcript_to_summary, input=sentences)
 
