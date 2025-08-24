@@ -206,3 +206,5 @@ __marimo__/
 tests/logs
 
 *.log
+
+**/data/past_campaigns/

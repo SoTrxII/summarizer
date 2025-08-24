@@ -76,7 +76,7 @@ async def summarizer(azure_text_to_text_provider: AzureChatCompletion) -> Summar
 async def azure_text_to_text_provider() -> AzureChatCompletion:
     return azure_completion_provider(
         foundry_endpoint=os.environ["AI_FOUNDRY_PROJECT_ENDPOINT"],
-        deployment_name=os.environ["CHAT_DEPLOYMENT_NAME"]
+        deployment_name=os.environ["AZURE_CHAT_DEPLOYMENT_NAME"]
     )
 
 
@@ -106,7 +106,7 @@ async def speech_to_text(request: FixtureRequest, azure_transcribe: AzureOpenAIT
 async def azure_transcribe() -> AzureOpenAITranscriber:
     connection = get_foundry_connection(
         foundry_endpoint=os.environ["AI_FOUNDRY_PROJECT_ENDPOINT"])
-    deployment_name = os.environ["AUDIO_DEPLOYMENT_NAME"]
+    deployment_name = os.environ["AZURE_AUDIO_DEPLOYMENT_NAME"]
     key = connection.credentials.api_key  # type: ignore
     return AzureOpenAITranscriber(connection.target, key, deployment_name)
 

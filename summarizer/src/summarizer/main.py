@@ -45,13 +45,13 @@ def setup_DI() -> None:
         container
         .config
         .chat_deployment_name
-        .from_env("CHAT_DEPLOYMENT_NAME", required=True)
+        .from_env("AZURE_CHAT_DEPLOYMENT_NAME", required=True)
     )
     (
         container
         .config
         .audio_deployment_name
-        .from_env("AUDIO_DEPLOYMENT_NAME", required=False)
+        .from_env("AZURE_AUDIO_DEPLOYMENT_NAME", required=False)
     )
     (
         container
