@@ -9,7 +9,7 @@ class SpeechToText(Protocol):
     Any speech to text class
     """
 
-    def transcribe(self, audio_file: Path, diarize: bool = False) -> List[Sentence]:
+    async def transcribe(self, audio_file: Path, diarize: bool = False) -> List[Sentence]:
         """
         Takes an audio file and transcribes it to text.
         param audio_path: Path to the audio file

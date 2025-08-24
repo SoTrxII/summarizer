@@ -1,13 +1,10 @@
 from azure.ai.projects import AIProjectClient
-from azure.ai.projects.models import ConnectionType
+from azure.ai.projects.models import Connection, ConnectionType
 from azure.identity import DefaultAzureCredential
-from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion
+from semantic_kernel.connectors.ai.open_ai import AzureAudioToText, AzureChatCompletion
 
 
-def azure_completion_provider(foundry_endpoint: str, deployment_name: str) -> AzureChatCompletion:
-    """
-        Authenticates with Azure IAFoundry and build an AzureChatCompletion using it
-    """
+def get_foundry_connection(foundry_endpoint: str) -> Connection:
     project_client = AIProjectClient(
         credential=DefaultAzureCredential(),
         endpoint=foundry_endpoint
@@ -22,9 +19,32 @@ def azure_completion_provider(foundry_endpoint: str, deployment_name: str) -> Az
             f"Expected connection credentials type to be 'ApiKey', got {connection.credentials.type} instead."
         )
 
+    return connection
+
+
+def azure_completion_provider(foundry_endpoint: str, deployment_name: str) -> AzureChatCompletion:
+    """
+        Authenticates with Azure IAFoundry and build an AzureChatCompletion using it
+    """
+    con = get_foundry_connection(foundry_endpoint)
+
     return AzureChatCompletion(
-        endpoint=connection.target,
-        api_key=connection.credentials.api_key,  # type: ignore
+        endpoint=con.target,
+        api_key=con.credentials.api_key,  # type: ignore
         deployment_name=deployment_name,
         api_version='2025-01-01-preview',
+    )
+
+
+def azure_speech_to_text_provider(foundry_endpoint: str, deployment_name: str) -> AzureAudioToText:
+    """
+        Authenticates with Azure IAFoundry and build an AzureAudioToText using it
+    """
+    con = get_foundry_connection(foundry_endpoint)
+
+    return AzureAudioToText(
+        endpoint=con.target,
+        api_key=con.credentials.api_key,  # type: ignore
+        deployment_name=deployment_name,
+        api_version="2025-03-01-preview",
     )
