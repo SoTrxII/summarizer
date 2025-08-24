@@ -9,6 +9,7 @@ from summarizer.services.speech_to_text import (
     SpeechToTextService,
 )
 from summarizer.services.summaries.summarizer import Summarizer
+from summarizer.services.transformers import SceneChunker
 from summarizer.utils.azure_completion_provider import (
     azure_completion_provider,
     get_foundry_connection,
@@ -33,6 +34,12 @@ class Container(containers.DeclarativeContainer):
     device = providers.Callable(
         lambda inference_device: inference_device or Container._default_device,
         config.inference_device
+    )
+
+    # Transformers
+    scene_chunker = providers.Factory(
+        SceneChunker,
+        device=device
     )
 
     # LLM Config -> Using Azure Foundry

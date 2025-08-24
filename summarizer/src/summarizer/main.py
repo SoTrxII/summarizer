@@ -16,7 +16,7 @@ from summarizer.utils.telemetry import (
     setup_metrics_provider,
     setup_traces_provider,
 )
-from summarizer.workflows import audio_to_summary
+from summarizer.workflows import summarize_new_episode
 from summarizer.workflows.runtime import wfr
 
 load_dotenv()
@@ -59,7 +59,7 @@ def setup_DI() -> None:
         .inference_device
         .from_env("INFERENCE_DEVICE", required=False, default="cpu")
     )
-    container.wire(modules=[audio_to_summary])
+    container.wire(modules=[summarize_new_episode])
 
 
 def setup_telemetry() -> None:
