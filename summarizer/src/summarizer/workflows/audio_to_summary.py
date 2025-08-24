@@ -136,3 +136,30 @@ def audio_to_summary(ctx: DaprWorkflowContext, audio_payload_str: str):
 
             logging.info("🎉 Workflow completed successfully!")
             return episode_summary
+
+
+@wfr.workflow
+def transcript_to_summary(ctx: DaprWorkflowContext, sentences: List[Sentence]):
+    with tracer.start_as_current_span("transcript_to_summary") as workflow_span:
+        with trace.use_span(workflow_span, end_on_exit=False):
+            logging.info(
+                f"🎵 Starting transcript to summary workflow with number of sentences: {len(sentences)}")
+
+            # Step 1: Split into scenes
+            logging.info("🎬 Step 1: Starting scene splitting...")
+            scenes: List[Scene] = yield ctx.call_activity(split_into_scenes, input=sentences)
+            logging.info(f"✅ Step 1 Complete. Split into {len(scenes)} scenes")
+
+            # Step 2: Summarize scenes
+            logging.info("📝 Step 2: Starting scene summarization...")
+            scenes_summaries = yield ctx.call_activity(summarize_scenes, input=scenes)
+            logging.info(
+                f"✅ Step 2 Complete. Generated {len(scenes_summaries)} scene summaries")
+
+            # Step 3: Summarize episode
+            logging.info("📖 Step 3: Starting episode summarization...")
+            episode_summary = yield ctx.call_activity(summarize_episode, input=scenes_summaries)
+            logging.info(f"✅ Step 3 Complete. Episode summary generated")
+
+            logging.info("🎉 Workflow completed successfully!")
+            return episode_summary
