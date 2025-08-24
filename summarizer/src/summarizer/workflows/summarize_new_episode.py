@@ -18,7 +18,7 @@ from summarizer.models.sentence import Sentence
 from summarizer.services.speech_to_text import SpeechToText
 from summarizer.services.summaries.models.scene_summary import SceneSummary
 from summarizer.services.summaries.summarizer import Summarizer
-from summarizer.services.transformers import group_into_scenes
+from summarizer.services.transformers import SceneChunker
 from summarizer.utils.telemetry import span
 
 from .runtime import wfr
@@ -54,9 +54,10 @@ def transcribe_audio(
 
 
 @wfr.activity()  # pyright: ignore[reportCallIssue]
+@inject
 @span
-def split_into_scenes(_: WorkflowActivityContext, transcribed_text: List[Sentence]) -> List[Scene]:
-    return group_into_scenes(transcribed_text)
+def split_into_scenes(_: WorkflowActivityContext, transcribed_text: List[Sentence], scene_chunker: SceneChunker = Provide[Container.scene_chunker]) -> List[Scene]:
+    return scene_chunker.group_into_scenes(transcribed_text)
 
 
 @wfr.activity()  # pyright: ignore[reportCallIssue]
