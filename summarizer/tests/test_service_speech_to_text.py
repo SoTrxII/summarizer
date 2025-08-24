@@ -27,7 +27,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="torch")
 
 @pytest.mark.asyncio
 async def test_service_speech_to_text_transcriber_azure(data_dir: Path, azure_transcribe: AzureOpenAITranscriber):
-    sample_audio = data_dir / "audios" / "1h.ogg"
+    sample_audio = data_dir / "audios" / "1m.ogg"
 
     # Start timing
     start_time = time.time()
@@ -38,8 +38,8 @@ async def test_service_speech_to_text_transcriber_azure(data_dir: Path, azure_tr
     end_time = time.time()
     duration = end_time - start_time
 
-    with open(data_dir / "transcriptions" / "497170104.json", "w") as f:
-        json.dump(sentences, f)
+    # with open(data_dir / "transcriptions" / "497170104.json", "w") as f:
+    #     json.dump(sentences, f)
 
     assert sentences is not None
     assert len(sentences) > 0
@@ -60,7 +60,7 @@ async def test_service_speech_to_text_transcriber_local(data_dir: Path):
     logging.info(f"Using device: {device}")
 
     whisper = LocalWhisperTranscriber(device)
-    sample_audio = data_dir / "audios" / "1h.ogg"
+    sample_audio = data_dir / "audios" / "1m.ogg"
 
     # Start timing
     start_time = time.time()

@@ -50,8 +50,14 @@ def setup_DI() -> None:
     (
         container
         .config
+        .audio_deployment_name
+        .from_env("AUDIO_DEPLOYMENT_NAME", required=False)
+    )
+    (
+        container
+        .config
         .inference_device
-        .from_env("INFERENCE_DEVICE", required=True, default="cpu")
+        .from_env("INFERENCE_DEVICE", required=False, default="cpu")
     )
     container.wire(modules=[audio_to_summary])
 

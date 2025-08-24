@@ -34,9 +34,9 @@ class SpeechToTextService:
         Returns:
             List of transcribed sentences
         """
-        logging.info(f"Transcribing audio file: {audio_file}")
 
         # Step 1: Get transcription from the transcriber
+        logging.info(f"Transcribing audio file: {audio_file}")
         transcription_result = await self.transcriber.transcribe_audio(audio_file)
 
         if not transcription_result.get("segments"):
@@ -57,4 +57,5 @@ class SpeechToTextService:
             return sentences
 
         # Step 3: Perform alignment and diarization
+        logging.info("Performing speaker diarization...")
         return await self.diarizer.identify_speakers(audio_file, transcription_result)
