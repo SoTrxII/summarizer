@@ -1,7 +1,7 @@
 {
   "name": "AI Shop POC - Python",
+  //"image" : "nvidia/cuda:13.0.0-devel-ubuntu24.04",
   "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
-  // Alternative CUDA image: "nvidia/cuda:12.1-devel-ubuntu22.04"
   "runArgs": [
     "--gpus=all"
   ],
@@ -14,7 +14,8 @@
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "ghcr.io/devcontainers-extra/features/ffmpeg-apt-get:1": {},
     "ghcr.io/devcontainers/features/terraform:1": {},
-    "ghcr.io/dapr/cli/dapr-cli:0": {}
+    "ghcr.io/dapr/cli/dapr-cli:0": {},
+    "ghcr.io/devcontainers/features/nvidia-cuda:2": {}
   },
   "forwardPorts": [
     18888,
