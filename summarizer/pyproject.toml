@@ -25,6 +25,8 @@ dependencies = [
     "pytest (>=8.4.1,<9.0.0)",
     "pytest-asyncio (>=1.1.0,<2.0.0)",
     "dependency-injector (>=4.48.1,<5.0.0)",
+    "openai (>=1.101.0,<2.0.0)",
+    "pycountry (>=24.6.1,<25.0.0)",
 ]
 
 [tool.poetry]

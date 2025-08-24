@@ -21,16 +21,16 @@ from summarizer.services.summaries.summarizer import Summarizer
 from summarizer.services.transformers import group_into_scenes
 from summarizer.utils.telemetry import span
 
-from .runtime import wfr
+from .runtime import async_activity, wfr
 
 # Get a tracer for this module
 tracer = trace.get_tracer(__name__)
 
 
-@wfr.activity()  # pyright: ignore[reportCallIssue]
+@async_activity
 @inject
 @span
-def transcribe_audio(
+async def transcribe_audio(
     _: WorkflowActivityContext,
     audio_file_path: str,
     speech_to_text: SpeechToText = Provide[Container.speech_to_text]
@@ -45,7 +45,7 @@ def transcribe_audio(
             binding_metadata={"fileName": audio_file_path}
         )
         tmp.write(binding_res.data)
-        sentences = speech_to_text.transcribe(Path(tmp.name), diarize=True)
+        sentences = await speech_to_text.transcribe(Path(tmp.name), diarize=True)
         return sentences
 
 
@@ -55,43 +55,43 @@ def split_into_scenes(_: WorkflowActivityContext, transcribed_text: List[Sentenc
     return group_into_scenes(transcribed_text)
 
 
-@wfr.activity()  # pyright: ignore[reportCallIssue]
+@async_activity
 @inject
 @span
-def summarize_scenes(
+async def summarize_scenes(
     _: WorkflowActivityContext,
     scenes: List[Scene],
     summarizer: Summarizer = Provide[Container.summarizer],
 ) -> List[dict]:
     logging.info("Summarizing scenes...")
-
-    async def run():
-        previous_summary = None
-        summaries = []
-        for scene in scenes:
-            current = await summarizer.scene(scene, previous_summary=previous_summary)
-            summaries.append(current.model_dump())
-            previous_summary = current
-        return summaries
-    return asyncio.run(run())
+    previous_summary = None
+    summaries = []
+    for scene in scenes:
+        current = await summarizer.scene(scene, previous_summary=previous_summary)
+        summaries.append(current.model_dump())
+        previous_summary = current
+    return summaries
 
 
-@wfr.activity()  # pyright: ignore[reportCallIssue]
+@async_activity
 @inject
 @span
-def summarize_episode(
+async def summarize_episode(
     _: WorkflowActivityContext,
     scenes: List[dict],
     summarizer: Summarizer = Provide[Container.summarizer],
 ) -> dict:
     logging.info("Summarizing episode...")
-
-    async def run():
-        scene_objects = [SceneSummary(**s) for s in scenes]
-        episode_summary = await summarizer.episode(scene_objects)
-        return episode_summary.model_dump()
-
-    return asyncio.run(run())
+    scene_objects = [SceneSummary(**s) for s in scenes]
+    episode_summary = await summarizer.episode(scene_objects)
+    with DaprClient() as d:
+        d.invoke_binding(
+            "object-store",
+            "create",
+            data=episode_summary.model_dump_json(),
+            binding_metadata={"fileName": f"episode_summary.json"}
+        )
+    return episode_summary.model_dump()
 
 
 @wfr.workflow
