@@ -2,6 +2,10 @@ from dependency_injector import containers, providers
 from semantic_kernel import Kernel
 from torch import cuda
 
+from summarizer.repositories.dapr_storage import (
+    DaprAudioRepository,
+    DaprSummaryRepository,
+)
 from summarizer.services.speech_to_text import (
     AzureOpenAITranscriber,
     LocalWhisperTranscriber,
@@ -40,6 +44,16 @@ class Container(containers.DeclarativeContainer):
     scene_chunker = providers.Factory(
         SceneChunker,
         device=device
+    )
+
+    # Storage repositories
+    audio_repository = providers.Factory(
+        DaprAudioRepository,
+        binding_name=config.dapr_audio_store_name
+    )
+    summary_repository = providers.Factory(
+        DaprSummaryRepository,
+        binding_name=config.dapr_summary_store_name
     )
 
     # LLM Config -> Using Azure Foundry

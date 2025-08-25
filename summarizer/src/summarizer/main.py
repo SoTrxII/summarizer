@@ -61,6 +61,18 @@ def setup_DI() -> None:
         .inference_device
         .from_env("INFERENCE_DEVICE", required=False, default="cpu")
     )
+    (
+        container
+        .config
+        .dapr_audio_store_name
+        .from_env("DAPR_AUDIO_STORE_NAME", required=False, default="audio-store")
+    )
+    (
+        container
+        .config
+        .dapr_summary_store_name
+        .from_env("DAPR_SUMMARY_STORE_NAME", required=False, default="summary-store")
+    )
     container.wire(modules=[summarize_new_episode])
 
 
