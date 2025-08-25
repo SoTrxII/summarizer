@@ -1,11 +1,9 @@
 import asyncio
 import logging
-from json import dumps, loads
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 from typing import List
 
-from dapr.clients import DaprClient
 from dapr.ext.workflow import (
     DaprWorkflowContext,
     WorkflowActivityContext,
@@ -22,6 +20,7 @@ from summarizer.models.workflow import (
     SummarizeEpisodeActivityInput,
     WorkflowInput,
 )
+from summarizer.repositories.storage import AudioRepository, SummaryRepository
 from summarizer.services.speech_to_text import SpeechToText
 from summarizer.services.summaries.models.campaign_summary import CampaignSummary
 from summarizer.services.summaries.models.episode_summary import EpisodeSummary
@@ -42,32 +41,35 @@ tracer = trace.get_tracer(__name__)
 def transcribe_audio(
     _: WorkflowActivityContext,
     input: AudioWorkflowInput,
-    speech_to_text: SpeechToText = Provide[Container.speech_to_text]
+    speech_to_text: SpeechToText = Provide[Container.speech_to_text],
+    audio_repo: AudioRepository = Provide[Container.audio_repository],
+    summary_repo: SummaryRepository = Provide[Container.summary_repository]
 ) -> List[Sentence]:
     """
     Transcribe an audio file on a remote
     """
-    # audio_file_path = audio_input["audio_file_path"]
-    # campaign_id = audio_input["campaign_id"]
-    # episode_id = audio_input["episode_id"]
 
     async def run():
-        with DaprClient() as d, NamedTemporaryFile(suffix=".ogg") as tmp:
-            binding_res = d.invoke_binding(
-                "audio-store",
-                "get",
-                binding_metadata={"fileName": input["audio_file_path"]}
-            )
-            tmp.write(binding_res.data)
-            sentences = await speech_to_text.transcribe(Path(tmp.name), diarize=True)
-            binding_res = d.invoke_binding(
-                "summary-store",
-                "create",
-                data=dumps(sentences),
-                binding_metadata={
-                    "fileName": f"{input['campaign_id']}/{input['episode_id']}/transcript.json"}
-            )
-            return sentences
+        with NamedTemporaryFile(suffix=".ogg") as tmp:
+            # Get audio data
+            audio_data = await audio_repo.get(input["audio_file_path"])
+            if audio_data:
+                tmp.write(audio_data)
+
+                # Transcribe
+                sentences = await speech_to_text.transcribe(Path(tmp.name), diarize=True)
+
+                # Save transcript
+                await summary_repo.save_transcript(
+                    input["campaign_id"],
+                    input["episode_id"],
+                    sentences
+                )
+
+                return sentences
+            else:
+                raise ValueError(
+                    f"Audio file not found: {input['audio_file_path']}")
 
     return asyncio.run(run())
 
@@ -75,30 +77,37 @@ def transcribe_audio(
 @wfr.activity()  # pyright: ignore[reportCallIssue]
 @inject
 @span
-def split_into_scenes(_: WorkflowActivityContext, input: WorkflowInput, scene_chunker: SceneChunker = Provide[Container.scene_chunker]) -> List[Scene]:
+def split_into_scenes(
+    _: WorkflowActivityContext,
+    input: WorkflowInput,
+    scene_chunker: SceneChunker = Provide[Container.scene_chunker],
+    summary_repo: SummaryRepository = Provide[Container.summary_repository]
+) -> List[Scene]:
     """
     Split transcribed text from object store into scenes
     """
     async def run():
-        with DaprClient() as d:
-            binding_res = d.invoke_binding(
-                "summary-store",
-                "get",
-                binding_metadata={
-                    "fileName": f"{input['campaign_id']}/{input['episode_id']}/transcript.json"
-                }
-            )
-            sentences = loads(binding_res.data)
-            scenes = scene_chunker.group_into_scenes(sentences)
-            binding_res = d.invoke_binding(
-                "summary-store",
-                "create",
-                data=dumps(scenes),
-                binding_metadata={
-                    "fileName": f"{input['campaign_id']}/{input['episode_id']}/scenes.json"
-                }
-            )
-            return scenes
+        # Get transcript
+        sentences = await summary_repo.get_transcript(
+            input["campaign_id"],
+            input["episode_id"]
+        )
+
+        if sentences is None:
+            raise ValueError(
+                f"Transcript not found for campaign {input['campaign_id']}, episode {input['episode_id']}")
+
+        # Process scenes
+        scenes = scene_chunker.group_into_scenes(sentences)
+
+        # Save scenes
+        await summary_repo.save_scenes(
+            input["campaign_id"],
+            input["episode_id"],
+            scenes
+        )
+
+        return scenes
 
     return asyncio.run(run())
 
@@ -132,6 +141,7 @@ def summarize_episode(
     _: WorkflowActivityContext,
     input: SummarizeEpisodeActivityInput,
     summarizer: Summarizer = Provide[Container.summarizer],
+    summary_repo: SummaryRepository = Provide[Container.summary_repository]
 ) -> dict:
     logging.info("Summarizing episode...")
 
@@ -141,33 +151,25 @@ def summarize_episode(
 
     async def run():
         scene_objects = [SceneSummary(**s) for s in scenes]
-        # TODO : Should the episode have the campaign context instead of the previous episode context
-        # # TODO: Whole campaign summary instead of episode summary?
-        # TODO : Old episode from storage
+
+        # Get previous episode
         previous_episode = None
-        for previous_ep_id in range(episode_id - 1, 0, -1):
-            with DaprClient() as d:
-                binding_res = d.invoke_binding(
-                    "summary-store",
-                    "get",
-                    binding_metadata={
-                        "fileName": f"{campaign_id}/{previous_ep_id}/episode.json"}
-                )
-                if binding_res.data:
-                    previous_episode = EpisodeSummary(
-                        **loads(binding_res.data))
+        for prev_id in range(episode_id - 1, 0, -1):
+            prev_summary = await summary_repo.get_episode_summary(campaign_id, prev_id)
+            if prev_summary:
+                previous_episode = EpisodeSummary(**prev_summary)
                 break
 
-        # Incorporate previous episode summary into current episode
+        # Generate episode summary
         episode_summary = await summarizer.episode(scene_objects, previous_episode)
-        with DaprClient() as d:
-            binding_res = d.invoke_binding(
-                "summary-store",
-                "create",
-                data=episode_summary.model_dump_json(),
-                binding_metadata={
-                    "fileName": f"{campaign_id}/{episode_id}/episode.json"}
-            )
+
+        # Save episode summary
+        await summary_repo.save_episode_summary(
+            campaign_id,
+            episode_id,
+            episode_summary.model_dump()
+        )
+
         return episode_summary.model_dump()
     return asyncio.run(run())
 
@@ -179,6 +181,7 @@ def summarize_campaign(
     _: WorkflowActivityContext,
     campaign_input: SummarizeCampaignActivityInput,
     summarizer: Summarizer = Provide[Container.summarizer],
+    summary_repo: SummaryRepository = Provide[Container.summary_repository]
 ) -> dict:
     logging.info("Summarizing campaign...")
 
@@ -188,43 +191,31 @@ def summarize_campaign(
 
     async def run():
         episode_summary = EpisodeSummary(**episode)
-        # TODO : Should the episode have the campaign context instead of the previous episode context
-        # # TODO: Whole campaign summary instead of episode summary?
-        # TODO : Old episode from storage
+
+        # Get all previous episodes
         episodes = []
-        for previous_ep_id in range(0, episode_id - 1):
-            with DaprClient() as d:
-                binding_res = d.invoke_binding(
-                    "summary-store",
-                    "get",
-                    binding_metadata={
-                        "fileName": f"{campaign_id}/{previous_ep_id}/episode.json"}
-                )
-                if binding_res.data:
-                    episodes.append(EpisodeSummary(
-                        **loads(binding_res.data)))
+        for previous_ep_id in range(1, episode_id):
+            prev_summary = await summary_repo.get_episode_summary(campaign_id, previous_ep_id)
+            if prev_summary:
+                episodes.append(EpisodeSummary(**prev_summary))
 
         episodes.append(episode_summary)
+
+        # Get previous campaign summary
         previous_campaign_summary = None
-        with DaprClient() as d:
-            binding_res = d.invoke_binding(
-                "summary-store",
-                "get",
-                binding_metadata={
-                    "fileName": f"{campaign_id}/campaign.json"}
-            )
-            if binding_res.data:
-                previous_campaign_summary = CampaignSummary(
-                    **loads(binding_res.data))
+        campaign_data = await summary_repo.get_campaign_summary(campaign_id)
+        if campaign_data:
+            previous_campaign_summary = CampaignSummary(**campaign_data)
+
+        # Generate campaign summary
         campaign_summary = await summarizer.campaign(episodes, previous_campaign_summary)
-        with DaprClient() as d:
-            binding_res = d.invoke_binding(
-                "summary-store",
-                "create",
-                data=campaign_summary.model_dump_json(),
-                binding_metadata={
-                    "fileName": f"{campaign_id}/{episode_id}/campaign.json"}
-            )
+
+        # Save campaign summary
+        await summary_repo.save_campaign_summary(
+            campaign_id,
+            campaign_summary.model_dump()
+        )
+
         return campaign_summary.model_dump()
     return asyncio.run(run())
 
