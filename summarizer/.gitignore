@@ -208,3 +208,4 @@ tests/logs
 *.log
 
 **/data/past_campaigns/
+**/data/generated/

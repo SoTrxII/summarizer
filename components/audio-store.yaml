@@ -1,0 +1,13 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: audio-store
+spec:
+  type: bindings.localstorage
+  version: v1
+  metadata:
+  - name: rootPath
+    value: "/workspaces/summarizer/summarizer/data/audios/"
+scopes:
+- summarizer
+- summarizer-testing

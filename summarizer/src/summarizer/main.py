@@ -3,6 +3,7 @@ import logging
 from os import environ
 from typing import Never
 
+import uvicorn
 from dotenv import load_dotenv
 from opentelemetry._logs import set_logger_provider
 from opentelemetry.metrics import set_meter_provider
@@ -10,6 +11,7 @@ from opentelemetry.sdk.resources import Resource
 from opentelemetry.semconv.attributes import service_attributes
 from opentelemetry.trace import set_tracer_provider
 
+from summarizer.api import app
 from summarizer.container import Container
 from summarizer.utils.telemetry import (
     setup_log_provider,
@@ -72,14 +74,37 @@ def setup_telemetry() -> None:
 
 async def main() -> Never:
     """
-    Runs the workflow server and waits indefinitely.
+    Runs the workflow server and HTTP API server concurrently.
     """
     setup_telemetry()
     setup_DI()
+
+    # Start the workflow runtime
     wfr.start()
 
+    # Get configuration for HTTP server
+    host = environ.get("HTTP_HOST", "0.0.0.0")
+    port = int(environ.get("HTTP_PORT", "8000"))
+
+    logging.info(f"Starting HTTP API server on {host}:{port}")
+    logging.info("Starting workflow runtime...")
+
     try:
-        await asyncio.Event().wait()
+        # Create uvicorn config
+        config = uvicorn.Config(
+            app=app,
+            host=host,
+            port=port,
+            log_level="info",
+            access_log=True
+        )
+
+        # Start uvicorn server
+        server = uvicorn.Server(config)
+
+        # Run the server (this will block)
+        await server.serve()
+
         raise RuntimeError("Unreachable")
 
     except Exception as e:

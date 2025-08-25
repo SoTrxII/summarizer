@@ -88,4 +88,3 @@ ENV VIRTUAL_ENV="/opt/pysetup/venv"
 COPY --from=production-builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENTRYPOINT ["summarizer"]
-CMD ["--help"]
