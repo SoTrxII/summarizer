@@ -121,7 +121,7 @@ def wf_client() -> Generator[DaprWorkflowClient, None, None]:
     workspace_root = Path(__file__).parent.parent.parent
     components_path = workspace_root / "components"
 
-    app_id = "summarizertest"
+    app_id = "summarizer-testing"
     dapr_http_port = "3500"
     dapr_grpc_port = "50001"
 

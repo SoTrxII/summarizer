@@ -1,10 +1,13 @@
 apiVersion: dapr.io/v1alpha1
 kind: Component
 metadata:
-  name: object-store
+  name: summary-store
 spec:
   type: bindings.localstorage
   version: v1
   metadata:
   - name: rootPath
-    value: "/workspaces/summarizer/summarizer/data/audios/"
+    value: "/workspaces/summarizer/summarizer/data/generated/"
+scopes:
+- summarizer
+- summarizer-testing

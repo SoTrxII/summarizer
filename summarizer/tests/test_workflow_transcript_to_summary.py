@@ -1,26 +1,36 @@
 import logging
 from pathlib import Path
+from shutil import copyfile
 
 import pytest
 from dapr.ext.workflow import DaprWorkflowClient
 
 from summarizer.main import setup_DI
-from summarizer.models.sentence import Sentence
+from summarizer.models.workflow import WorkflowInput
 from summarizer.workflows.summarize_new_episode import transcript_to_summary
-
-from .utils.json import read_test_data
 
 
 @pytest.mark.asyncio
 async def test_workflow_transcript_to_summary(wf_client: DaprWorkflowClient, data_dir: Path):
-    """Test the audio to summary workflow with Dapr sidecar."""
+    """Test the transcript to summary workflow with Dapr sidecar."""
     setup_DI()
-    sentences = read_test_data(
-        data_dir / "transcriptions" / "10m_diarized.json", Sentence)
-    # sentences = read_test_data(
-    #     data_dir / "past_campaigns" / "20" / "02.json", Sentence)
+    asset_name = "10m_diarized.json"
+
+    # Copy the target test file to the generated directory, which is where the test summary-store
+    # points to
+    copyfile(
+        data_dir / "transcriptions" / asset_name,
+        data_dir / "generated" / "1" / "1" / "transcript.json"
+    )
+
+    # Create workflow input
+    input = WorkflowInput(
+        campaign_id=1,
+        episode_id=1
+    )
+
     id = wf_client.schedule_new_workflow(
-        transcript_to_summary, input=sentences)
+        transcript_to_summary, input=input)
 
     try:
         state = wf_client.wait_for_workflow_completion(

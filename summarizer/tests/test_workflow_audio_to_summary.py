@@ -1,9 +1,11 @@
 import logging
+from json import dumps
 
 import pytest
 from dapr.ext.workflow import DaprWorkflowClient
 
 from summarizer.main import setup_DI
+from summarizer.models.workflow import AudioWorkflowInput
 from summarizer.workflows.summarize_new_episode import audio_to_summary
 
 
@@ -11,9 +13,15 @@ from summarizer.workflows.summarize_new_episode import audio_to_summary
 async def test_workflow_audio_to_summary(wf_client: DaprWorkflowClient):
     """Test the audio to summary workflow with Dapr sidecar."""
     setup_DI()
-    audio_payload = "1m.ogg"
 
-    id = wf_client.schedule_new_workflow(audio_to_summary, input=audio_payload)
+    input = AudioWorkflowInput(
+        campaign_id=1,
+        episode_id=1,
+        audio_file_path="1m.ogg"
+    )
+
+    id = wf_client.schedule_new_workflow(
+        audio_to_summary, input=input)
 
     try:
         state = wf_client.wait_for_workflow_completion(

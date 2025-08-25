@@ -1,3 +1,4 @@
+import logging
 from json import dumps
 from pathlib import Path
 from typing import List
@@ -37,7 +38,13 @@ class Summarizer:
         )
 
         res = await agent.get_response(f"SCENE TO SUMMARIZE\n:{scene}", thread=thread)
-        return SceneSummary.model_validate_json(res.message.content)
+        try:
+            return SceneSummary.model_validate_json(res.message.content)
+        except Exception as e:
+            logging.error(
+                f"Error validating scene summary. Content filtering ?: {e}")
+            # TODO : Handle a None to bypass the scene
+            raise
 
     async def episode(self, scenes_summaries: List[SceneSummary], previous_summary: EpisodeSummary | None = None) -> EpisodeSummary:
         """
