@@ -7,7 +7,7 @@ spec:
   version: v1
   metadata:
   - name: rootPath
-    value: "/workspaces/summarizer/summarizer/data/generated/"
+    value: "summarizer/data/generated/"
 scopes:
 - summarizer
 - summarizer-testing

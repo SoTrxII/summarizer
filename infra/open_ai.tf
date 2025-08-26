@@ -39,6 +39,20 @@ resource "azurerm_cognitive_deployment" "router_chat_model" {
   }
 }
 
+resource "azurerm_cognitive_deployment" "whisper_chat_model" {
+  name                 = "whisper"
+  cognitive_account_id = azurerm_cognitive_account.open_ai.id
+  model {
+    format  = "OpenAI"
+    name    = "whisper"
+    version = "001"
+  }
+
+  sku {
+    name = "Standard"
+  }
+}
+
 resource "azapi_resource" "open_ai_connection" {
   type      = "Microsoft.CognitiveServices/accounts/connections@2025-04-01-preview"
   name      = format("con-%s", azurerm_cognitive_account.open_ai.name)

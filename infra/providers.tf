@@ -14,6 +14,11 @@ terraform {
       source  = "Azure/azapi"
       version = "2.4.0"
     }
+
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 2.50"
+    }
   }
 
   # backend "local" {}
@@ -26,4 +31,8 @@ provider "azurerm" {
 
 provider "azapi" {
   # Configuration options
+}
+
+provider "azuread" {
+  # Uses the same authentication as azurerm by default
 }

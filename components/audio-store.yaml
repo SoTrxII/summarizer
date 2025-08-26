@@ -7,7 +7,7 @@ spec:
   version: v1
   metadata:
   - name: rootPath
-    value: "/workspaces/summarizer/summarizer/data/audios/"
+    value: "summarizer/data/audios/"
 scopes:
 - summarizer
 - summarizer-testing

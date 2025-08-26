@@ -31,6 +31,9 @@ dependencies = [
     "uvicorn[standard] (>=0.24.0,<1.0.0)",
 ]
 
+[project.scripts]
+summarizer = "summarizer.main:cli_main"
+
 [tool.poetry]
 packages = [{include = "summarizer", from = "src"}]
 
