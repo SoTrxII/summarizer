@@ -185,7 +185,7 @@ def summarize_campaign(
 ) -> dict:
     logging.info("Summarizing campaign...")
 
-    episode = campaign_input["episode"]
+    episode = campaign_input["episode_summary"]
     campaign_id = campaign_input["campaign_id"]
     episode_id = campaign_input["episode_id"]
 
@@ -259,6 +259,18 @@ def audio_to_summary(ctx: DaprWorkflowContext, input: AudioWorkflowInput):
             )
             logging.info("✅ Step 4 Complete. Episode summary generated")
 
+            # Step 5: Summarize campaign
+            logging.info("📖 Step 5: Starting campaign summarization...")
+            yield ctx.call_activity(
+                summarize_campaign,
+                input={
+                    "episode_summary": episode_summary,
+                    "campaign_id": input["campaign_id"],
+                    "episode_id": input["episode_id"]
+                }
+            )
+            logging.info("✅ Step 5 Complete. Campaign summary generated")
+
             logging.info("🎉 Workflow completed successfully!")
             return episode_summary
 
@@ -292,6 +304,18 @@ def transcript_to_summary(ctx: DaprWorkflowContext, input: WorkflowInput):
                 }
             )
             logging.info("✅ Step 3 Complete. Episode summary generated")
+
+            # Step 4: Summarize campaign
+            logging.info("📖 Step 4: Starting campaign summarization...")
+            yield ctx.call_activity(
+                summarize_campaign,
+                input={
+                    "episode_summary": episode_summary,
+                    "campaign_id": input["campaign_id"],
+                    "episode_id": input["episode_id"]
+                }
+            )
+            logging.info("✅ Step 4 Complete. Campaign summary generated")
 
             logging.info("🎉 Workflow completed successfully!")
             return episode_summary
