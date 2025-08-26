@@ -10,76 +10,9 @@ This project is a FastAPI + Dapr Workflows service that turns tabletop RPG recor
 - Configurable data source and destination using Dapr bindings
 - OpenTelemetry traces, logs, and metrics (OTLP/gRPC)
 
-## Usage
+<details>
+<summary><strong>Sample output</strong></summary>
 
-The purpose of this project is to provide a seamless way to generate structured summaries from tabletop RPG recordings. This project uses [Dapr](https://github.com/dapr/dapr).
-
-### Configuration
-
-You can independently choose your **LLM provider** (Azure AI Foundry or Ollama) and **Audio transcription provider** (Azure or local Whisper). The choices are controlled by two environment variables:
-
-- `CHAT_COMPLETION_PROVIDER`: "azure" or "ollama" 
-- `AUDIO_COMPLETION_PROVIDER`: "azure" or "local"
-
-#### Setup
-
-1. Copy the example environment file:
-```bash
-cp summarizer/.env.example summarizer/.env
-```
-
-2. Edit the `.env` file to configure your providers:
-
-**Chat Completion Provider:**
-- For Azure: Set `CHAT_COMPLETION_PROVIDER="azure"` and configure `AI_FOUNDRY_PROJECT_ENDPOINT` + `AZURE_CHAT_DEPLOYMENT_NAME`
-- For Ollama: Set `CHAT_COMPLETION_PROVIDER="ollama"` and configure `OLLAMA_ENDPOINT` + `OLLAMA_MODEL_NAME`
-
-**Audio Transcription Provider:**
-- For Azure: Set `AUDIO_COMPLETION_PROVIDER="azure"` and configure `AZURE_AUDIO_DEPLOYMENT_NAME`
-- For Local: Set `AUDIO_COMPLETION_PROVIDER="local"` (uses local Whisper, no additional config needed)
-
-#### Common Configurations
-
-**Full Azure (Recommended for production):**
-```bash
-CHAT_COMPLETION_PROVIDER="azure"
-AUDIO_COMPLETION_PROVIDER="azure"
-AI_FOUNDRY_PROJECT_ENDPOINT="https://<name>.services.ai.azure.com/api/projects/<project-name>"
-AZURE_CHAT_DEPLOYMENT_NAME="<your_chat_model>"
-AZURE_AUDIO_DEPLOYMENT_NAME="whisper"
-```
-
-**Full Local (Best for development):**
-```bash
-CHAT_COMPLETION_PROVIDER="ollama"
-AUDIO_COMPLETION_PROVIDER="local"
-OLLAMA_ENDPOINT="http://localhost:11434"
-OLLAMA_MODEL_NAME="phi4"
-```
-
-**Mixed (Azure Chat + Local Audio):**
-```bash
-CHAT_COMPLETION_PROVIDER="azure"
-AUDIO_COMPLETION_PROVIDER="local"
-AI_FOUNDRY_PROJECT_ENDPOINT="https://<name>.services.ai.azure.com/api/projects/<project-name>"
-AZURE_CHAT_DEPLOYMENT_NAME="<your_chat_model>"
-```
-
-#### Prerequisites
-
-**For Ollama:** Ensure Ollama is running locally:
-```bash
-ollama serve
-ollama pull phi4  # or your preferred model
-```
-
-**For any configuration:** Set your Hugging Face token:
-```bash
-HUGGING_FACE_TOKEN=<your_token_here>
-```
-Required for speaker diarization regardless of which providers you choose.
-
-### Sample output
 ```json
 {
   "session_overview": "The party investigates mysterious disappearances in the village of Millhaven, uncovering a cult of shadow worshippers operating from beneath the old mill. After infiltrating their lair and confronting the cult leader, they rescue the missing villagers and discover ancient artifacts tied to a larger conspiracy threatening the realm.",
@@ -217,7 +150,174 @@ Required for speaker diarization regardless of which providers you choose.
 }
 ```
 
+</details>
+
+## Usage
+
+### Locally
+This will show a basic configuration. For additional parameters, refer to the [configuration](#configuration) section.
+
+First, **open the devcontainer** with your preferred editor. 
+
+Then copy the `.env.example` file to `.env`.
+```bash
+# Fill the values in .env
+# You will especially need the HUGGING_FACE_TOKEN 
+# By default, the .env file is configured for local development with Ollama
+cp summarizer/.env.example summarizer/.env
+```
+
+You will need to fill in the values for your environment variables, especially the `HUGGING_FACE_TOKEN`. This is requirement to use [WhisperX](https://github.com/m-bain/whisperX).
+Following [these instructions](https://github.com/m-bain/whisperX?tab=readme-ov-file#speaker-diarization), retrieve your token and accept the terms and conditions of the required models.
+
+#### Setting up the chat completion model
+
+Then start ollama and pull [phi4](https://ollama.com/library/phi4) SLM. This is the model that will be used for chat completion. Any model supporting structured output can be used, remember to change the `OLLAMA_MODEL_NAME` accordingly.
+
+```bash
+ollama serve
+# Phi 4 is ~10GiB, Phi4 mini is ~2.5GiB
+ollama pull phi4
+```
+
+#### Setting up the speech to text model
+
+By default, the speech to text model is set to use a local version of [Whisper X](https://github.com/m-bain/whisperX?tab=readme-ov-file#speaker-diarization). The models used by whisperX will be downloaded during the application execution. So there is no additional configuration needed.
+
+#### Setting up Dapr components
+
+This project uses three Dapr components:
+
+| Component         | Type        | Purpose                                                                                                                           | Default Implementation                                    |
+| ----------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| **state-store**   | State Store | Actor storage for [Workflows execution](https://docs.dapr.io/developing-applications/building-blocks/workflow/workflow-overview/) | Redis (in-memory)                                         |
+| **audio-store**   | Binding     | Object storage for audio files (input)                                                                                            | Local file system (`summarizer/data/audios` directory)    |
+| **summary-store** | Binding     | Object storage for summary files (output)                                                                                         | Local file system (`summarizer/data/generated` directory) |
+
+The default components are configured for local development and use Redis for state management and the local file system for file storage. These can be reconfigured for production environments to use cloud storage services like Azure Blob Storage or AWS S3.
+
+First check that dapr is running. It should be automatically started in the devcontainer. 
+
+```bash 
+dapr version
+# Expected output (versions can change)
+# CLI version: 1.15.2 
+# Runtime version: 1.15.10
+```
+
+#### Running the application
+
+When everything is ready, you can run this command :
+
+```bash
+# The logs will be stored in .dapr/logs directory
+dapr run -f .
+```
+
+Once the app started, in another terminal, you can trigger the audio to summary workflow by making a POST request to the API:
+
+```bash
+curl -X POST "http://localhost:8000/workflows/audio" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "audio_file_path": "1m.ogg",
+    "campaign_id": 1,
+    "episode_id": 1
+  }' | jq
+
+```
+
+Sample output 
+
+```json
+{
+  "_WorkflowState__obj": {
+    "instance_id": "bddfe1140bd9476696932983c7287351",
+    "name": "audio_to_summary",
+    "runtime_status": 0,
+    "created_at": "2025-08-26T14:23:00.237893",
+    "last_updated_at": "2025-08-26T14:23:00.246679",
+    "serialized_input": "{\"campaign_id\": 1, \"episode_id\": 1, \"audio_file_path\": \"1m.ogg\"}",
+    "serialized_output": null,
+    "serialized_custom_status": null,
+    "failure_details": null
+  }
+```
+The instance ID allow you to follow the workflow progress.
+
+```bash
+curl -X GET "http://localhost:8000/workflows/<instance_id>" | jq
+```
+
+
+An instance of the Aspire Dashboard is also running in the devcontainer. You can access it at http://localhost:18888. This will allow you to follow the workflow progress in a more visual way.
+
+![Aspire Dashboard](./resources/aspire-dashboard.png)
+
+Once the workflow is done, you'll find the result in the `summarizer/data/generated` directory.
+
+#### Result Files
+
+The workflow generates several output files during processing, stored in the `summarizer/data/generated/{campaign_id}/{episode_id}/` directory:
+
+| File              | Description                                | Content                                                                                                                       | When Generated                          |
+| ----------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| `transcript.json` | Raw transcription with speaker diarization | Contains the full audio transcription with timestamps, speaker identification, and individual utterances                      | First step of audio-to-summary workflow |
+| `scenes.json`     | Segmented dialogue scenes                  | Transcript split into logical scenes/segments based on conversation flow and topic changes                                    | Second step after transcription         |
+| `episode.json`    | Complete episode summary                   | Structured summary containing session overview, key events, character updates, NPC details, items/clues, and continuity notes | Final step of both workflows            |
+
+Each file builds upon the previous one, creating a pipeline from raw audio → transcription → scenes → final summary.
+
+
 ## Configuration
+
+You can independently choose your **LLM provider** (Azure AI Foundry or Ollama) and **Audio transcription provider** (Azure or local Whisper). The choices are controlled by two environment variables:
+
+- `CHAT_COMPLETION_PROVIDER`: "azure" or "ollama" 
+- `AUDIO_COMPLETION_PROVIDER`: "azure" or "local"
+
+**Chat Completion Provider:**
+- For Azure: Set `CHAT_COMPLETION_PROVIDER="azure"` and configure `AI_FOUNDRY_PROJECT_ENDPOINT` + `AZURE_CHAT_DEPLOYMENT_NAME`
+- For Ollama: Set `CHAT_COMPLETION_PROVIDER="ollama"` and configure `OLLAMA_ENDPOINT` + `OLLAMA_MODEL_NAME`
+
+**Audio Transcription Provider:**
+- For Azure: Set `AUDIO_COMPLETION_PROVIDER="azure"` and configure `AZURE_AUDIO_DEPLOYMENT_NAME`
+- For Local: Set `AUDIO_COMPLETION_PROVIDER="local"` (uses local Whisper, no additional config needed)
+
+### Common Configurations
+
+**Full Azure (Recommended for production):**
+```bash
+CHAT_COMPLETION_PROVIDER="azure"
+AUDIO_COMPLETION_PROVIDER="azure"
+AI_FOUNDRY_PROJECT_ENDPOINT="https://<name>.services.ai.azure.com/api/projects/<project-name>"
+AZURE_CHAT_DEPLOYMENT_NAME="<your_chat_model>"
+AZURE_AUDIO_DEPLOYMENT_NAME="whisper"
+```
+
+**Full Local (Best for development):**
+```bash
+CHAT_COMPLETION_PROVIDER="ollama"
+AUDIO_COMPLETION_PROVIDER="local"
+OLLAMA_ENDPOINT="http://localhost:11434" # Or any host ollama is running on
+OLLAMA_MODEL_NAME="phi4"
+```
+
+**Mixed (Azure Chat + Local Audio):**
+```bash
+CHAT_COMPLETION_PROVIDER="azure"
+AUDIO_COMPLETION_PROVIDER="local"
+AI_FOUNDRY_PROJECT_ENDPOINT="https://<name>.services.ai.azure.com/api/projects/<project-name>"
+AZURE_CHAT_DEPLOYMENT_NAME="<your_chat_model>"
+```
+
+**For any configuration:** Set your Hugging Face token:
+```bash
+HUGGING_FACE_TOKEN=<your_token_here>
+```
+Required for speaker diarization regardless of which providers you choose.
+See [here](https://github.com/m-bain/whisperX?tab=readme-ov-file#speaker-diarization). 
+
 
 ### Environment Variables
 
