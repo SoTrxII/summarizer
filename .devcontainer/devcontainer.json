@@ -34,7 +34,8 @@
         "ms-python.debugpy",
         "GraphQL.vscode-graphql-syntax",
         "hashicorp.terraform",
-        "ms-azuretools.vscode-dapr"
+        "ms-azuretools.vscode-dapr",
+        "yzhang.markdown-all-in-one"
       ],
       "settings": {
         "editor.defaultFormatter": "charliermarsh.ruff",
