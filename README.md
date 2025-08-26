@@ -14,6 +14,71 @@ This project is a FastAPI + Dapr Workflows service that turns tabletop RPG recor
 
 The purpose of this project is to provide a seamless way to generate structured summaries from tabletop RPG recordings. This project uses [Dapr](https://github.com/dapr/dapr).
 
+### Configuration
+
+You can independently choose your **LLM provider** (Azure AI Foundry or Ollama) and **Audio transcription provider** (Azure or local Whisper). The choices are controlled by two environment variables:
+
+- `CHAT_COMPLETION_PROVIDER`: "azure" or "ollama" 
+- `AUDIO_COMPLETION_PROVIDER`: "azure" or "local"
+
+#### Setup
+
+1. Copy the example environment file:
+```bash
+cp summarizer/.env.example summarizer/.env
+```
+
+2. Edit the `.env` file to configure your providers:
+
+**Chat Completion Provider:**
+- For Azure: Set `CHAT_COMPLETION_PROVIDER="azure"` and configure `AI_FOUNDRY_PROJECT_ENDPOINT` + `AZURE_CHAT_DEPLOYMENT_NAME`
+- For Ollama: Set `CHAT_COMPLETION_PROVIDER="ollama"` and configure `OLLAMA_ENDPOINT` + `OLLAMA_MODEL_NAME`
+
+**Audio Transcription Provider:**
+- For Azure: Set `AUDIO_COMPLETION_PROVIDER="azure"` and configure `AZURE_AUDIO_DEPLOYMENT_NAME`
+- For Local: Set `AUDIO_COMPLETION_PROVIDER="local"` (uses local Whisper, no additional config needed)
+
+#### Common Configurations
+
+**Full Azure (Recommended for production):**
+```bash
+CHAT_COMPLETION_PROVIDER="azure"
+AUDIO_COMPLETION_PROVIDER="azure"
+AI_FOUNDRY_PROJECT_ENDPOINT="https://<name>.services.ai.azure.com/api/projects/<project-name>"
+AZURE_CHAT_DEPLOYMENT_NAME="<your_chat_model>"
+AZURE_AUDIO_DEPLOYMENT_NAME="whisper"
+```
+
+**Full Local (Best for development):**
+```bash
+CHAT_COMPLETION_PROVIDER="ollama"
+AUDIO_COMPLETION_PROVIDER="local"
+OLLAMA_ENDPOINT="http://localhost:11434"
+OLLAMA_MODEL_NAME="phi4"
+```
+
+**Mixed (Azure Chat + Local Audio):**
+```bash
+CHAT_COMPLETION_PROVIDER="azure"
+AUDIO_COMPLETION_PROVIDER="local"
+AI_FOUNDRY_PROJECT_ENDPOINT="https://<name>.services.ai.azure.com/api/projects/<project-name>"
+AZURE_CHAT_DEPLOYMENT_NAME="<your_chat_model>"
+```
+
+#### Prerequisites
+
+**For Ollama:** Ensure Ollama is running locally:
+```bash
+ollama serve
+ollama pull phi4  # or your preferred model
+```
+
+**For any configuration:** Set your Hugging Face token:
+```bash
+HUGGING_FACE_TOKEN=<your_token_here>
+```
+Required for speaker diarization regardless of which providers you choose.
+
 ### Sample output
 ```json
 {
@@ -151,29 +216,40 @@ The purpose of this project is to provide a seamless way to generate structured 
   ]
 }
 ```
+
 ## Configuration
 
 ### Environment Variables
 
 This project uses the following environment variables:
 
-
-| env variable                                                        | description                                                                                                                                                                                      | required | default               |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- | --------------------- |
-| HUGGING_FACE_TOKEN                                                  | Hugging Face API token. Required to use some models. **You must accept some models terms and conditions, see [here](https://github.com/m-bain/whisperX?tab=readme-ov-file#speaker-diarization)** | true     |                       |
-| AI_FOUNDRY_PROJECT_ENDPOINT                                         | Azure AI Foundry project endpoint                                                                                                                                                                | true     |                       |
-| AZURE_CHAT_DEPLOYMENT_NAME                                          | Azure Model to use for chat completion                                                                                                                                                           | true     |                       |
-| AZURE_AUDIO_DEPLOYMENT_NAME                                         | Azure Model to use for speech to text                                                                                                                                                            | false    |                       |
-| DAPR_AUDIO_STORE_NAME                                               | Dapr binding name for audio store                                                                                                                                                                | false    | audio-store           |
-| DAPR_SUMMARY_STORE_NAME                                             | Dapr binding name for summary store                                                                                                                                                              | false    | summary-store         |
-| OTLP_ENDPOINT                                                       | OpenTelemetry Protocol (OTLP) endpoint                                                                                                                                                           | false    | http://localhost:4317 |
-| SEMANTICKERNEL_EXPERIMENTAL_GENAI_ENABLE_OTEL_DIAGNOSTICS_SENSITIVE | Enable sensitive diagnostics data collection                                                                                                                                                     | false    | false                 |
-| INFERENCE_DEVICE                                                    | Device for ML inference (cpu, cuda)                                                                                                                                                              | false    | cpu                   |
-| HTTP_HOST                                                           | HTTP server host                                                                                                                                                                                 | false    | 0.0.0.0               |
-| HTTP_PORT                                                           | HTTP server port                                                                                                                                                                                 | false    | 8000                  |
-| AZURE_TENANT_ID                                                     | [Azure subscription id](https://learn.microsoft.com/fr-fr/dotnet/api/azure.identity.environmentcredential?view=azure-dotnet)                                                                     | false    | 8000                  |
-| AZURE_CLIENT_ID                                                     | [Azure spn id](https://learn.microsoft.com/fr-fr/dotnet/api/azure.identity.environmentcredential?view=azure-dotnet)                                                                              | false    | 8000                  |
-| AZURE_CLIENT_SECRET                                                 | [Azure spn secret](https://learn.microsoft.com/fr-fr/dotnet/api/azure.identity.environmentcredential?view=azure-dotnet)                                                                          | false    | 8000                  |
+| env variable                                                        | description                                                                                                                                                                                     | required    | default                |
+| ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ---------------------- |
+| **Provider Configuration**                                          |                                                                                                                                                                                                 |             |                        |
+| CHAT_COMPLETION_PROVIDER                                            | Chat completion provider: "azure" or "ollama"                                                                                                                                                   | true        | azure                  |
+| AUDIO_COMPLETION_PROVIDER                                           | Audio transcription provider: "azure" or "local"                                                                                                                                                | true        | local                  |
+| **Azure Configuration**                                             |                                                                                                                                                                                                 |             |                        |
+| AI_FOUNDRY_PROJECT_ENDPOINT                                         | Azure AI Foundry project endpoint (required when CHAT_COMPLETION_PROVIDER="azure")                                                                                                              | conditional |                        |
+| AZURE_CHAT_DEPLOYMENT_NAME                                          | Azure model deployment name for chat completion (required when CHAT_COMPLETION_PROVIDER="azure")                                                                                                | conditional |                        |
+| AZURE_AUDIO_DEPLOYMENT_NAME                                         | Azure model deployment name for speech to text (required when AUDIO_COMPLETION_PROVIDER="azure")                                                                                                | conditional |                        |
+| **Ollama Configuration**                                            |                                                                                                                                                                                                 |             |                        |
+| OLLAMA_ENDPOINT                                                     | Ollama server endpoint (required when CHAT_COMPLETION_PROVIDER="ollama")                                                                                                                        | conditional | http://localhost:11434 |
+| OLLAMA_MODEL_NAME                                                   | Ollama model name to use (required when CHAT_COMPLETION_PROVIDER="ollama")                                                                                                                      | conditional | phi4                   |
+| **General Configuration**                                           |                                                                                                                                                                                                 |             |                        |
+| HUGGING_FACE_TOKEN                                                  | Hugging Face API token. Required for speaker diarization. **You must accept model terms and conditions, see [here](https://github.com/m-bain/whisperX?tab=readme-ov-file#speaker-diarization)** | true        |                        |
+| INFERENCE_DEVICE                                                    | Device for ML inference (cpu, cuda)                                                                                                                                                             | false       | cpu                    |
+| HTTP_HOST                                                           | HTTP server host                                                                                                                                                                                | false       | 0.0.0.0                |
+| HTTP_PORT                                                           | HTTP server port                                                                                                                                                                                | false       | 8000                   |
+| **Dapr Configuration**                                              |                                                                                                                                                                                                 |             |                        |
+| DAPR_AUDIO_STORE_NAME                                               | Dapr binding name for audio store                                                                                                                                                               | false       | audio-store            |
+| DAPR_SUMMARY_STORE_NAME                                             | Dapr binding name for summary store                                                                                                                                                             | false       | summary-store          |
+| **Observability**                                                   |                                                                                                                                                                                                 |             |                        |
+| OTLP_ENDPOINT                                                       | OpenTelemetry Protocol (OTLP) endpoint                                                                                                                                                          | false       | http://localhost:4317  |
+| SEMANTICKERNEL_EXPERIMENTAL_GENAI_ENABLE_OTEL_DIAGNOSTICS_SENSITIVE | Enable sensitive diagnostics data collection                                                                                                                                                    | false       | false                  |
+| **Azure Authentication**                                            |                                                                                                                                                                                                 |             |                        |
+| AZURE_TENANT_ID                                                     | [Azure tenant ID](https://learn.microsoft.com/en-us/azure/developer/python/azure-sdk-authenticate#service-principal) (for service principal auth)                                               | false       |                        |
+| AZURE_CLIENT_ID                                                     | [Azure client ID](https://learn.microsoft.com/en-us/azure/developer/python/azure-sdk-authenticate#service-principal) (for service principal auth)                                               | false       |                        |
+| AZURE_CLIENT_SECRET                                                 | [Azure client secret](https://learn.microsoft.com/en-us/azure/developer/python/azure-sdk-authenticate#service-principal) (for service principal auth)                                           | false       |                        |
 
 ## Data flow  
 
@@ -182,7 +258,7 @@ graph LR
 
     %% Audio-to-Summary Workflow
     G[Audio-to-Summary Workflow]
-    G --> I2{Step 1: Transcription.  Backend ?}
+    G --> I2{Step 1: Transcription<br/>Backend?}
     I2 -->|Azure OpenAI| I3[Azure Whisper API]
     I2 -->|Local| I4[Local WhisperX Model]
     I3 --> I5[Generate Transcript with Diarization]
@@ -196,9 +272,12 @@ graph LR
     K --> J
     
     J --> L[Step 3: Summarize Scenes]
-    L --> L2[Azure OpenAI Chat Model]
+    L --> L2{LLM Backend?}
+    L2 -->|Azure| L3[Azure OpenAI Chat Model]
+    L2 -->|Ollama| L4[Ollama Local Model]
     
-    L2 --> M[Step 4: Summarize Episode / Campaign]
+    L3 --> M[Step 4: Summarize Episode / Campaign]
+    L4 --> M
     
     %% Styling
     classDef workflow fill:#e1f5fe
@@ -207,9 +286,7 @@ graph LR
     classDef api fill:#fff3e0
     
     class G,H workflow
-    class B,D,Q,S storage
-    class I3,I4,L2,M2,O3 ai
-    class E,F api
+    class I3,I4,L3,L4,M ai
 ```
 
 

@@ -1,7 +1,9 @@
 from dependency_injector import containers, providers
 from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.ollama import OllamaChatCompletion
 from torch import cuda
 
+from summarizer.config import AppConfig
 from summarizer.repositories.dapr_storage import (
     DaprAudioRepository,
     DaprSummaryRepository,
@@ -20,11 +22,18 @@ from summarizer.utils.azure_completion_provider import (
 )
 
 
-def setup_kernel(foundry_endpoint: str, deployment_name: str) -> Kernel:
+def setup_azure_kernel(foundry_endpoint: str, deployment_name: str) -> Kernel:
     kernel = Kernel()
     az_openai = azure_completion_provider(foundry_endpoint, deployment_name)
     # Adjust if Semantic Kernel expects a specific method for registering
     kernel.add_service(az_openai)
+    return kernel
+
+
+def setup_ollama_kernel(endpoint: str, model_name: str) -> Kernel:
+    kernel = Kernel()
+    local_ollama = OllamaChatCompletion(ai_model_id=model_name, host=endpoint)
+    kernel.add_service(local_ollama)
     return kernel
 
 
@@ -56,24 +65,18 @@ class Container(containers.DeclarativeContainer):
         binding_name=config.dapr_summary_store_name
     )
 
-    # LLM Config -> Using Azure Foundry
-    kernel = providers.Factory(
-        setup_kernel,
-        foundry_endpoint=config.foundry_endpoint,
-        deployment_name=config.chat_deployment_name
-    )
-
+    # Azure foundry connection for Azure providers
     foundry_con = providers.Singleton(
         get_foundry_connection,
         foundry_endpoint=config.foundry_endpoint
     )
 
-    # Use Selector to choose between Azure and Local Whisper
+    ###################
+    # Speech to text
+    ###################
+
     transcriber = providers.Selector(
-        providers.Callable(
-            lambda audio_deployment_name: "azure" if audio_deployment_name else "local",
-            config.audio_deployment_name
-        ),
+        config.audio_completion_provider,
         azure=providers.Factory(
             AzureOpenAITranscriber,
             endpoint=foundry_con.provided.target,
@@ -98,8 +101,46 @@ class Container(containers.DeclarativeContainer):
         diarizer=sr
     )
 
-    # Text summarizer using GPT 4.1
+    ###################
+    # Chat completion
+    ###################
+
+    kernel = providers.Selector(
+        config.chat_completion_provider,
+        azure=providers.Factory(
+            setup_azure_kernel,
+            foundry_endpoint=config.foundry_endpoint,
+            deployment_name=config.chat_deployment_name
+        ),
+        ollama=providers.Factory(
+            setup_ollama_kernel,
+            endpoint=config.ollama_endpoint,
+            model_name=config.ollama_model_name
+        ),
+    )
+
     summarizer = providers.Factory(
         Summarizer,
         kernel=kernel
     )
+
+
+def create_container(app_config: AppConfig) -> Container:
+    """Create and configure the dependency injection container."""
+    container = Container()
+    # Configure the container with our typed configuration
+    container.config.from_dict({
+        'chat_completion_provider': app_config.chat_completion_provider,
+        'audio_completion_provider': app_config.audio_completion_provider,
+        'hugging_face_token': app_config.hugging_face_token,
+        'foundry_endpoint': app_config.azure.foundry_endpoint,
+        'chat_deployment_name': app_config.azure.chat_deployment_name,
+        'audio_deployment_name': app_config.azure.audio_deployment_name,
+        'ollama_endpoint': app_config.ollama.endpoint,
+        'ollama_model_name': app_config.ollama.model_name,
+        'inference_device': app_config.inference_device,
+        'dapr_audio_store_name': app_config.dapr_audio_store_name,
+        'dapr_summary_store_name': app_config.dapr_summary_store_name,
+    })
+
+    return container

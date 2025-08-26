@@ -20,6 +20,7 @@ from opentelemetry.sdk.resources import Resource
 from opentelemetry.semconv.attributes import service_attributes
 from opentelemetry.trace import set_tracer_provider
 from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.ollama import OllamaChatCompletion
 from semantic_kernel.connectors.ai.open_ai import AzureAudioToText, AzureChatCompletion
 
 from summarizer.services.speech_to_text import (
@@ -31,7 +32,6 @@ from summarizer.services.speech_to_text.transcription import AzureOpenAITranscri
 from summarizer.services.summaries.summarizer import Summarizer
 from summarizer.utils.azure_completion_provider import (
     azure_completion_provider,
-    azure_speech_to_text_provider,
     get_foundry_connection,
 )
 from summarizer.utils.telemetry import (
@@ -66,9 +66,86 @@ def data_dir() -> Path:
 
 
 @pytest_asyncio.fixture(scope="function")
-async def summarizer(azure_text_to_text_provider: AzureChatCompletion) -> Summarizer:
+async def azure_summarizer() -> Summarizer:
+    """Summarizer using Azure provider only."""
+    if not os.environ.get("AI_FOUNDRY_PROJECT_ENDPOINT") or not os.environ.get("AZURE_CHAT_DEPLOYMENT_NAME"):
+        pytest.skip("Azure configuration not available")
+
     kernel = Kernel()
-    kernel.add_service(azure_text_to_text_provider)
+    azure_provider = azure_completion_provider(
+        foundry_endpoint=os.environ["AI_FOUNDRY_PROJECT_ENDPOINT"],
+        deployment_name=os.environ["AZURE_CHAT_DEPLOYMENT_NAME"]
+    )
+    kernel.add_service(azure_provider)
+    return Summarizer(kernel)
+
+
+@pytest_asyncio.fixture(scope="function")
+async def ollama_summarizer() -> Summarizer:
+    """Summarizer using Ollama provider only."""
+    ollama_endpoint = os.environ.get(
+        "OLLAMA_ENDPOINT", "http://localhost:11434")
+
+    # Check if Ollama is available
+    try:
+        import requests
+        response = requests.get(f"{ollama_endpoint}/api/tags", timeout=2)
+        if response.status_code != 200:
+            pytest.skip(f"Ollama not available at {ollama_endpoint}")
+    except ImportError:
+        pytest.skip("requests library not available for Ollama health check")
+    except Exception:
+        pytest.skip("Ollama not available or not responding")
+
+    kernel = Kernel()
+    from semantic_kernel.connectors.ai.ollama import OllamaChatCompletion
+    ollama_provider = OllamaChatCompletion(
+        ai_model_id=os.environ.get("OLLAMA_MODEL_NAME", "llama3.1"),
+        host=ollama_endpoint
+    )
+    kernel.add_service(ollama_provider)
+    return Summarizer(kernel)
+
+
+@pytest_asyncio.fixture(params=["azure", "ollama"], scope="function")
+async def summarizer(request: FixtureRequest) -> Summarizer:
+    provider = request.param
+    kernel = Kernel()
+
+    if provider == "azure":
+        # Check if Azure configuration is available
+        if not os.environ.get("AI_FOUNDRY_PROJECT_ENDPOINT") or not os.environ.get("AZURE_CHAT_DEPLOYMENT_NAME"):
+            pytest.skip(
+                f"Azure configuration not available for {provider} provider")
+
+        azure_provider = azure_completion_provider(
+            foundry_endpoint=os.environ["AI_FOUNDRY_PROJECT_ENDPOINT"],
+            deployment_name=os.environ["AZURE_CHAT_DEPLOYMENT_NAME"]
+        )
+        kernel.add_service(azure_provider)
+    elif provider == "ollama":
+        # Check if Ollama is available (basic check)
+        ollama_endpoint = os.environ.get(
+            "OLLAMA_ENDPOINT", "http://localhost:11434")
+        try:
+            import requests
+            response = requests.get(f"{ollama_endpoint}/api/tags", timeout=2)
+            if response.status_code != 200:
+                pytest.skip(f"Ollama not available at {ollama_endpoint}")
+        except ImportError:
+            pytest.skip(
+                "requests library not available for Ollama health check")
+        except Exception:
+            pytest.skip("Ollama not available or not responding")
+
+        ollama_provider = OllamaChatCompletion(
+            ai_model_id=os.environ.get("OLLAMA_MODEL_NAME", "phi4"),
+            host=ollama_endpoint
+        )
+        kernel.add_service(ollama_provider)
+    else:
+        raise ValueError(f"Unsupported chat provider: {provider}")
+
     return Summarizer(kernel)
 
 
