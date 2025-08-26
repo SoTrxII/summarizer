@@ -3,6 +3,8 @@ common:
   resourcesPath: components
 apps:
   - appID: summarizer
-    appDirPath: ./summarizer
-    command: ["poetry", "run", "python", "src/summarizer/workflows/audio_to_summary.py"]
+    # The binding components are resolved with a relative path
+    # so we have to run from the local dir and not the app dir
+    appDirPath: .
+    command: ["poetry", "-C", "./summarizer", "run", "summarizer"]
     config: dapr-config
