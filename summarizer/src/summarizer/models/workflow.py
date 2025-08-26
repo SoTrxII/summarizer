@@ -26,7 +26,7 @@ class SummarizeCampaignActivityInput(WorkflowInput):
     """Input for the summarize campaign activity."""
     # Note : This can't be properly typed as scenes summaries are pydantic objets
     # and these aren't serializable
-    episode: dict
+    episode_summary: dict
 
 
 class WorkflowStartResponse(TypedDict):
