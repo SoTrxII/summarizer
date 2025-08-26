@@ -88,5 +88,7 @@ tests/__pycache__/
 
 # Large data files that shouldn't be in the image
 data/audios/*.ogg
+# Sample used in tests 
+!data/audios/1m.ogg
 data/audios/*.wav
 data/audios/*.mp3

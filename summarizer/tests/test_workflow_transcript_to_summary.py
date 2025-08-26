@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 from shutil import copyfile
 
@@ -11,6 +12,10 @@ from summarizer.workflows.summarize_new_episode import transcript_to_summary
 
 
 @pytest.mark.asyncio
+@pytest.mark.skipif(
+    os.getenv("SKIP_WORKFLOW_TESTS", "false").lower() == "true",
+    reason="Workflow tests skipped in CI (SKIP_WORKFLOW_TESTS=true)"
+)
 async def test_workflow_transcript_to_summary(wf_client: DaprWorkflowClient, data_dir: Path):
     """Test the transcript to summary workflow with Dapr sidecar."""
     setup_DI()

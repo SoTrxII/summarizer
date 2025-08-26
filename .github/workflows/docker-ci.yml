@@ -1,0 +1,218 @@
+name: Docker Build and Test
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: ${{ github.repository_owner }}/summarizer
+
+jobs:
+  docker-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60  # Add timeout to prevent infinite stalling
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Free Disk Space (Ubuntu)
+      uses: jlumbroso/free-disk-space@main
+      with:
+        # this might remove tools that are actually needed,
+        # if set to "true" but frees about 6 GB
+        tool-cache: false
+        
+        # all of these default to true, but feel free to set to
+        # "false" if necessary for your workflow
+        android: true
+        dotnet: true
+        haskell: true
+        large-packages: true
+        docker-images: true
+        swap-storage: true
+
+    - name: Additional cleanup
+      run: |
+        echo "=== Additional disk cleanup ==="
+        # Clean package managers
+        sudo apt-get clean
+        sudo apt-get autoremove -y
+        sudo apt-get autoclean
+        
+        # Clean Docker completely
+        docker system prune -a -f --volumes
+        
+        echo "=== Final disk usage ==="
+        df -h
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Pre-build cleanup
+      run: |
+        echo "=== Aggressive pre-build cleanup ==="
+        docker system prune -a -f --volumes
+        docker builder prune -a -f
+        df -h
+        
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=tag
+
+    - name: Build development image
+      run: |
+        echo "Building Docker image locally to avoid stalling..."
+        cd summarizer
+        # Build with minimal cache and immediate cleanup
+        DOCKER_BUILDKIT=1 docker build \
+          --progress=plain \
+          --no-cache \
+          --build-arg REMOVE_CUDA=true \
+          -t summarizer:test \
+          .
+        
+        echo "Build completed successfully"
+        docker images summarizer:test
+
+    - name: Check disk usage after build
+      run: |
+        echo "=== Disk usage after build ==="
+        df -h
+        echo "=== Docker system info ==="
+        docker system df
+        
+        # Clean up build cache to free space for tests
+        docker builder prune -f
+        docker system prune -f
+        
+        echo "=== Disk usage after cleanup ==="
+        df -h
+
+    - name: Run tests in container
+      env:
+        AI_FOUNDRY_PROJECT_ENDPOINT: ${{ secrets.AI_FOUNDRY_PROJECT_ENDPOINT }}
+        AZURE_CHAT_DEPLOYMENT_NAME: ${{ secrets.AZURE_CHAT_DEPLOYMENT_NAME }}
+        HUGGING_FACE_TOKEN: ${{ secrets.HUGGING_FACE_TOKEN }}
+        AZURE_AUDIO_DEPLOYMENT_NAME: ${{ secrets.AZURE_AUDIO_DEPLOYMENT_NAME }}
+        AZURE_TENANT_ID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).tenantId }}
+        AZURE_CLIENT_ID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).clientId }}
+        AZURE_CLIENT_SECRET: ${{ fromJSON(secrets.AZURE_CREDENTIALS).clientSecret }}
+        INFERENCE_DEVICE: cpu
+        SKIP_WORKFLOW_TESTS: true
+      run: |
+        docker run --rm \
+          --workdir /app \
+          --env AI_FOUNDRY_PROJECT_ENDPOINT \
+          --env AZURE_CHAT_DEPLOYMENT_NAME \
+          --env HUGGING_FACE_TOKEN \
+          --env AZURE_AUDIO_DEPLOYMENT_NAME \
+          --env AZURE_TENANT_ID \
+          --env AZURE_CLIENT_ID \
+          --env AZURE_CLIENT_SECRET \
+          --env INFERENCE_DEVICE \
+          --env SKIP_WORKFLOW_TESTS \
+          --entrypoint="" \
+          summarizer:test \
+          poetry run pytest tests/ -v --tb=short -k "not workflow"
+
+    - name: Health Check
+      run: |
+        echo "=== Starting health check ==="
+        
+        # Start the container in detached mode with health check
+        CONTAINER_ID=$(docker run -d \
+          --name summarizer-healthcheck \
+          --publish 8000:8000 \
+          --env AI_FOUNDRY_PROJECT_ENDPOINT="${{ secrets.AI_FOUNDRY_PROJECT_ENDPOINT }}" \
+          --env AZURE_CHAT_DEPLOYMENT_NAME="${{ secrets.AZURE_CHAT_DEPLOYMENT_NAME }}" \
+          --env HUGGING_FACE_TOKEN="${{ secrets.HUGGING_FACE_TOKEN }}" \
+          --env AZURE_AUDIO_DEPLOYMENT_NAME="${{ secrets.AZURE_AUDIO_DEPLOYMENT_NAME }}" \
+          --env AZURE_TENANT_ID="${{ fromJSON(secrets.AZURE_CREDENTIALS).tenantId }}" \
+          --env AZURE_CLIENT_ID="${{ fromJSON(secrets.AZURE_CREDENTIALS).clientId }}" \
+          --env AZURE_CLIENT_SECRET="${{ fromJSON(secrets.AZURE_CREDENTIALS).clientSecret }}" \
+          --env INFERENCE_DEVICE=cpu \
+          summarizer:test)
+        
+        echo "Container started with ID: $CONTAINER_ID"
+        
+        # Wait for the application to start up
+        echo "Waiting for application to start..."
+        sleep 30
+        
+        # Check container logs for any immediate issues
+        echo "=== Container logs ==="
+        docker logs $CONTAINER_ID | tail -20
+        
+        # Perform health check
+        echo "=== Performing health check ==="
+        MAX_RETRIES=10
+        RETRY_COUNT=0
+        HEALTH_CHECK_PASSED=false
+        
+        while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+          echo "Health check attempt $((RETRY_COUNT + 1))/$MAX_RETRIES"
+          
+          if curl -f -s http://localhost:8000/health; then
+            echo "✅ Health check passed!"
+            HEALTH_CHECK_PASSED=true
+            break
+          else
+            echo "❌ Health check failed, retrying in 10 seconds..."
+            sleep 10
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+          fi
+        done
+        
+        # Show final container logs
+        echo "=== Final container logs ==="
+        docker logs $CONTAINER_ID | tail -50
+        
+        # Cleanup
+        echo "=== Cleaning up ==="
+        docker stop $CONTAINER_ID
+        docker rm $CONTAINER_ID
+        
+        # Exit with error if health check failed
+        if [ "$HEALTH_CHECK_PASSED" != "true" ]; then
+          echo "❌ Health check failed after $MAX_RETRIES attempts"
+          exit 1
+        fi
+        
+        echo "✅ Health check completed successfully"
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Push image to registry
+      run: |
+        echo "Tagging and pushing image..."
+        # Tag with metadata tags
+        for tag in ${{ steps.meta.outputs.tags }}; do
+          docker tag summarizer:test $tag
+          echo "Pushing $tag..."
+          docker push $tag
+        done
+        
+        echo "Image push completed"
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        name: Release ${{ steps.release_notes.outputs.VERSION }}
+        draft: false
+        prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
+        generate_release_notes: true
+        make_latest: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}

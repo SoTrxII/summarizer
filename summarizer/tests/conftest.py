@@ -125,8 +125,41 @@ def wf_client() -> Generator[DaprWorkflowClient, None, None]:
     dapr_http_port = "3500"
     dapr_grpc_port = "50001"
 
+    # Try to find daprd executable in common locations
+    daprd_paths = [
+        "/home/vscode/.dapr/bin/daprd",  # Dev container
+        "/home/runner/.dapr/bin/daprd",  # GitHub Actions
+        os.path.expanduser("~/.dapr/bin/daprd"),  # User home
+        "daprd"  # System PATH
+    ]
+
+    daprd_path = None
+    for path in daprd_paths:
+        if path == "daprd":
+            # Check if daprd is available in PATH
+            try:
+                subprocess.run(["which", "daprd"], check=True,
+                               capture_output=True)
+                daprd_path = path
+                break
+            except subprocess.CalledProcessError:
+                continue
+        elif os.path.exists(path):
+            daprd_path = path
+            break
+
+    if not daprd_path:
+        error_msg = "Could not find daprd executable. Please ensure Dapr is installed.\n"
+        error_msg += "Searched locations:\n"
+        for path in daprd_paths:
+            exists = "✓" if (path == "daprd" and os.system(
+                "which daprd >/dev/null 2>&1") == 0) or os.path.exists(path) else "✗"
+            error_msg += f"  {exists} {path}\n"
+        error_msg += "To install Dapr, run: curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | /bin/bash"
+        raise RuntimeError(error_msg)
+
     cmd = [
-        "/home/vscode/.dapr/bin/daprd",
+        daprd_path,
         "--app-id", app_id,
         "--dapr-http-port", dapr_http_port,
         "--dapr-grpc-port", dapr_grpc_port,
@@ -139,7 +172,9 @@ def wf_client() -> Generator[DaprWorkflowClient, None, None]:
 
     logging.info(f"Starting Dapr sidecar with: {' '.join(cmd)}")
 
-    log_dir = workspace_root / "summarizer" / "tests" / "logs"
+    log_dir = Path(__file__).parent / "logs"
+    # Create the logs directory if it doesn't exist
+    log_dir.mkdir(exist_ok=True)
     stdout = "dapr_stdout.log"
     stderr = "dapr_stderr.log"
 
@@ -154,6 +189,11 @@ def wf_client() -> Generator[DaprWorkflowClient, None, None]:
 
         if not _wait_for_dapr_sidecar(dapr_http_port):
             process.terminate()
+            with open(log_dir / stdout, "r") as stdout_file, open(log_dir / stderr, "r") as stderr_file:
+                print("=== Dapr stdout ===")
+                print(stdout_file.read())
+                print("=== Dapr stderr ===")
+                print(stderr_file.read())
             raise RuntimeError("Dapr sidecar failed to start")
 
         try:

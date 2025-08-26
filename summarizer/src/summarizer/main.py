@@ -77,7 +77,11 @@ def setup_DI() -> None:
 
 
 def setup_telemetry() -> None:
-    otlp_endpoint = environ["OTLP_ENDPOINT"]
+    otlp_endpoint = environ.get("OTLP_ENDPOINT", "")
+    if not otlp_endpoint:
+        logging.warning(
+            "OTLP_ENDPOINT is not set, telemetry will be disabled.")
+        return
     resource = Resource.create({service_attributes.SERVICE_NAME: "summarizer"})
     set_tracer_provider(setup_traces_provider(resource, otlp_endpoint))
     set_logger_provider(setup_log_provider(resource, otlp_endpoint))
@@ -124,5 +128,13 @@ async def main() -> Never:
         logging.error(f"Error occurred: {e}")
         raise
 
-if __name__ == "__main__":
+
+def cli_main() -> None:
+    """
+    Synchronous entry point for the CLI script.
+    """
     asyncio.run(main())
+
+
+if __name__ == "__main__":
+    cli_main()

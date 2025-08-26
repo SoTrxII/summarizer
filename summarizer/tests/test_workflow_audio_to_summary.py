@@ -1,5 +1,5 @@
 import logging
-from json import dumps
+import os
 
 import pytest
 from dapr.ext.workflow import DaprWorkflowClient
@@ -10,6 +10,10 @@ from summarizer.workflows.summarize_new_episode import audio_to_summary
 
 
 @pytest.mark.asyncio
+@pytest.mark.skipif(
+    os.getenv("SKIP_WORKFLOW_TESTS", "false").lower() == "true",
+    reason="Workflow tests skipped in CI (SKIP_WORKFLOW_TESTS=true)"
+)
 async def test_workflow_audio_to_summary(wf_client: DaprWorkflowClient):
     """Test the audio to summary workflow with Dapr sidecar."""
     setup_DI()
