@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-      OLLAMA_MODEL_NAME: phi4-mini
-      OLLAMA_VERSION: "0.5.4"
-      FFMPEG_VERSION: "6.1.1"
+      OLLAMA_MODEL_NAME: "phi4-mini"
+      OLLAMA_VERSION: "0.11.7"
+      FFMPEG_VERSION: "release"
       PYTHON_VERSION: "3.12"
       POETRY_VERSION: "2.1.3"
       DAPR_CLI_VERSION: "1.15.1"
@@ -22,6 +22,36 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+
+    - name: Free Disk Space (Ubuntu)
+      uses: jlumbroso/free-disk-space@main
+      with:
+        # this might remove tools that are actually needed,
+        # if set to "true" but frees about 6 GB
+        tool-cache: false
+        
+        # all of these default to true, but feel free to set to
+        # "false" if necessary for your workflow
+        android: true
+        dotnet: true
+        haskell: true
+        large-packages: true
+        docker-images: true
+        swap-storage: true
+
+    - name: Additional cleanup
+      run: |
+        echo "=== Additional disk cleanup ==="
+        # Clean package managers
+        sudo apt-get clean
+        sudo apt-get autoremove -y
+        sudo apt-get autoclean
+        
+        # Clean Docker completely
+        docker system prune -a -f --volumes
+        
+        echo "=== Final disk usage ==="
+        df -h
 
     - name: Setup FFmpeg
       uses: FedericoCarboni/setup-ffmpeg@v3
@@ -68,12 +98,13 @@ jobs:
         sudo mkdir -p /home/vscode/.dapr/bin
         sudo ln -sf $HOME/.dapr/bin/daprd /home/vscode/.dapr/bin/daprd
     
-    - name: Install and setup Ollama
+    - name: Install Ollama
+      uses: ai-action/setup-ollama@v1
+      with:
+        version: ${{ env.OLLAMA_VERSION }}
+
+    - name: Setup Ollama Chat completion model
       run: |
-        echo "Installing Ollama version ${{ env.OLLAMA_VERSION }}..."
-        curl -fsSL https://github.com/ollama/ollama/releases/download/v${{ env.OLLAMA_VERSION }}/ollama-linux-amd64 -o ollama
-        sudo install -o root -g root -m 0755 ollama /usr/local/bin/ollama
-        
         echo "Starting Ollama service..."
         ollama serve &
         
@@ -83,9 +114,15 @@ jobs:
         
         echo "Pulling ${{ env.OLLAMA_MODEL_NAME }} model..."
         ollama pull ${{ env.OLLAMA_MODEL_NAME }}
-        
-        echo "Verifying model is available..."
-        ollama list
+
+    - name: Ensure Azure CLI is installed
+      run: |
+        if ! command -v az &> /dev/null; then
+          echo "Azure CLI not found. Installing..."
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+        else
+          echo "Azure CLI is already installed"
+        fi
 
     - name: Azure login (service principal)
       if: ${{ env.AZURE_CREDENTIALS != '' && contains(env.AZURE_CREDENTIALS, 'clientId') }}
