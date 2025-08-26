@@ -5,6 +5,9 @@
   "runArgs": [
     "--gpus=all"
   ],
+    "hostRequirements": {
+      "gpu": "optional"
+    },
   "features": {
     "azure-cli": {
       "version": "latest"
@@ -15,7 +18,8 @@
     "ghcr.io/devcontainers-extra/features/ffmpeg-apt-get:1": {},
     "ghcr.io/devcontainers/features/terraform:1": {},
     "ghcr.io/dapr/cli/dapr-cli:0": {},
-    "ghcr.io/devcontainers/features/nvidia-cuda:2": {}
+    "ghcr.io/devcontainers/features/nvidia-cuda:2": {},
+    "ghcr.io/prulloac/devcontainer-features/ollama:1": {}
   },
   "forwardPorts": [
     18888,
