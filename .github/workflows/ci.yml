@@ -13,7 +13,7 @@ jobs:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
       OLLAMA_MODEL_NAME: "phi4-mini"
       OLLAMA_VERSION: "0.11.7"
-      FFMPEG_VERSION: "release"
+      FFMPEG_VERSION: "7.1"
       PYTHON_VERSION: "3.12"
       POETRY_VERSION: "2.1.3"
       DAPR_CLI_VERSION: "1.15.1"
@@ -54,11 +54,10 @@ jobs:
         df -h
 
     - name: Setup FFmpeg
-      uses: FedericoCarboni/setup-ffmpeg@v3
-      id: setup-ffmpeg
+      uses: AnimMouse/setup-ffmpeg@v1
       with:
-        ffmpeg-version: ${{ env.FFMPEG_VERSION }}
-    
+        version: ${{ env.FFMPEG_VERSION }}
+
     - name: Setup Dapr CLI specific version
       uses: dapr/setup-dapr@v1
       with:

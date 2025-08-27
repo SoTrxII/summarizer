@@ -12,7 +12,7 @@ from summarizer.utils.naming import get_standardized_filenames
 from .utils.json import read_test_data, write_test_data
 
 # Base names for test data
-base_names = ["10m", "10m_sample2"]
+base_names = ["1m_sample1", "1m_sample2"]
 
 
 @pytest.mark.parametrize("base_name", base_names, ids=["part1", "part2"])
@@ -32,7 +32,7 @@ async def test_service_summaries_scene(base_name: str, data_dir: Path, summarize
         summaries.append((await summarizer.scene(current, previous_summary=previous)).model_dump())
 
     # Write summaries
-    write_test_data(data_dir / "summaries" /
+    write_test_data(data_dir / "generated" / "summaries" /
                     scene_summaries_file, summaries, ensure_ascii=False)
 
     assert all(summary is not None for summary in summaries)

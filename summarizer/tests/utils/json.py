@@ -30,6 +30,9 @@ def read_test_data(file_path: Path, model_class: Type[T]) -> List[T]:
 
 def write_test_data(file_path: Path, data, ensure_ascii: bool = False) -> None:
     """Generic function to write data to JSON files."""
+    # Ensure the directory exists before writing the file
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+
     with open(file_path, "w") as f:
         if hasattr(data, 'model_dump'):
             content = data.model_dump()

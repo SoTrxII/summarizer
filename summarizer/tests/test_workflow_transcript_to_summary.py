@@ -19,13 +19,17 @@ from summarizer.workflows.summarize_new_episode import transcript_to_summary
 async def test_workflow_transcript_to_summary(wf_client: DaprWorkflowClient, data_dir: Path):
     """Test the transcript to summary workflow with Dapr sidecar."""
     setup_DI()
-    asset_name = "10m_diarized.json"
+    asset_name = "1m_sample1_diarized.json"
+
+    # Ensure the target directory exists before copying the file
+    target_dir = data_dir / "generated" / "1" / "1"
+    target_dir.mkdir(parents=True, exist_ok=True)
 
     # Copy the target test file to the generated directory, which is where the test summary-store
     # points to
     copyfile(
         data_dir / "transcriptions" / asset_name,
-        data_dir / "generated" / "1" / "1" / "transcript.json"
+        target_dir / "transcript.json"
     )
 
     # Create workflow input

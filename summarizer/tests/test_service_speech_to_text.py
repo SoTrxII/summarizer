@@ -10,7 +10,6 @@ import torch
 
 from summarizer.services.speech_to_text import (
     LocalWhisperTranscriber,
-    SpeakersRecognition,
     SpeechToTextService,
 )
 from summarizer.services.speech_to_text.transcription import (
@@ -27,7 +26,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="torch")
 
 @pytest.mark.asyncio
 async def test_service_speech_to_text_transcriber_azure(data_dir: Path, azure_transcribe: AzureOpenAITranscriber):
-    sample_audio = data_dir / "audios" / "1m.ogg"
+    sample_audio = data_dir / "audios" / "1m_sample1.ogg"
 
     # Start timing
     start_time = time.time()
@@ -38,8 +37,12 @@ async def test_service_speech_to_text_transcriber_azure(data_dir: Path, azure_tr
     end_time = time.time()
     duration = end_time - start_time
 
-    # with open(data_dir / "transcriptions" / "497170104.json", "w") as f:
-    #     json.dump(sentences, f)
+    # Ensure the directory exists before writing the file
+    output_dir = data_dir / "generated" / "transcriptions"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    with open(output_dir / "1m_sample1.json", "w") as f:
+        json.dump(sentences, f)
 
     assert sentences is not None
     assert len(sentences) > 0
@@ -80,7 +83,7 @@ async def test_service_speech_to_text_transcriber_local(data_dir: Path):
 
 @pytest.mark.asyncio
 async def test_service_speech_to_text(data_dir: Path, speech_to_text: SpeechToTextService):
-    sample_audio = data_dir / "audios" / "1m.ogg"
+    sample_audio = data_dir / "audios" / "1m_sample2.ogg"
 
     # Start timing
     start_time = time.time()
@@ -91,7 +94,11 @@ async def test_service_speech_to_text(data_dir: Path, speech_to_text: SpeechToTe
     end_time = time.time()
     duration = end_time - start_time
 
-    with open(data_dir / "transcriptions" / "1h.json", "w") as f:
+    # Ensure the directory exists before writing the file
+    output_dir = data_dir / "generated" / "transcriptions"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    with open(output_dir / "1m_sample2_diarized.json", "w") as f:
         json.dump(sentences, f)
 
     assert sentences is not None
