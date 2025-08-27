@@ -44,3 +44,15 @@ httpx = "^0.28.1"
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers"
+testpaths = ["tests"]
+markers = [
+    "unit: marks tests as unit tests (fast)",
+    "service: marks tests as service tests (medium speed)",
+    "workflow: marks tests as workflow tests (slow)",
+    "slow: marks tests as slow running tests",
+]
+asyncio_mode = "auto"
