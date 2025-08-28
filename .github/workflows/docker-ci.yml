@@ -8,6 +8,11 @@ on:
 env:
   REGISTRY: docker.io
   IMAGE_NAME: ${{ github.repository_owner }}/summarizer
+  AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+  OLLAMA_MODEL_NAME: "phi4-mini"
+  OLLAMA_VERSION: "0.11.7"
+  DAPR_CLI_VERSION: "1.15.1"
+  DAPR_RUNTIME_VERSION: "1.15.10"
 
 jobs:
   docker-test:
@@ -47,6 +52,63 @@ jobs:
         
         echo "=== Final disk usage ==="
         df -h
+
+    - name: Install Ollama
+      uses: ai-action/setup-ollama@v1
+      with:
+        version: ${{ env.OLLAMA_VERSION }}
+
+    - name: Setup Ollama Chat completion model
+      run: |
+        echo "Starting Ollama service..."
+        ollama serve &
+        
+        # Wait for Ollama to be ready
+        echo "Waiting for Ollama to start..."
+        timeout 60 bash -c 'until curl -s http://localhost:11434/api/tags > /dev/null 2>&1; do sleep 2; done'
+        
+        echo "Pulling ${{ env.OLLAMA_MODEL_NAME }} model..."
+        ollama pull ${{ env.OLLAMA_MODEL_NAME }}
+
+    - name: Setup Dapr CLI specific version
+      uses: dapr/setup-dapr@v1
+      with:
+        version: ${{ env.DAPR_CLI_VERSION }}
+      id: install
+
+    - name: Initialize Dapr
+      id: dapr-setup
+      continue-on-error: true
+      run: |
+        export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+        dapr init --runtime-version=${{ env.DAPR_RUNTIME_VERSION }}
+        dapr --version
+        # Verify daprd exists in the expected location
+        ls -la $HOME/.dapr/bin/
+        # Add Dapr CLI to PATH for current session and make it persistent
+        echo "$HOME/.dapr/bin" >> $GITHUB_PATH
+        export PATH="$HOME/.dapr/bin:$PATH"
+        # Verify daprd is accessible
+        if command -v daprd &> /dev/null; then
+          echo "daprd found in PATH: $(which daprd)"
+          daprd --version
+          echo "dapr-available=true" >> $GITHUB_OUTPUT
+        else
+          echo "daprd not found in PATH, checking direct path..."
+          if [ -f "$HOME/.dapr/bin/daprd" ]; then
+            echo "daprd found at: $HOME/.dapr/bin/daprd"
+            $HOME/.dapr/bin/daprd --version
+            echo "dapr-available=true" >> $GITHUB_OUTPUT
+          else
+            echo "ERROR: daprd not found"
+            echo "dapr-available=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+        fi
+        # Create symlink for compatibility with test configuration  
+        sudo mkdir -p /home/vscode/.dapr/bin
+        sudo ln -sf $HOME/.dapr/bin/daprd /home/vscode/.dapr/bin/daprd
+    
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -97,32 +159,70 @@ jobs:
 
     - name: Run tests in container
       env:
-        AI_FOUNDRY_PROJECT_ENDPOINT: ${{ secrets.AI_FOUNDRY_PROJECT_ENDPOINT }}
-        AZURE_CHAT_DEPLOYMENT_NAME: ${{ secrets.AZURE_CHAT_DEPLOYMENT_NAME }}
+        # General settinfgs
         HUGGING_FACE_TOKEN: ${{ secrets.HUGGING_FACE_TOKEN }}
-        AZURE_AUDIO_DEPLOYMENT_NAME: ${{ secrets.AZURE_AUDIO_DEPLOYMENT_NAME }}
+        INFERENCE_DEVICE: cpu
+        
+        # Azure provider tests
         AZURE_TENANT_ID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).tenantId }}
         AZURE_CLIENT_ID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).clientId }}
         AZURE_CLIENT_SECRET: ${{ fromJSON(secrets.AZURE_CREDENTIALS).clientSecret }}
-        INFERENCE_DEVICE: cpu
-        SKIP_WORKFLOW_TESTS: true
+        AI_FOUNDRY_PROJECT_ENDPOINT: ${{ secrets.AI_FOUNDRY_PROJECT_ENDPOINT }}
+        AZURE_CHAT_DEPLOYMENT_NAME: ${{ secrets.AZURE_CHAT_DEPLOYMENT_NAME }}
+        AZURE_AUDIO_DEPLOYMENT_NAME: ${{ secrets.AZURE_AUDIO_DEPLOYMENT_NAME }}
+        
+        # Ollama tests
+        OLLAMA_HOST: http://localhost:11434
+        OLLAMA_MODEL_NAME: ${{ env.OLLAMA_MODEL_NAME }}
+
+        # Workflow tests, choose a provider
+        CHAT_COMPLETION_PROVIDER: "azure"
+        AUDIO_COMPLETION_PROVIDER: "azure"
+        # Not in ctn env
+        SKIP_WORKFLOW_TESTS: false
       run: |
         docker run --rm \
+          --network host \
           --workdir /app \
-          --env AI_FOUNDRY_PROJECT_ENDPOINT \
-          --env AZURE_CHAT_DEPLOYMENT_NAME \
           --env HUGGING_FACE_TOKEN \
-          --env AZURE_AUDIO_DEPLOYMENT_NAME \
+          --env INFERENCE_DEVICE \
           --env AZURE_TENANT_ID \
           --env AZURE_CLIENT_ID \
           --env AZURE_CLIENT_SECRET \
-          --env INFERENCE_DEVICE \
-          --env SKIP_WORKFLOW_TESTS \
+          --env AI_FOUNDRY_PROJECT_ENDPOINT \
+          --env AZURE_CHAT_DEPLOYMENT_NAME \
+          --env AZURE_AUDIO_DEPLOYMENT_NAME \
+          --env OLLAMA_HOST \
+          --env OLLAMA_MODEL_NAME \
+          --env CHAT_COMPLETION_PROVIDER \
+          --env AUDIO_COMPLETION_PROVIDER \
+          -v /home/runner:/host-runner:rw \
           --entrypoint="" \
           summarizer:test \
           poetry run pytest tests/ -v --tb=short -k "not workflow"
 
     - name: Health Check
+      env:
+        # General settinfgs
+        HUGGING_FACE_TOKEN: ${{ secrets.HUGGING_FACE_TOKEN }}
+        INFERENCE_DEVICE: cpu
+        
+        # Azure provider tests
+        AZURE_TENANT_ID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).tenantId }}
+        AZURE_CLIENT_ID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).clientId }}
+        AZURE_CLIENT_SECRET: ${{ fromJSON(secrets.AZURE_CREDENTIALS).clientSecret }}
+        AI_FOUNDRY_PROJECT_ENDPOINT: ${{ secrets.AI_FOUNDRY_PROJECT_ENDPOINT }}
+        AZURE_CHAT_DEPLOYMENT_NAME: ${{ secrets.AZURE_CHAT_DEPLOYMENT_NAME }}
+        AZURE_AUDIO_DEPLOYMENT_NAME: ${{ secrets.AZURE_AUDIO_DEPLOYMENT_NAME }}
+        
+        # Ollama tests
+        OLLAMA_HOST: http://localhost:11434
+        OLLAMA_MODEL_NAME: ${{ env.OLLAMA_MODEL_NAME }}
+
+        # Workflow tests, choose a provider
+        CHAT_COMPLETION_PROVIDER: "azure"
+        AUDIO_COMPLETION_PROVIDER: "azure"
+        SKIP_WORKFLOW_TESTS: false
       run: |
         echo "=== Starting health check ==="
         
@@ -130,14 +230,20 @@ jobs:
         CONTAINER_ID=$(docker run -d \
           --name summarizer-healthcheck \
           --publish 8000:8000 \
-          --env AI_FOUNDRY_PROJECT_ENDPOINT="${{ secrets.AI_FOUNDRY_PROJECT_ENDPOINT }}" \
-          --env AZURE_CHAT_DEPLOYMENT_NAME="${{ secrets.AZURE_CHAT_DEPLOYMENT_NAME }}" \
-          --env HUGGING_FACE_TOKEN="${{ secrets.HUGGING_FACE_TOKEN }}" \
-          --env AZURE_AUDIO_DEPLOYMENT_NAME="${{ secrets.AZURE_AUDIO_DEPLOYMENT_NAME }}" \
-          --env AZURE_TENANT_ID="${{ fromJSON(secrets.AZURE_CREDENTIALS).tenantId }}" \
-          --env AZURE_CLIENT_ID="${{ fromJSON(secrets.AZURE_CREDENTIALS).clientId }}" \
-          --env AZURE_CLIENT_SECRET="${{ fromJSON(secrets.AZURE_CREDENTIALS).clientSecret }}" \
-          --env INFERENCE_DEVICE=cpu \
+          --env HTTP_PORT=8000 \
+          --env HUGGING_FACE_TOKEN \
+          --env INFERENCE_DEVICE \
+          --env AZURE_TENANT_ID \
+          --env AZURE_CLIENT_ID \
+          --env AZURE_CLIENT_SECRET \
+          --env AI_FOUNDRY_PROJECT_ENDPOINT \
+          --env AZURE_CHAT_DEPLOYMENT_NAME \
+          --env AZURE_AUDIO_DEPLOYMENT_NAME \
+          --env OLLAMA_HOST \
+          --env OLLAMA_MODEL_NAME \
+          --env CHAT_COMPLETION_PROVIDER \
+          --env AUDIO_COMPLETION_PROVIDER \
+          --env SKIP_WORKFLOW_TESTS \
           summarizer:test)
         
         echo "Container started with ID: $CONTAINER_ID"
