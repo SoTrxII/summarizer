@@ -128,16 +128,34 @@ jobs:
         tags: |
           type=ref,event=tag
 
-    - name: Build image
-      uses: docker/build-push-action@v6
-      with:
-        context: ./summarizer
-        load: true  
-        push: false  
-        tags: |
-          summarizer:test
-          ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+    - name: Build development image
+      run: |
+        echo "Building Docker image locally to avoid stalling..."
+        cd summarizer
+        # Build with minimal cache and immediate cleanup
+        DOCKER_BUILDKIT=1 docker build \
+          --progress=plain \
+          --no-cache \
+          --build-arg REMOVE_CUDA=true \
+          -t summarizer:test \
+          .
+        
+        echo "Build completed successfully"
+        docker images summarizer:test
+
+    - name: Check disk usage after build
+      run: |
+        echo "=== Disk usage after build ==="
+        df -h
+        echo "=== Docker system info ==="
+        docker system df
+        
+        # Clean up build cache to free space for tests
+        docker builder prune -f
+        docker system prune -f
+        
+        echo "=== Disk usage after cleanup ==="
+        df -h
 
     - name: Run tests in container
       env:
@@ -282,20 +300,21 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Push image to Docker Hub
-      uses: docker/build-push-action@v6
-      with:
-        context: ./summarizer
-        push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+    - name: Push image to registry
+      run: |
+        echo "Tagging and pushing image..."
+        docker tag summarizer:test summarizer:latest
+        docker tag summarizer:test summarizer:${{ github.ref_name }}
+        docker push summarizer:latest
+        docker push summarizer:${{ github.ref_name }}
+        echo "✅ Image push completed"
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: Release ${{ steps.release_notes.outputs.VERSION }}
+        name: Release ${{ github.ref_name }}
         draft: false
         prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
         generate_release_notes: true
