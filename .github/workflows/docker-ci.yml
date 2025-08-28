@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: ${{ github.repository_owner }}/summarizer
+  IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/summarizer
   AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
   OLLAMA_MODEL_NAME: "phi4-mini"
   OLLAMA_VERSION: "0.11.7"
