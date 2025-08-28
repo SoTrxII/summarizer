@@ -99,6 +99,7 @@ class SceneChunker:
             # A scene must be at least 5 minutes long and have more than 4 sentences
             # This is an arbitrary choice, but it helps to ensure that scenes are meaningful
             if scene_duration < SceneChunker.MIN_SCENE_DURATION_SECONDS or len(current) <= 4:
+                current.append(curr)
                 continue
 
             if self._has_long_silence_break(gap) or self._has_semantic_shift(current):
