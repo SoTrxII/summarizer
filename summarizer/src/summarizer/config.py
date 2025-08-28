@@ -101,7 +101,7 @@ class AppConfig:
 
         ollama_config = OllamaConfig(
             endpoint=environ.get("OLLAMA_ENDPOINT", "http://localhost:11434"),
-            model_name=environ.get("OLLAMA_MODEL_NAME", "llama3.1")
+            model_name=environ.get("OLLAMA_MODEL_NAME", "phi4")
         )
 
         return cls(
