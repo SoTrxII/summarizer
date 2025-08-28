@@ -24,4 +24,6 @@ async def test_service_speech_to_text_whisper(data_dir: Path):
         dump(scenes, f)
 
     assert scenes is not None
-    assert len(scenes) > 0
+    # Provided sample will always have more than one scene.
+    # Having len > 1 also allow us to see if there is some actual work being done
+    assert len(scenes) > 1
