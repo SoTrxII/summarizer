@@ -303,10 +303,10 @@ jobs:
     - name: Push image to registry
       run: |
         echo "Tagging and pushing image..."
-        docker tag summarizer:test summarizer:latest
-        docker tag summarizer:test summarizer:${{ github.ref_name }}
-        docker push summarizer:latest
-        docker push summarizer:${{ github.ref_name }}
+        docker tag summarizer:test ${{ secrets.DOCKER_USERNAME }}/summarizer:latest
+        docker tag summarizer:test ${{ secrets.DOCKER_USERNAME }}/summarizer:${{ github.ref_name }}
+        docker push ${{ secrets.DOCKER_USERNAME }}/summarizer:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/summarizer:${{ github.ref_name }}
         echo "✅ Image push completed"
 
     - name: Create GitHub Release
