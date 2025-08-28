@@ -63,7 +63,7 @@ async def test_service_speech_to_text_transcriber_local(data_dir: Path):
     logging.info(f"Using device: {device}")
 
     whisper = LocalWhisperTranscriber(device)
-    sample_audio = data_dir / "audios" / "1m.ogg"
+    sample_audio = data_dir / "audios" / "1m_sample1.ogg"
 
     # Start timing
     start_time = time.time()

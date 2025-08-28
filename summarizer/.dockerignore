@@ -90,6 +90,7 @@ tests/__pycache__/
 data/audios/*.ogg
 data/**/*.mp4
 # Sample used in tests 
-!data/audios/1m.ogg
+!data/audios/1m_sample1.ogg
+!data/audios/1m_sample2.ogg
 data/audios/*.wav
 data/audios/*.mp3

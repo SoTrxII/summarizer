@@ -173,7 +173,7 @@ jobs:
         
         # Ollama tests
         OLLAMA_HOST: http://localhost:11434
-        OLLAMA_MODEL: ${{ env.OLLAMA_MODEL_NAME }}
+        OLLAMA_MODEL_NAME: ${{ env.OLLAMA_MODEL_NAME }}
 
         # Workflow tests, choose a provider
         CHAT_COMPLETION_PROVIDER: "azure"
