@@ -7,6 +7,7 @@ from dapr.ext.workflow import DaprWorkflowClient
 from summarizer.main import setup_DI
 from summarizer.models.workflow import AudioWorkflowInput
 from summarizer.workflows.summarize_new_episode import audio_to_summary
+from tests.utils.dapr import managed_workflow_context
 
 
 @pytest.mark.asyncio
@@ -24,12 +25,11 @@ async def test_workflow_audio_to_summary(wf_client: DaprWorkflowClient):
         audio_file_path="1m.ogg"
     )
 
-    id = wf_client.schedule_new_workflow(
-        audio_to_summary, input=input)
-
-    try:
+    # Use context manager to ensure cleanup even if test is interrupted
+    with managed_workflow_context(wf_client, audio_to_summary, input) as workflow_id:
         state = wf_client.wait_for_workflow_completion(
-            id, timeout_in_seconds=24*60*60)
+            workflow_id, timeout_in_seconds=24*60*60)
+
         if not state:
             logging.warning("Workflow not found!")
         elif state.runtime_status.name == 'COMPLETED':
@@ -43,10 +43,3 @@ async def test_workflow_audio_to_summary(wf_client: DaprWorkflowClient):
         # Assert that the workflow completed successfully
         assert state is not None, "Workflow state should not be None"
         assert state.runtime_status.name == 'COMPLETED', f"Workflow should complete successfully, but got status: {state.runtime_status.name}"
-
-    except TimeoutError:
-        logging.error('*** Workflow timed out!')
-        raise
-    except Exception as e:
-        logging.error(f"Test failed with exception: {e}")
-        raise
