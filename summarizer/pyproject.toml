@@ -1,6 +1,6 @@
 [project]
 name = "summarizer"
-version = "0.1.0"
+version = "0.3.0"
 description = ""
 authors = [
     {name = "SoTrx",email = "11771975+SoTrx@users.noreply.github.com"}
