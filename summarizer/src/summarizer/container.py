@@ -8,6 +8,7 @@ from summarizer.repositories.dapr_storage import (
     DaprAudioRepository,
     DaprSummaryRepository,
 )
+from summarizer.services.knowledge_graph import LightRAG
 from summarizer.services.speech_to_text import (
     AzureOpenAITranscriber,
     LocalWhisperTranscriber,
@@ -124,6 +125,16 @@ class Container(containers.DeclarativeContainer):
         kernel=kernel
     )
 
+    ###################
+    # Knowledge Graph
+    ###################
+
+    knowledge_graph = providers.Factory(
+        LightRAG,
+        endpoint=config.lightrag_endpoint,
+        api_key=config.lightrag_api_key
+    )
+
 
 def create_container(app_config: AppConfig) -> Container:
     """Create and configure the dependency injection container."""
@@ -141,6 +152,8 @@ def create_container(app_config: AppConfig) -> Container:
         'inference_device': app_config.inference_device,
         'dapr_audio_store_name': app_config.dapr_audio_store_name,
         'dapr_summary_store_name': app_config.dapr_summary_store_name,
+        'lightrag_endpoint': app_config.lightrag.endpoint,
+        'lightrag_api_key': app_config.lightrag.api_key,
     })
 
     return container

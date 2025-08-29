@@ -21,6 +21,7 @@ from summarizer.models.workflow import (
     WorkflowInput,
 )
 from summarizer.repositories.storage import AudioRepository, SummaryRepository
+from summarizer.services.knowledge_graph import KnowledgeGraph
 from summarizer.services.speech_to_text import SpeechToText
 from summarizer.services.summaries.models.campaign_summary import CampaignSummary
 from summarizer.services.summaries.models.episode_summary import EpisodeSummary
@@ -125,12 +126,49 @@ def summarize_scenes(
     async def run():
         previous_summary = None
         summaries = []
-        # TODO : Publish scenes in knowledge-graph
         for scene in scenes:
             current = await summarizer.scene(scene, previous_summary=previous_summary)
             summaries.append(current.model_dump())
             previous_summary = current
         return summaries
+    return asyncio.run(run())
+
+
+@wfr.activity()  # pyright: ignore[reportCallIssue]
+@inject
+@span
+def publish_scenes_to_lightrag(
+    _: WorkflowActivityContext,
+    input: dict,
+    knowledge_graph: KnowledgeGraph = Provide[Container.knowledge_graph],
+) -> List[dict]:
+    """
+    Publish scene summaries to LightRAG knowledge graph.
+    """
+    logging.info("Publishing scenes to LightRAG...")
+
+    scenes_summaries = input["scenes_summaries"]
+    campaign_id = input["campaign_id"]
+    episode_id = input["episode_id"]
+
+    async def run():
+        # Convert scene summaries back to SceneSummary objects
+        scene_objects = [SceneSummary(**s) for s in scenes_summaries]
+
+        # Publish to LightRAG
+        responses = await knowledge_graph.index_scenes(campaign_id, episode_id, scene_objects)
+
+        # Log results
+        successful_publishes = sum(
+            1 for r in responses if r.status == "success")
+        total_scenes = len(responses)
+
+        logging.info(
+            f"Published {successful_publishes}/{total_scenes} scenes to LightRAG"
+        )
+
+        return [response.model_dump() for response in responses]
+
     return asyncio.run(run())
 
 
@@ -247,8 +285,20 @@ def audio_to_summary(ctx: DaprWorkflowContext, input: AudioWorkflowInput):
             logging.info(
                 f"✅ Step 3 Complete. Generated {len(scenes_summaries)} scene summaries")
 
-            # Step 4: Summarize episode
-            logging.info("📖 Step 4: Starting episode summarization...")
+            # Step 4: Publish scenes to LightRAG
+            logging.info("🚀 Step 4: Publishing scenes to LightRAG...")
+            yield ctx.call_activity(
+                publish_scenes_to_lightrag,
+                input={
+                    "scenes_summaries": scenes_summaries,
+                    "campaign_id": input["campaign_id"],
+                    "episode_id": input["episode_id"]
+                }
+            )
+            logging.info("✅ Step 4 Complete. Scenes published to LightRAG")
+
+            # Step 5: Summarize episode
+            logging.info("📖 Step 5: Starting episode summarization...")
             episode_summary = yield ctx.call_activity(
                 summarize_episode,
                 input={
@@ -257,10 +307,10 @@ def audio_to_summary(ctx: DaprWorkflowContext, input: AudioWorkflowInput):
                     "episode_id": input["episode_id"]
                 }
             )
-            logging.info("✅ Step 4 Complete. Episode summary generated")
+            logging.info("✅ Step 5 Complete. Episode summary generated")
 
-            # Step 5: Summarize campaign
-            logging.info("📖 Step 5: Starting campaign summarization...")
+            # Step 6: Summarize campaign
+            logging.info("📖 Step 6: Starting campaign summarization...")
             yield ctx.call_activity(
                 summarize_campaign,
                 input={
@@ -269,7 +319,7 @@ def audio_to_summary(ctx: DaprWorkflowContext, input: AudioWorkflowInput):
                     "episode_id": input["episode_id"]
                 }
             )
-            logging.info("✅ Step 5 Complete. Campaign summary generated")
+            logging.info("✅ Step 6 Complete. Campaign summary generated")
 
             logging.info("🎉 Workflow completed successfully!")
             return episode_summary
@@ -293,8 +343,20 @@ def transcript_to_summary(ctx: DaprWorkflowContext, input: WorkflowInput):
             logging.info(
                 f"✅ Step 2 Complete. Generated {len(scenes_summaries)} scene summaries")
 
-            # Step 3: Summarize episode
-            logging.info("📖 Step 3: Starting episode summarization...")
+            # Step 3: Publish scenes to LightRAG
+            logging.info("🚀 Step 3: Publishing scenes to LightRAG...")
+            yield ctx.call_activity(
+                publish_scenes_to_lightrag,
+                input={
+                    "scenes_summaries": scenes_summaries,
+                    "campaign_id": input["campaign_id"],
+                    "episode_id": input["episode_id"]
+                }
+            )
+            logging.info("✅ Step 3 Complete. Scenes published to LightRAG")
+
+            # Step 4: Summarize episode
+            logging.info("📖 Step 4: Starting episode summarization...")
             episode_summary = yield ctx.call_activity(
                 summarize_episode,
                 input={
@@ -303,10 +365,10 @@ def transcript_to_summary(ctx: DaprWorkflowContext, input: WorkflowInput):
                     "episode_id": input["episode_id"]
                 }
             )
-            logging.info("✅ Step 3 Complete. Episode summary generated")
+            logging.info("✅ Step 4 Complete. Episode summary generated")
 
-            # Step 4: Summarize campaign
-            logging.info("📖 Step 4: Starting campaign summarization...")
+            # Step 5: Summarize campaign
+            logging.info("📖 Step 5: Starting campaign summarization...")
             yield ctx.call_activity(
                 summarize_campaign,
                 input={
@@ -315,7 +377,7 @@ def transcript_to_summary(ctx: DaprWorkflowContext, input: WorkflowInput):
                     "episode_id": input["episode_id"]
                 }
             )
-            logging.info("✅ Step 4 Complete. Campaign summary generated")
+            logging.info("✅ Step 5 Complete. Campaign summary generated")
 
             logging.info("🎉 Workflow completed successfully!")
             return episode_summary

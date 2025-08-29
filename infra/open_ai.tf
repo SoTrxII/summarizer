@@ -39,6 +39,20 @@ resource "azurerm_cognitive_deployment" "router_chat_model" {
   }
 }
 
+resource "azurerm_cognitive_deployment" "router_chat_model" {
+  name                 = "text-embedding-3-large"
+  cognitive_account_id = azurerm_cognitive_account.open_ai.id
+  model {
+    format  = "OpenAI"
+    name    = "text-embedding-3-large"
+    version = "1"
+  }
+
+  sku {
+    name = "GlobalStandard"
+  }
+}
+
 resource "azurerm_cognitive_deployment" "whisper_chat_model" {
   name                 = "whisper"
   cognitive_account_id = azurerm_cognitive_account.open_ai.id

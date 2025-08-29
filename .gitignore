@@ -1,1 +1,3 @@
 .dapr
+**/.env
+rag/data
