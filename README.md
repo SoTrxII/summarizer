@@ -1,11 +1,14 @@
-# TTRPG summarizer
+# TTRPG summarizer and Q&A
 
-This project is a FastAPI + Dapr Workflows service that turns tabletop RPG recordings into structured summaries. It transcribes audio and process the transcription to provide a summary of what happened during the episode or campaign
+This project is made to be able to extract information from tabletop RPG audio recordings. Specifically, it:
+- Transcribes the recording and creates structured summaries.
+- Feeds a knowledge graph that you can query for insights.
 
 ## Features
 
 - Pluggable speech-to-text (Supported backend: Azure OpenAI or local Whisper)
 - Detailed summarization using Semantic Kernel (Supported backend: Azure OpenAI)
+- **Knowledge Graph Integration** with LightRAG for enhanced information retrieval and context-aware queries
 - FastAPI HTTP API to kick off workflows
 - Configurable data source and destination using Dapr bindings
 - OpenTelemetry traces, logs, and metrics (OTLP/gRPC)
@@ -172,6 +175,8 @@ Following [these instructions](https://github.com/m-bain/whisperX?tab=readme-ov-
 
 #### Setting up the chat completion model
 
+**Note**: Ollama is already configured in the devcontainer.
+
 Then start ollama and pull [phi4](https://ollama.com/library/phi4) SLM. This is the model that will be used for chat completion. Any model supporting structured output can be used, remember to change the `OLLAMA_MODEL_NAME` accordingly.
 
 ```bash
@@ -183,6 +188,26 @@ ollama pull phi4
 #### Setting up the speech to text model
 
 By default, the speech to text model is set to use a local version of [Whisper X](https://github.com/m-bain/whisperX?tab=readme-ov-file#speaker-diarization). The models used by whisperX will be downloaded during the application execution. So there is no additional configuration needed.
+
+#### Setting up the Knowledge Graph (LightRAG)
+
+**Note**: The LightRag server is already started in the devcontainer.
+
+Currently, the chosen knowledge graph is [LightRAG](https://github.com/HKUDS/LightRAG), which will enable the Q&A part of the application.
+To start the LightRAG server:
+
+```bash
+# Navigate to the rag directory
+cd rag
+
+# Copy the example environment file and configure it
+cp .env.example .env
+
+# Start the LightRAG server (uses Docker)
+./start-lightrag-server.sh
+```
+
+The LightRAG server will be available at `http://localhost:9621` and will be fed the scenes informations during workflow execution. This creates a searchable knowledge graph of your campaign content that can be queried for specific information about characters, events, locations, and story elements.
 
 #### Setting up Dapr components
 
@@ -268,6 +293,8 @@ The workflow generates several output files during processing, stored in the `su
 
 Each file builds upon the previous one, creating a pipeline from raw audio → transcription → scenes → final summary.
 
+**Knowledge Graph Integration:** When LightRAG is enabled, scene summaries are automatically indexed into a knowledge graph during the workflow execution. This allows for semantic search and cross-episode queries about your campaign content.
+
 
 ## Configuration
 
@@ -311,12 +338,52 @@ AI_FOUNDRY_PROJECT_ENDPOINT="https://<name>.services.ai.azure.com/api/projects/<
 AZURE_CHAT_DEPLOYMENT_NAME="<your_chat_model>"
 ```
 
+**Knowledge Graph Integration (Optional):**
+To enable knowledge graph features, also configure:
+```bash
+LIGHTRAG_ENDPOINT="http://localhost:9621"
+LIGHTRAG_API_KEY="quackquack"
+```
+
 **For any configuration:** Set your Hugging Face token:
 ```bash
 HUGGING_FACE_TOKEN=<your_token_here>
 ```
 Required for speaker diarization regardless of which providers you choose.
 See [here](https://github.com/m-bain/whisperX?tab=readme-ov-file#speaker-diarization). 
+
+### Querying the Knowledge Graph
+
+Once your episodes have been processed and indexed into the knowledge graph, you can query it for specific information about your campaign. The knowledge graph supports natural language queries and can provide context-aware responses across episodes.
+
+**Programmatic Querying:**
+The knowledge graph can be queried programmatically through the `KnowledgeGraph` service:
+
+```python
+# Query for information across a specific campaign
+response = await knowledge_graph.query(
+    "What NPCs have the party encountered?", 
+    campaign_id=1, 
+    episode_id=None  # Query across all episodes
+)
+
+# Query for information in a specific episode
+response = await knowledge_graph.query(
+    "What happened in the tavern scene?", 
+    campaign_id=1, 
+    episode_id=3
+)
+```
+
+**LightRAG Web Interface:**
+You can also access the LightRAG web interface directly at `http://localhost:9621` to interactively query your knowledge graph and visualize the relationships between entities in your campaign.
+
+**Example Queries:**
+- "What are the main NPCs in this campaign?"
+- "Show me all encounters with dragons"
+- "What items has the party collected?"
+- "Summarize the relationship between [Character A] and [Character B]"
+- "What plot threads are still unresolved?" 
 
 
 ### Environment Variables
@@ -340,6 +407,9 @@ This project uses the following environment variables:
 | INFERENCE_DEVICE                                                    | Device for ML inference (cpu, cuda)                                                                                                                                                             | false       | cpu                    |
 | HTTP_HOST                                                           | HTTP server host                                                                                                                                                                                | false       | 0.0.0.0                |
 | HTTP_PORT                                                           | HTTP server port                                                                                                                                                                                | false       | 8000                   |
+| **Knowledge Graph Configuration**                                   |                                                                                                                                                                                                 |             |                        |
+| LIGHTRAG_ENDPOINT                                                   | LightRAG server endpoint for knowledge graph integration                                                                                                                                        | false       | http://localhost:9621  |
+| LIGHTRAG_API_KEY                                                    | API key for LightRAG server authentication                                                                                                                                                      | false       | quackquack             |
 | **Dapr Configuration**                                              |                                                                                                                                                                                                 |             |                        |
 | DAPR_AUDIO_STORE_NAME                                               | Dapr binding name for audio store                                                                                                                                                               | false       | audio-store            |
 | DAPR_SUMMARY_STORE_NAME                                             | Dapr binding name for summary store                                                                                                                                                             | false       | summary-store          |
@@ -376,17 +446,22 @@ graph LR
     L2 -->|Azure| L3[Azure OpenAI Chat Model]
     L2 -->|Ollama| L4[Ollama Local Model]
     
-    L3 --> M[Step 4: Summarize Episode / Campaign]
+    L3 --> M[Step 4: Publish to Knowledge Graph]
     L4 --> M
+    M --> N[LightRAG Knowledge Graph]
+    
+    M --> O[Step 5: Summarize Episode / Campaign]
     
     %% Styling
     classDef workflow fill:#e1f5fe
     classDef storage fill:#f3e5f5
     classDef ai fill:#e8f5e8
     classDef api fill:#fff3e0
+    classDef kg fill:#fff9c4
     
     class G,H workflow
-    class I3,I4,L3,L4,M ai
+    class I3,I4,L3,L4,O ai
+    class N kg
 ```
 
 
