@@ -20,10 +20,11 @@ from tests.utils.dapr import managed_workflow_context
 async def test_workflow_transcript_to_summary(wf_client: DaprWorkflowClient, data_dir: Path):
     """Test the transcript to summary workflow with Dapr sidecar."""
     setup_DI()
-    asset_name = "1m_sample1_diarized.json"
+    asset_name = "1m_sample1.json"
+    # asset_name = "02.json"
 
     # Ensure the target directory exists before copying the file
-    target_dir = data_dir / "generated" / "1" / "1"
+    target_dir = data_dir / "generated" / "1" / "2"
     target_dir.mkdir(parents=True, exist_ok=True)
 
     # Copy the target test file to the generated directory, which is where the test summary-store
@@ -32,11 +33,15 @@ async def test_workflow_transcript_to_summary(wf_client: DaprWorkflowClient, dat
         data_dir / "transcriptions" / asset_name,
         target_dir / "transcript.json"
     )
+    # copyfile(
+    #     data_dir / "past_campaigns" / "14" / asset_name,
+    #     target_dir / "transcript.json"
+    # )
 
     # Create workflow input
     input = WorkflowInput(
         campaign_id=1,
-        episode_id=1
+        episode_id=2
     )
 
     # Use context manager to ensure cleanup even if test is interrupted

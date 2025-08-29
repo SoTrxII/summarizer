@@ -29,6 +29,7 @@ dependencies = [
     "pycountry (>=24.6.1,<25.0.0)",
     "fastapi (>=0.104.0,<1.0.0)",
     "uvicorn[standard] (>=0.24.0,<1.0.0)",
+    "httpx (>=0.28.1,<1.0.0)",
 ]
 
 [project.scripts]
@@ -39,7 +40,6 @@ packages = [{include = "summarizer", from = "src"}]
 
 
 [tool.poetry.group.dev.dependencies]
-httpx = "^0.28.1"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

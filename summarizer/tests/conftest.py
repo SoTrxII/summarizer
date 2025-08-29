@@ -19,6 +19,7 @@ from semantic_kernel import Kernel
 from semantic_kernel.connectors.ai.ollama import OllamaChatCompletion
 from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion
 
+from summarizer.services.knowledge_graph import LightRAG
 from summarizer.services.speech_to_text import (
     LocalWhisperTranscriber,
     SpeakersRecognition,
@@ -182,6 +183,12 @@ async def azure_transcribe() -> AzureOpenAITranscriber:
     deployment_name = os.environ["AZURE_AUDIO_DEPLOYMENT_NAME"]
     key = connection.credentials.api_key  # type: ignore
     return AzureOpenAITranscriber(connection.target, key, deployment_name)
+
+
+@pytest.fixture
+def knowledge_graph():
+    """Create a LightRAG service instance for testing."""
+    return LightRAG(endpoint="http://localhost:9621", api_key="quackquack")
 
 
 @pytest.fixture(scope="session")

@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 set -ex
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+LIGHTRAG_VERSION=1.4.6
+DAPR_VERSION=1.15.11
+ASPIRE_DASHBOARD_VERSION=9.4
 
-dapr uninstall && dapr init --runtime-version 1.15.10
+# -- Dapr 
+dapr uninstall && dapr init --runtime-version $DAPR_VERSION
 
 # Start the Aspire Dashboard
 # 18888 is the WEB UI port
@@ -14,4 +19,6 @@ docker run --rm -it \
     -e Dashboard:Frontend:AuthMode="Unsecured" \
     -e Dashboard:Otlp:AuthMode="Unsecured" \
     --name aspire-dashboard \
-    mcr.microsoft.com/dotnet/aspire-dashboard:9.4
+    mcr.microsoft.com/dotnet/aspire-dashboard:"$ASPIRE_DASHBOARD_VERSION"
+
+bash "$SCRIPT_DIR/../rag/start-lightrag-server.sh" "$LIGHTRAG_VERSION"

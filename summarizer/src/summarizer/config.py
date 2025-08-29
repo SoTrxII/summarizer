@@ -49,6 +49,21 @@ class OllamaConfig(ProviderConfig):
 
 
 @dataclass
+class LightRAGConfig(ProviderConfig):
+    """LightRAG provider configuration."""
+
+    endpoint: str = "http://localhost:9621"
+    api_key: Optional[str] = None
+
+    def validate(self) -> None:
+        """Validate LightRAG configuration."""
+        if not self.endpoint:
+            raise ValueError("LIGHTRAG_ENDPOINT is required for LightRAG")
+        if not self.api_key:
+            raise ValueError("LIGHTRAG_API_KEY is required for LightRAG")
+
+
+@dataclass
 class AppConfig:
     """Main application configuration."""
 
@@ -62,6 +77,7 @@ class AppConfig:
     # Provider-specific configs
     azure: AzureConfig
     ollama: OllamaConfig
+    lightrag: LightRAGConfig
 
     # Optional settings
     inference_device: str = "cpu"
@@ -104,12 +120,18 @@ class AppConfig:
             model_name=environ.get("OLLAMA_MODEL_NAME", "phi4")
         )
 
+        lightrag_config = LightRAGConfig(
+            endpoint=environ.get("LIGHTRAG_ENDPOINT", "http://localhost:9621"),
+            api_key=environ.get("LIGHTRAG_API_KEY")
+        )
+
         return cls(
             chat_completion_provider=chat_provider,  # type: ignore
             audio_completion_provider=audio_provider,  # type: ignore
             hugging_face_token=hugging_face_token,
             azure=azure_config,
             ollama=ollama_config,
+            lightrag=lightrag_config,
             inference_device=environ.get("INFERENCE_DEVICE", "cpu"),
             http_host=environ.get("HTTP_HOST", "0.0.0.0"),
             http_port=int(environ.get("HTTP_PORT", "8000")),
