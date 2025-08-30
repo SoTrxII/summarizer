@@ -139,7 +139,7 @@ class AppConfig:
                 "DAPR_AUDIO_STORE_NAME", "audio-store"),
             dapr_summary_store_name=environ.get(
                 "DAPR_SUMMARY_STORE_NAME", "summary-store"),
-            otlp_endpoint=environ.get("OTLP_ENDPOINT")
+            otlp_endpoint=environ.get("OTEL_EXPORTER_OTLP_ENDPOINT")
         )
 
     def validate(self) -> None:
