@@ -9,6 +9,7 @@ from .base_models import CharacterUpdate, ItemOrClue, NPCInfo, OpenThread, Times
 from .campaign_summary import CampaignSummary, StoryArc
 from .episode_summary import EpisodeSummary
 from .scene_summary import PlayerAction, SceneSummary
+from .summary_arguments import SummaryArguments
 
 __all__ = [
     # Base models
@@ -25,4 +26,5 @@ __all__ = [
     # Campaign models
     "StoryArc",
     "CampaignSummary",
+    "SummaryArguments",
 ]

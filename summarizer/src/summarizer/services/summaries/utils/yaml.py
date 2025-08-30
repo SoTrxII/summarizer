@@ -1,4 +1,5 @@
-import datetime
+from dataclasses import asdict
+from datetime import datetime
 from pathlib import Path
 from typing import Optional, Type
 
@@ -21,6 +22,8 @@ from semantic_kernel.functions.kernel_arguments import KernelArguments
 from semantic_kernel.prompt_template import PromptTemplateConfig
 from yaml import safe_load
 
+from summarizer.services.summaries.models.summary_arguments import SummaryArguments
+
 
 def load_prompt(path: Path) -> PromptTemplateConfig:
     """
@@ -35,7 +38,7 @@ def load_prompt(path: Path) -> PromptTemplateConfig:
     return PromptTemplateConfig(**data)
 
 
-def load_agent(path: Path, kernel: Kernel, format: Optional[Type[BaseModel]] = None) -> ChatCompletionAgent:
+def load_agent(path: Path, kernel: Kernel, format: Optional[Type[BaseModel]] = None, args: Optional[SummaryArguments] = None) -> ChatCompletionAgent:
     """
     Load an agent from a yaml file
     :param path: Path to the yaml file
@@ -43,6 +46,8 @@ def load_agent(path: Path, kernel: Kernel, format: Optional[Type[BaseModel]] = N
     :param format: Optional response format for the agent
     :return: The agent
     """
+    if not args:
+        args = SummaryArguments()
 
     agent_definition = load_prompt(path)
     # settings = kernel.get_prompt_execution_settings_from_service_id()
@@ -71,9 +76,8 @@ def load_agent(path: Path, kernel: Kernel, format: Optional[Type[BaseModel]] = N
         description=agent_definition.description,
         prompt_template_config=agent_definition,
         arguments=KernelArguments(
-            now=datetime.datetime.now().isoformat(),
-            # TODO: Make into a variable
-            language="French",
+            now=datetime.now().isoformat(),
+            **asdict(args),
             settings=settings,
         )
     )

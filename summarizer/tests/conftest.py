@@ -26,6 +26,7 @@ from summarizer.services.speech_to_text import (
     SpeechToTextService,
 )
 from summarizer.services.speech_to_text.transcription import AzureOpenAITranscriber
+from summarizer.services.summaries.models import SummaryArguments
 from summarizer.services.summaries.summarizer import Summarizer
 from summarizer.utils.azure_completion_provider import (
     azure_completion_provider,
@@ -74,7 +75,7 @@ async def azure_summarizer() -> Summarizer:
         deployment_name=os.environ["AZURE_CHAT_DEPLOYMENT_NAME"]
     )
     kernel.add_service(azure_provider)
-    return Summarizer(kernel)
+    return Summarizer(kernel, args=SummaryArguments(language=os.environ.get("LANGUAGE", "English")))
 
 
 @pytest_asyncio.fixture(scope="function")
@@ -101,7 +102,7 @@ async def ollama_summarizer() -> Summarizer:
         host=ollama_endpoint
     )
     kernel.add_service(ollama_provider)
-    return Summarizer(kernel)
+    return Summarizer(kernel, args=SummaryArguments(language=os.environ.get("LANGUAGE", "English")))
 
 
 @pytest_asyncio.fixture(params=["azure", "ollama"], scope="function")
@@ -143,7 +144,7 @@ async def summarizer(request: FixtureRequest) -> Summarizer:
     else:
         raise ValueError(f"Unsupported chat provider: {provider}")
 
-    return Summarizer(kernel)
+    return Summarizer(kernel, args=SummaryArguments(language=os.environ.get("LANGUAGE", "English")))
 
 
 @pytest_asyncio.fixture(scope="session")

@@ -8,9 +8,7 @@ from semantic_kernel.agents import ChatHistoryAgentThread
 
 from summarizer.models.scene import Scene
 
-from .models.campaign_summary import CampaignSummary
-from .models.episode_summary import EpisodeSummary
-from .models.scene_summary import SceneSummary
+from .models import CampaignSummary, EpisodeSummary, SceneSummary, SummaryArguments
 from .utils.yaml import load_agent
 
 
@@ -19,8 +17,9 @@ class Summarizer:
     Summarize different part of a tabletop role-playing game session.
     """
 
-    def __init__(self, kernel: Kernel):
+    def __init__(self, kernel: Kernel, args: SummaryArguments):
         self.kernel = kernel
+        self.args = args
 
     async def scene(self, scene: Scene, previous_summary: SceneSummary | None = None) -> SceneSummary:
         """
@@ -30,7 +29,7 @@ class Summarizer:
         :return: The summary of the scene.
         """
         prompt_path = Path(__file__).parent / "agents" / "scene.yaml"
-        agent = load_agent(prompt_path, self.kernel, format=SceneSummary)
+        agent = load_agent(prompt_path, self.kernel, SceneSummary, self.args)
 
         thread = ChatHistoryAgentThread()
         thread._chat_history.add_user_message(
@@ -54,7 +53,7 @@ class Summarizer:
         :return: The summary of the episode.
         """
         prompt_path = Path(__file__).parent / "agents" / "episode.yaml"
-        agent = load_agent(prompt_path, self.kernel, format=EpisodeSummary)
+        agent = load_agent(prompt_path, self.kernel, EpisodeSummary, self.args)
 
         thread = ChatHistoryAgentThread()
         thread._chat_history.add_user_message(
@@ -72,7 +71,12 @@ class Summarizer:
         :return: The summary of the campaign.
         """
         prompt_path = Path(__file__).parent / "agents" / "campaign.yaml"
-        agent = load_agent(prompt_path, self.kernel, format=CampaignSummary)
+        agent = load_agent(
+            prompt_path,
+            self.kernel,
+            CampaignSummary,
+            self.args
+        )
 
         thread = ChatHistoryAgentThread()
         thread._chat_history.add_user_message(

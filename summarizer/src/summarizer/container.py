@@ -15,6 +15,7 @@ from summarizer.services.speech_to_text import (
     SpeakersRecognition,
     SpeechToTextService,
 )
+from summarizer.services.summaries.models import SummaryArguments
 from summarizer.services.summaries.summarizer import Summarizer
 from summarizer.services.transformers import SceneChunker
 from summarizer.utils.azure_completion_provider import (
@@ -122,7 +123,8 @@ class Container(containers.DeclarativeContainer):
 
     summarizer = providers.Factory(
         Summarizer,
-        kernel=kernel
+        kernel=kernel,
+        args=providers.Factory(SummaryArguments, language=config.language)
     )
 
     ###################
