@@ -42,7 +42,7 @@ def setup_telemetry() -> None:
 
     if not config.otlp_endpoint:
         logging.warning(
-            "OTLP_ENDPOINT is not set, telemetry will be disabled.")
+            "OTEL_EXPORTER_OTLP_ENDPOINT is not set, telemetry will be disabled.")
         return
 
     resource = Resource.create({service_attributes.SERVICE_NAME: "summarizer"})
