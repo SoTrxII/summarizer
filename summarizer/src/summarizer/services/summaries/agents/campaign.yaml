@@ -2,8 +2,25 @@ name: campaign_summarizer
 template: |
   Summarize an entire tabletop RPG campaign in {{$language}} based on multiple episode summaries.
   The AI should aggregate story arcs, track character development, recurring NPCs,
-  important items, and unresolved plot threads. The output must be strict JSON
-  matching the CampaignSummary Pydantic model.
+  important items, and unresolved plot threads.
+  
+  For player characters, consolidate all characters from all episodes:
+  - Merge character descriptions if the same character appears in multiple episodes
+  - Use the most complete/final description available
+  - Track character evolution throughout the campaign
+  - Do NOT include player/speaker identification as it may be inconsistent across episodes
+  - Focus only on character names and their consolidated descriptions
+  
+  Return strict JSON with fields:
+  - campaign_overview: Brief summary of the entire campaign
+  - player_characters: Consolidated list of all campaign player characters with format:
+    [{"name": "character_name", "description": "final/evolved character description"}]
+  - major_story_arcs: Key story arcs spanning multiple episodes
+  - character_development: Character development highlights across the entire campaign
+  - notable_npcs: Important NPCs introduced or developed throughout the campaign
+  - important_items_and_clues: Significant items, artifacts, or clues discovered
+  - unresolved_threads: Outstanding questions, hooks, or storylines left unresolved
+  - continuity_notes: Notes on continuity, recurring themes, or callbacks between episodes
 
 template_format: semantic-kernel
 description: An agent that summarizes TTRPG campaign.

@@ -2,7 +2,12 @@ from typing import List
 
 from pydantic import BaseModel, Field
 
-from .base_models import CharacterUpdate, ItemOrClue, NPCInfo, OpenThread
+from .base_models import BaseCharacter, CharacterUpdate, ItemOrClue, NPCInfo, OpenThread
+
+
+class CampaignCharacter(BaseCharacter):
+    """A character in the campaign without speaker identification."""
+    pass
 
 
 class StoryArc(BaseModel):
@@ -24,6 +29,10 @@ class CampaignSummary(BaseModel):
     campaign_overview: str = Field(
         ...,
         description="Brief summary of the entire campaign, including tone, setting, and main story arc"
+    )
+    player_characters: List[CampaignCharacter] = Field(
+        default_factory=list,
+        description="All player characters that participated in the campaign with their final descriptions"
     )
     major_story_arcs: List[StoryArc] = Field(
         default_factory=list,

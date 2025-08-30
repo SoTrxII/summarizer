@@ -2,7 +2,12 @@ from typing import List
 
 from pydantic import BaseModel, Field
 
-from .base_models import ItemOrClue, OpenThread, Timestamps
+from .base_models import BaseCharacter, ItemOrClue, OpenThread, Timestamps
+
+
+class PlayerCharacter(BaseCharacter):
+    """A player character with identifying information."""
+    player: str = Field(..., description="Player name")
 
 
 class PlayerAction(BaseModel):
@@ -20,6 +25,10 @@ class SceneSummary(BaseModel):
     gm_content: str = Field(
         ...,
         description="GM narration, world info, NPCs, locations, lore"
+    )
+    player_characters: List[PlayerCharacter] = Field(
+        default_factory=list,
+        description="List of player characters present in this scene with identifying descriptions"
     )
     player_actions: List[PlayerAction] = Field(
         default_factory=list,

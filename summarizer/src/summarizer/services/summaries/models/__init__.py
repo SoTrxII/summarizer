@@ -8,7 +8,7 @@ at different levels: scenes, episodes, and campaigns.
 from .base_models import CharacterUpdate, ItemOrClue, NPCInfo, OpenThread, Timestamps
 from .campaign_summary import CampaignSummary, StoryArc
 from .episode_summary import EpisodeSummary
-from .scene_summary import PlayerAction, SceneSummary
+from .scene_summary import PlayerAction, PlayerCharacter, SceneSummary
 from .summary_arguments import SummaryArguments
 
 __all__ = [
@@ -20,6 +20,7 @@ __all__ = [
     "Timestamps",
     # Scene models
     "PlayerAction",
+    "PlayerCharacter",
     "SceneSummary",
     # Episode models
     "EpisodeSummary",

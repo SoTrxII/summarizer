@@ -3,6 +3,7 @@ from typing import List
 from pydantic import BaseModel, Field
 
 from .base_models import CharacterUpdate, ItemOrClue, NPCInfo, OpenThread
+from .scene_summary import PlayerCharacter
 
 
 class EpisodeSummary(BaseModel):
@@ -10,6 +11,10 @@ class EpisodeSummary(BaseModel):
     session_overview: str = Field(
         ...,
         description="High-level overview of the entire session"
+    )
+    player_characters: List[PlayerCharacter] = Field(
+        default_factory=list,
+        description="All player characters that appeared during this episode with their consolidated descriptions"
     )
     key_events: List[str] = Field(
         default_factory=list,

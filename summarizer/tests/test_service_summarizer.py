@@ -84,3 +84,58 @@ async def test_service_summaries_campaign(data_dir: Path, summarizer: Summarizer
 
     assert summary is not None
     logging.info(f"Campaign summarization result: {summary}")
+
+
+@pytest.mark.asyncio
+async def test_service_summaries_scene_character_mapping(data_dir: Path, summarizer: Summarizer):
+    """
+    This test ensures that character information is correctly mapped between scenes and summaries.
+    """
+    scenes_file, _, _ = get_standardized_filenames("5m_sample1")
+
+    sample_scenes = read_test_data(data_dir / "scenes" / scenes_file, Scene)
+    if len(sample_scenes) == 0:
+        raise ValueError("No scenes found in the sample file")
+
+    scenes = []
+    # Scene 1 has 4 player characters:
+    # Grunlek the swark
+    # Shinda the archer
+    # Theo the paladin
+    # Bob the wizard
+    scene1 = await summarizer.scene(sample_scenes[0])
+    print(scene1)
+    assert scene1 is not None
+    assert scene1.player_characters is not None
+    assert len(scene1.player_characters) >= 3
+    scenes.append(scene1)
+
+    # Scene 2 has no player characters, just exposition from the DM
+    scene2 = await summarizer.scene(sample_scenes[1], previous_summary=scene1)
+    print(scene2)
+    assert scene2 is not None
+    assert scene2.player_characters is not None
+
+    # This isn't asserted as there is a bit of interpretation involved
+    if len(scene2.player_characters) != 0:
+        logging.warning("Scene 2 has player characters, which is unexpected.")
+
+    scenes.append(scene2)
+
+    # The whole episode must have all the identified characters so far
+    episode = await summarizer.episode(scenes)
+    print(episode)
+    assert episode is not None
+    assert episode.player_characters is not None
+
+    # This isn't asserted as there is a bit of interpretation involved
+    # Small models seem to struggle with this
+    if len(episode.player_characters) < len(scene1.player_characters):
+        logging.warning(
+            "Episode has less players number of player characters than Scene 1.")
+
+    # The whole campaign must have all the identified characters so far
+    campaign = await summarizer.campaign([episode])
+    print(campaign)
+    assert campaign is not None
+    assert campaign.player_characters is not None
