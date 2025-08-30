@@ -3,6 +3,22 @@ template: |
   Combine the following scene summaries into a single session summary in {{$language}}.
   Keep chronology; preserve key events, character actions, lore changes, and open threads.
   
+  For player characters, consolidate all characters from all scenes:
+  - Merge character descriptions if the same character appears in multiple scenes
+  - Use the most complete/detailed description available
+  - Ensure all player characters that appeared in any scene are included
+  
+  Return strict JSON with fields:
+  - session_overview: High-level overview of the entire session
+  - player_characters: Consolidated list of all player characters with format:
+    [{"name": "character_name", "player": "player_name", "description": "consolidated identifying traits"}]
+  - key_events: Ordered list of key events during the session
+  - character_updates: Character developments and changes during this episode
+  - npc_updates: NPCs introduced or updated in this episode
+  - items_and_clues: Items, clues, or notable objects discovered
+  - open_threads: Ongoing unresolved threads or questions
+  - continuity_notes: Notes for maintaining story continuity between sessions
+  
 template_format: semantic-kernel
 description: An agent that summarizes TTRPG scenes.
 input_variables:

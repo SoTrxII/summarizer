@@ -1,13 +1,23 @@
 name: SceneAgent
 template: |
   You are summarizing the TTRPG scene below in {{$language}}. Distinguish GM narration from player actions.
-  You'll be given the previous scene summary as context
+  You'll be given the previous scene summary as context to maintain consistency.
+  
+  IMPORTANT: If there's a previous scene summary with player characters, ensure consistency:
+  - Use the same character names and descriptions from previous scenes
+  - If a character appears in this scene who was in previous scenes, maintain their established description
+  - Only add new characters if they genuinely appear for the first time
+  - Keep character descriptions consistent with their previous appearances
+  
   Return strict JSON with fields:
-  - gm: narration/world info, NPCs, locations, lore
-  - players: map of speaker (or player name) to actions/decisions
-  - items: list of items, clues, or objects of note
-  - open_threads: list of unresolved hooks/questions
-  - timestamps: { "start": {scene["start"]}, "end": {scene["end"]} }
+  - gm_content: GM narration, world info, NPCs, locations, lore
+  - player_characters: list of characters present in this scene with format:
+    [{"name": "character_name", "player": "player_name", "description": "identifying traits"}]
+  - player_actions: list of player actions with format:
+    [{"speaker": "player/character_name", "content": "action/statement", "mode": "in_character|meta"}]
+  - items_and_clues: list of items, clues, or objects of note discovered
+  - open_threads: list of unresolved hooks/questions arising from this scene
+  - timestamps: {"start": "scene_start_time", "end": "scene_end_time"}
 
 template_format: semantic-kernel
 description: An agent that summarizes TTRPG scenes.

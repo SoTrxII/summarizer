@@ -6,6 +6,15 @@ from typing import List, Optional
 from pydantic import BaseModel, Field
 
 
+class BaseCharacter(BaseModel):
+    """Base character model with common fields."""
+    name: str = Field(..., description="Character name")
+    description: str = Field(
+        ...,
+        description="Physical appearance, personality, or other identifying traits"
+    )
+
+
 class CharacterUpdate(BaseModel):
     """Character information and development updates."""
     name: str = Field(..., description="Character or player name")
