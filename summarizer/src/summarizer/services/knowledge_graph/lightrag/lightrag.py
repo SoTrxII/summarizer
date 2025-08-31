@@ -255,7 +255,7 @@ class LightRAG:
             # Send the insert request to LightRAG
             async with httpx.AsyncClient() as client:
                 response = await client.post(
-                    f"{self.endpoint}/insert",
+                    f"{self.endpoint}/documents/text",
                     json=rq.model_dump(exclude_none=True),
                     headers=self._get_headers(),
                     timeout=60.0
