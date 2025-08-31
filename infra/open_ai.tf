@@ -39,7 +39,7 @@ resource "azurerm_cognitive_deployment" "router_chat_model" {
   }
 }
 
-resource "azurerm_cognitive_deployment" "router_chat_model" {
+resource "azurerm_cognitive_deployment" "embedding_model" {
   name                 = "text-embedding-3-large"
   cognitive_account_id = azurerm_cognitive_account.open_ai.id
   model {
