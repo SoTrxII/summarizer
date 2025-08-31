@@ -156,6 +156,7 @@ def create_container(app_config: AppConfig) -> Container:
         'dapr_summary_store_name': app_config.dapr_summary_store_name,
         'lightrag_endpoint': app_config.lightrag.endpoint,
         'lightrag_api_key': app_config.lightrag.api_key,
+        'language': app_config.language
     })
 
     return container

@@ -86,6 +86,7 @@ class AppConfig:
     dapr_audio_store_name: str = "audio-store"
     dapr_summary_store_name: str = "summary-store"
     otlp_endpoint: Optional[str] = None
+    language: str = "English"
 
     @classmethod
     def from_env(cls) -> "AppConfig":
@@ -125,6 +126,8 @@ class AppConfig:
             api_key=environ.get("LIGHTRAG_API_KEY")
         )
 
+        language = environ.get("LANGUAGE", "English")
+
         return cls(
             chat_completion_provider=chat_provider,  # type: ignore
             audio_completion_provider=audio_provider,  # type: ignore
@@ -139,7 +142,8 @@ class AppConfig:
                 "DAPR_AUDIO_STORE_NAME", "audio-store"),
             dapr_summary_store_name=environ.get(
                 "DAPR_SUMMARY_STORE_NAME", "summary-store"),
-            otlp_endpoint=environ.get("OTEL_EXPORTER_OTLP_ENDPOINT")
+            otlp_endpoint=environ.get("OTEL_EXPORTER_OTLP_ENDPOINT"),
+            language=language
         )
 
     def validate(self) -> None:
