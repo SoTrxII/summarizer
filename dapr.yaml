@@ -6,5 +6,7 @@ apps:
     # The binding components are resolved with a relative path
     # so we have to run from the local dir and not the app dir
     appDirPath: .
+    appProtocol: http
+    appPort: 8000
     command: ["poetry", "-C", "./summarizer", "run", "summarizer"]
     config: dapr-config
