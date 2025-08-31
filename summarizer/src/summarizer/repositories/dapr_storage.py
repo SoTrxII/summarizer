@@ -19,7 +19,9 @@ class BaseDaprRepository:
                 result = client.invoke_binding(
                     self.binding_name,
                     "get",
-                    binding_metadata={"fileName": path}
+                    # Note: Unfortunately, Dapr binding are not totally unified yet
+                    # So, some bindings will take "filename", others "key"
+                    binding_metadata={"fileName": path, "key": path}
                 )
                 return result.data if result.data else None
         except Exception:
@@ -32,7 +34,9 @@ class BaseDaprRepository:
                 self.binding_name,
                 "create",
                 data=data,
-                binding_metadata={"fileName": path}
+                # Note: Unfortunately, Dapr binding are not totally unified yet
+                # So, some bindings will take "filename", others "key"
+                binding_metadata={"fileName": path, "key": path}
             )
 
     async def get_json(self, path: str) -> Optional[dict]:
