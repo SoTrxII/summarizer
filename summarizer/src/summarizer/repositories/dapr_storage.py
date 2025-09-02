@@ -1,4 +1,6 @@
 import json
+import logging
+from base64 import b64decode
 from typing import Any, Optional
 
 from dapr.clients import DaprClient
@@ -24,7 +26,9 @@ class BaseDaprRepository:
                     binding_metadata={"fileName": path, "key": path}
                 )
                 return result.data if result.data else None
-        except Exception:
+        except Exception as e:
+            logging.error(
+                f"Error getting data from Dapr binding '{self.binding_name}' with path '{path}': {e}")
             return None
 
     async def save(self, path: str, data: bytes) -> None:
@@ -75,11 +79,43 @@ class DaprAudioRepository(BaseDaprRepository, AudioRepository):
     def __init__(self, binding_name: str = "audio-store"):
         super().__init__(binding_name)
 
+    async def get(self, path: str) -> Optional[bytes]:
+        data = await super().get(path)
+        if not data:
+            return None
+
+        # Audio files are binary, they may be b64 encoded
+        return self._maybe_base64_decode(data)
+
     async def get_json(self, path: str) -> Optional[dict]:
         raise NotImplementedError("Audio files are binary, not JSON")
 
     async def save_json(self, path: str, data: Any) -> None:
         raise NotImplementedError("Audio files are binary, not JSON")
+
+    def _maybe_base64_decode(self, data: bytes) -> bytes:
+        """Detect if data is Base64-encoded and decode if so."""
+        if not data:
+            return data
+
+        try:
+            # Base64 data is always ASCII
+            text = data.decode("ascii")
+        except UnicodeDecodeError:
+            # Not even ASCII → must be raw binary
+            return data
+
+        # Length must be multiple of 4 for valid base64
+        if len(text) % 4 != 0:
+            return data
+
+        try:
+            return b64decode(text, validate=True)
+            # Re-encode to check if it's really base64
+            # if base64.b64encode(decoded).decode("ascii") == text:
+            #     return decoded
+        except ValueError:
+            return data
 
 
 class DaprSummaryRepository(BaseDaprRepository, SummaryRepository):
