@@ -47,9 +47,9 @@ RUN apt-get update && \
 
 
 COPY poetry.lock pyproject.toml ./
-# Install dependencies without the root package first
+# Install dependencies without the root package first, including test dependencies for development/testing
 # https://github.com/m-bain/whisperX/issues/1038
-RUN poetry install --no-root && pip install ctranslate2==4.6.0
+RUN poetry install --no-root --with dev && pip install ctranslate2==4.6.0
 
 # Copy source code
 COPY src/ src/
