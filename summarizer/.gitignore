@@ -213,3 +213,6 @@ tests/logs
 **/data/past_campaigns/*
 **/data/past_campaigns_bak/*
 **/data/past_campaigns_audios
+
+# DeepEval
+.deepeval/

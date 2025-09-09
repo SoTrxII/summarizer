@@ -22,8 +22,6 @@ dependencies = [
     "opentelemetry-sdk (>=1.36.0,<2.0.0)",
     "opentelemetry-exporter-otlp-proto-grpc (>=1.36.0,<2.0.0)",
     "opentelemetry-instrumentation-logging (>=0.36b0,<1.0.0)",
-    "pytest (>=8.4.1,<9.0.0)",
-    "pytest-asyncio (>=1.1.0,<2.0.0)",
     "dependency-injector (>=4.48.1,<5.0.0)",
     "openai (>=1.101.0,<2.0.0)",
     "pycountry (>=24.6.1,<25.0.0)",
@@ -40,8 +38,10 @@ summarizer = "summarizer.main:cli_main"
 [tool.poetry]
 packages = [{include = "summarizer", from = "src"}]
 
-
 [tool.poetry.group.dev.dependencies]
+pytest = ">=8.4.1,<9.0.0"
+pytest-asyncio = ">=1.1.0,<2.0.0"
+deepeval = "^3.4.8"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
