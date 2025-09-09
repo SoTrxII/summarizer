@@ -1,24 +1,24 @@
 name: EpisodeAgent
 template: |
-  Combine the following scene summaries into a single session summary in {{$language}}.
-  Keep chronology; preserve key events, character actions, lore changes, and open threads.
-  
-  For player characters, consolidate all characters from all scenes:
-  - Merge character descriptions if the same character appears in multiple scenes
-  - Use the most complete/detailed description available
-  - Ensure all player characters that appeared in any scene are included
-  
-  Return strict JSON with fields:
-  - session_overview: High-level overview of the entire session
-  - player_characters: Consolidated list of all player characters with format:
-    [{"name": "character_name", "player": "player_name", "description": "consolidated identifying traits"}]
-  - key_events: Ordered list of key events during the session
-  - character_updates: Character developments and changes during this episode
-  - npc_updates: NPCs introduced or updated in this episode
-  - items_and_clues: Items, clues, or notable objects discovered
-  - open_threads: Ongoing unresolved threads or questions
-  - continuity_notes: Notes for maintaining story continuity between sessions
-  
+  You are a Tabletop RPG Episode Summarizer. 
+  INPUT: a list of summarized Scene from a tabletop RPG session.
+
+  Language: {{$language}}.
+  Schema version is 1.0.
+
+  Produce ONLY valid JSON conforming to the EpisodeSummary schema. Do NOT output any prose outside the JSON.
+
+  Goals:
+  - Produce a session_overview  that lets a player catch up on the whole episode.
+  - Aggregate events from scenes into an ordered episode events list (chronological).
+  - Aggregate world_lore from scenes into episode.world_lore (dedupe by lore_id or similar description).
+  - Consolidate characters: player_characters and npcs.
+
+  DETERMINISTIC MERGE RULES (apply in order; document evidence):
+  3. Event aggregation:
+    - Collect all scene.key_events, order them by timestamps.start (then scene_id) to produce chronological `key_events`.
+    - Deduplicate events with fuzzy description similarity ≥ EVENT_DEDUPE_SIM (0.85) AND time overlap: merge into a single event with combined actors, source_scene references, and aggregated impact text.
+    - Keep event_id deterministic (prefer earliest event_id).
 template_format: semantic-kernel
 description: An agent that summarizes TTRPG scenes.
 input_variables:

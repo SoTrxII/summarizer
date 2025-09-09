@@ -8,7 +8,7 @@ from semantic_kernel.agents import ChatHistoryAgentThread
 
 from summarizer.models.scene import Scene
 
-from .models import CampaignSummary, EpisodeSummary, SceneSummary, SummaryArguments
+from .models import EpisodeSummary, SceneSummary, SummaryArguments
 from .utils.yaml import load_agent
 
 
@@ -36,8 +36,9 @@ class Summarizer:
             f"PREVIOUS SCENE SUMMARY: {previous_summary or 'NO PREVIOUS SUMMARY'}"
         )
 
-        res = await agent.get_response(f"SCENE TO SUMMARIZE\n:{scene}", thread=thread)
         try:
+            res = await agent.get_response(f"SCENE TO SUMMARIZE\n:{scene}", thread=thread)
+
             return SceneSummary.model_validate_json(res.message.content)
         except Exception as e:
             logging.error(
@@ -63,7 +64,7 @@ class Summarizer:
         res = await agent.get_response(f"SCENES TO SUMMARIZE\n:{dumps([s.model_dump() for s in scenes_summaries])}", thread=thread)
         return EpisodeSummary.model_validate_json(res.message.content)
 
-    async def campaign(self, episodes_summaries: List[EpisodeSummary], previous_summary: CampaignSummary | None = None) -> CampaignSummary:
+    async def campaign(self, episodes_summaries: List[EpisodeSummary], previous_summary: str | None = None) -> str:
         """
         Summarize a campaign. A campaign is a series of episodes with a common theme.
         :param episodes_summaries: The summaries of the episodes in the campaign.
@@ -71,12 +72,7 @@ class Summarizer:
         :return: The summary of the campaign.
         """
         prompt_path = Path(__file__).parent / "agents" / "campaign.yaml"
-        agent = load_agent(
-            prompt_path,
-            self.kernel,
-            CampaignSummary,
-            self.args
-        )
+        agent = load_agent(prompt_path, self.kernel, args=self.args)
 
         thread = ChatHistoryAgentThread()
         thread._chat_history.add_user_message(
@@ -86,4 +82,4 @@ class Summarizer:
         episodes_data = [episode.model_dump()
                          for episode in episodes_summaries]
         res = await agent.get_response(f"EPISODES TO SUMMARIZE\n:{dumps(episodes_data)}", thread=thread)
-        return CampaignSummary.model_validate_json(res.message.content)
+        return res.message.content

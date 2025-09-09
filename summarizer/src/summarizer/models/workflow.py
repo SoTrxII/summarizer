@@ -3,6 +3,8 @@ Models for workflow inputs and outputs.
 """
 from typing import List, TypedDict
 
+from summarizer.models.scene import Scene
+
 
 class WorkflowInput(TypedDict):
     """Base input parameters for workflows."""
@@ -13,6 +15,13 @@ class WorkflowInput(TypedDict):
 class AudioWorkflowInput(WorkflowInput):
     """Input parameters for the audio-to-summary workflow."""
     audio_file_path: str
+
+
+class SummarizeScenesActivityInput(WorkflowInput):
+    """Input for the summarize episode activity."""
+    # Note : This can't be properly typed as scenes summaries are pydantic objets
+    # and these aren't serializable
+    scenes: List[Scene]
 
 
 class SummarizeEpisodeActivityInput(WorkflowInput):

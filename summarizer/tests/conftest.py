@@ -8,6 +8,7 @@ import pytest_asyncio
 import torch
 from _pytest.fixtures import FixtureRequest
 from dapr.ext.workflow import DaprWorkflowClient
+from deepeval.models import AzureOpenAIModel
 from dotenv import load_dotenv
 from opentelemetry._logs import set_logger_provider
 from opentelemetry.instrumentation.logging import LoggingInstrumentor
@@ -184,6 +185,22 @@ async def azure_transcribe() -> AzureOpenAITranscriber:
     deployment_name = os.environ["AZURE_AUDIO_DEPLOYMENT_NAME"]
     key = connection.credentials.api_key  # type: ignore
     return AzureOpenAITranscriber(connection.target, key, deployment_name)
+
+
+@pytest_asyncio.fixture(scope="session")
+async def deepeval_model(azure_text_to_text_provider: AzureChatCompletion) -> AzureOpenAIModel:
+    """
+    Return the model used for deepeval tests
+    For this, we're going to use the model deployed on Azure, it will probably be the smartest one
+    """
+    return AzureOpenAIModel(
+        model_name=os.environ["AZURE_CHAT_DEPLOYMENT_NAME"],
+        deployment_name=os.environ["AZURE_CHAT_DEPLOYMENT_NAME"],
+        azure_openai_api_key=azure_text_to_text_provider.client.api_key,
+        openai_api_version="2025-01-01-preview",
+        azure_endpoint=f"https://{azure_text_to_text_provider.client.base_url.host}",
+        temperature=0
+    )
 
 
 @pytest.fixture
