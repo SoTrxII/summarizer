@@ -56,6 +56,13 @@ class SummaryRepository(StorageRepository):
     async def save_scenes(self, campaign_id: int, episode_id: int, scenes: list) -> None:
         await self.save_json(self._episode_path(campaign_id, episode_id, "scenes.json"), scenes)
 
+    # Scene summaries
+    async def get_scene_summaries(self, campaign_id: int, episode_id: int) -> Optional[dict]:
+        return await self.get_json(self._episode_path(campaign_id, episode_id, "scenes_summaries.json"))
+
+    async def save_scene_summaries(self, campaign_id: int, episode_id: int, summaries: list) -> None:
+        await self.save_json(self._episode_path(campaign_id, episode_id, "scenes_summaries.json"), summaries)
+
     # Episode summaries
     async def get_episode_summary(self, campaign_id: int, episode_id: int) -> Optional[dict]:
         return await self.get_json(self._episode_path(campaign_id, episode_id, "episode.json"))
@@ -67,5 +74,5 @@ class SummaryRepository(StorageRepository):
     async def get_campaign_summary(self, campaign_id: int) -> Optional[dict]:
         return await self.get_json(self._campaign_path(campaign_id, "campaign.json"))
 
-    async def save_campaign_summary(self, campaign_id: int, summary: dict) -> None:
+    async def save_campaign_summary(self, campaign_id: int, summary: str) -> None:
         await self.save_json(self._campaign_path(campaign_id, "campaign.json"), summary)

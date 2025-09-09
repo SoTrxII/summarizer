@@ -36,12 +36,11 @@ class LightRAG:
         responses: List[InsertResponse] = []
 
         for i, scene_summary in enumerate(scene_summaries):
-            text_content = self._format_scene_summary_text(
-                campaign_id, episode_id, i, scene_summary
-            )
+            text_parts = self._build_tags(campaign_id, episode_id, i)
+            text_parts.append(scene_summary.to_text())
 
             res = await self._insert_document(LrInsertRequest(
-                text=text_content,
+                text="\n".join(text_parts),
                 file_source=f"campaign_{campaign_id}_episode_{episode_id}_scene_{i + 1}"
             ))
 
@@ -68,74 +67,6 @@ class LightRAG:
         if scene_index is not None:
             tags.append(f"[Scene: {scene_index + 1}]")
         return tags
-
-    def _format_scene_summary_text(
-        self,
-        campaign_id: int,
-        episode_id: int,
-        scene_index: int,
-        scene_summary: SceneSummary
-    ) -> str:
-        """
-        Format a scene summary into a structured text document for LightRAG.
-
-        Args:
-            campaign_id: The campaign identifier
-            episode_id: The episode identifier
-            scene_index: The scene index within the episode
-            scene_summary: The scene summary to format
-
-        Returns:
-            Formatted text document
-        """
-        # Header: structured, machine-parsable
-        text_parts = self._build_tags(campaign_id, episode_id, scene_index)
-        text_parts.append(
-            f"[Timestamp: {scene_summary.timestamps.start:.1f}s - {scene_summary.timestamps.end:.1f}s]")
-
-        # GM content
-        text_parts.append("GM Content:")
-        text_parts.append(scene_summary.gm_content)
-        text_parts.append("")
-
-        # Player actions
-        if scene_summary.player_actions:
-            text_parts.append("Player Actions:")
-            for action in scene_summary.player_actions:
-                mode_text = f" ({action.mode})" if action.mode != "in_character" else ""
-                text_parts.append(
-                    f"- {action.speaker}{mode_text}: {action.content}")
-            text_parts.append("")
-
-        # Items and clues
-        if scene_summary.items_and_clues:
-            text_parts.append("Items and Clues:")
-            for item in scene_summary.items_and_clues:
-                item_text = f"- {item.name}"
-                if item.description:
-                    item_text += f": {item.description}"
-                if item.significance:
-                    item_text += f" (Significance: {item.significance})"
-                text_parts.append(item_text)
-            text_parts.append("")
-
-        # Open threads
-        if scene_summary.open_threads:
-            text_parts.append("Open Threads:")
-            for thread in scene_summary.open_threads:
-                thread_text = f"- {thread.description}"
-                if thread.priority:
-                    thread_text += f" (Priority: {thread.priority})"
-                if thread.related_characters:
-                    thread_text += f" [Characters: {', '.join(thread.related_characters)}]"
-                text_parts.append(thread_text)
-            text_parts.append("")
-
-        # Footer: optional redundant machine-readable tags for parsing
-        text_parts.append(
-            f"__CAMPAIGN__{campaign_id}__EPISODE__{episode_id}__SCENE__{scene_index + 1}__")
-
-        return "\n".join(text_parts)
 
     async def _query_lightrag(
         self,

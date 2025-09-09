@@ -18,12 +18,12 @@ from summarizer.models.workflow import (
     AudioWorkflowInput,
     SummarizeCampaignActivityInput,
     SummarizeEpisodeActivityInput,
+    SummarizeScenesActivityInput,
     WorkflowInput,
 )
 from summarizer.repositories.storage import AudioRepository, SummaryRepository
 from summarizer.services.knowledge_graph import KnowledgeGraph
 from summarizer.services.speech_to_text import SpeechToText
-from summarizer.services.summaries.models.campaign_summary import CampaignSummary
 from summarizer.services.summaries.models.episode_summary import EpisodeSummary
 from summarizer.services.summaries.models.scene_summary import SceneSummary
 from summarizer.services.summaries.summarizer import Summarizer
@@ -118,18 +118,21 @@ def split_into_scenes(
 @span
 def summarize_scenes(
     _: WorkflowActivityContext,
-    scenes: List[Scene],
+    input: SummarizeScenesActivityInput,
     summarizer: Summarizer = Provide[Container.summarizer],
+    summary_repo: SummaryRepository = Provide[Container.summary_repository]
 ) -> List[dict]:
     logging.info("Summarizing scenes...")
 
     async def run():
         previous_summary = None
         summaries = []
-        for scene in scenes:
+        for scene in input["scenes"]:
             current = await summarizer.scene(scene, previous_summary=previous_summary)
             summaries.append(current.model_dump())
             previous_summary = current
+
+        await summary_repo.save_scene_summaries(input["campaign_id"],  input["episode_id"], summaries)
         return summaries
     return asyncio.run(run())
 
@@ -220,7 +223,7 @@ def summarize_campaign(
     campaign_input: SummarizeCampaignActivityInput,
     summarizer: Summarizer = Provide[Container.summarizer],
     summary_repo: SummaryRepository = Provide[Container.summary_repository]
-) -> dict:
+) -> str:
     logging.info("Summarizing campaign...")
 
     episode = campaign_input["episode_summary"]
@@ -241,9 +244,7 @@ def summarize_campaign(
 
         # Get previous campaign summary
         previous_campaign_summary = None
-        campaign_data = await summary_repo.get_campaign_summary(campaign_id)
-        if campaign_data:
-            previous_campaign_summary = CampaignSummary(**campaign_data)
+        campaign_summary = await summary_repo.get_campaign_summary(campaign_id)
 
         # Generate campaign summary
         campaign_summary = await summarizer.campaign(episodes, previous_campaign_summary)
@@ -251,10 +252,10 @@ def summarize_campaign(
         # Save campaign summary
         await summary_repo.save_campaign_summary(
             campaign_id,
-            campaign_summary.model_dump()
+            campaign_summary
         )
 
-        return campaign_summary.model_dump()
+        return campaign_summary
     return asyncio.run(run())
 
 
@@ -281,7 +282,14 @@ def audio_to_summary(ctx: DaprWorkflowContext, input: AudioWorkflowInput):
 
             # Step 3: Summarize scenes
             logging.info("📝 Step 3: Starting scene summarization...")
-            scenes_summaries = yield ctx.call_activity(summarize_scenes, input=scenes)
+            scenes_summaries = yield ctx.call_activity(
+                summarize_scenes,
+                input={
+                    "scenes": scenes,
+                    "campaign_id": input["campaign_id"],
+                    "episode_id": input["episode_id"]
+                }
+            )
             logging.info(
                 f"✅ Step 3 Complete. Generated {len(scenes_summaries)} scene summaries")
 
@@ -339,7 +347,14 @@ def transcript_to_summary(ctx: DaprWorkflowContext, input: WorkflowInput):
 
             # Step 2: Summarize scenes
             logging.info("📝 Step 2: Starting scene summarization...")
-            scenes_summaries = yield ctx.call_activity(summarize_scenes, input=scenes)
+            scenes_summaries = yield ctx.call_activity(
+                summarize_scenes,
+                input={
+                    "scenes": scenes,
+                    "campaign_id": input["campaign_id"],
+                    "episode_id": input["episode_id"]
+                }
+            )
             logging.info(
                 f"✅ Step 2 Complete. Generated {len(scenes_summaries)} scene summaries")
 
