@@ -1,0 +1,662 @@
+[
+    {
+        "start": 30.0,
+        "end": 157.821,
+        "speaker": "SPEAKER_02",
+        "text": "Messieurs, ce soir, vous incarnez des aventuriers, quatre aventuriers qui se connaissent depuisd\u00e9j\u00e0 quelques ann\u00e9es.Vous \u00eates originaire de diff\u00e9rents horizons et vous vous retrouvez ce soir dans la for\u00eatd'\u00e9meraude au chevet, si je peux appeler \u00e7a un chevet, d'une jeune femme que vousavez recueillie dans la for\u00eat.Cette jeune femme bless\u00e9e, malade, bless\u00e9e par quoi vous n'avez pas tout \u00e0 fait identifi\u00e9\u00e7a.C'est exactement Th\u00e9o, le paladin, qui l'a retrouv\u00e9e au plein milieu de la for\u00eat,errante, fi\u00e9vreuse.Tu l'as ramen\u00e9e au campement alors que tu venais le dresser, toi Gronlech, et toi pendantce temps-l\u00e0, Sheen, tu veillais autour avec ton arc.Pendant que toi, Bob, tu mettais le feu au milieu de campement.Je ne parle pas des draps, je parle d'un petit feu pour r\u00e9chauffer les gens.Le feu de camp.J'allumais le feu de camp.Je ne parle pas de la com\u00e8te pour d\u00e9truire l'univers.Pendant que tu t'occupais du feu de camp, qu'est-ce qui se passe ?Th\u00e9o est revenuavec sous le bras une jeune femme qui est fi\u00e9vreuse, qui a du mal \u00e0 parler et quiressemble \u00e0 \u00e7a.Cette jeune femme semble d\u00e9lir\u00e9e.Vous l'avez allong\u00e9e \u00e0 c\u00f4t\u00e9 du campement, vous avez commenc\u00e9 \u00e0 la soigner.Toi-m\u00eame, Th\u00e9o, tu as utilis\u00e9 tes pouvoirs de paladin pour essayer d'identifier cequ'elle avait.Visiblement, ton pouvoir de paladin de soin semblait ne pas agir comme si le mal \u00e9taitplus profond encore qu'une simple blessure de mortelle.Maintenant, vous allez tour \u00e0 tour me dire ce que vous faites autour du campement alorsque toi, Th\u00e9o, tu es \u00e0 genoux \u00e0 c\u00f4t\u00e9 de cette jeune femme que tu veilles depuis d\u00e9j\u00e0une heure.Vous allez me dire ce que vous faites.Donc, toi, Th\u00e9o, d\u00e9j\u00e0, qu'est-ce que tu fais ?"
+    },
+    {
+        "start": 158.8,
+        "end": 159.821,
+        "speaker": "SPEAKER_02",
+        "text": "Bon, qui prend le cul ?"
+    },
+    {
+        "start": 159.8,
+        "end": 172.42,
+        "speaker": "SPEAKER_01",
+        "text": "Je voudrais bien, mais je suis trop gros, \u00e7a ne rentrera jamais.Du coup, par contre, j'ai plusieurs questions de mon c\u00f4t\u00e9, mais je t'en prie, vas-y, fais-t'en,"
+    },
+    {
+        "start": 172.4,
+        "end": 181.34,
+        "speaker": "SPEAKER_03",
+        "text": "toi.Ok, je viens de ramener cette jeune femme, visiblement, avec mes pouvoirs de paladin,ma blague a bien march\u00e9 sur la voix, je trouve."
+    },
+    {
+        "start": 181.32,
+        "end": 184.3,
+        "speaker": "SPEAKER_02",
+        "text": "Elle est compl\u00e8tement d\u00e9stabilis\u00e9e, je t'\u00e9missionne."
+    },
+    {
+        "start": 185.28,
+        "end": 206.06,
+        "speaker": "SPEAKER_03",
+        "text": "Visiblement, mes pouvoirs de paladin, qui sont pourtant au-del\u00e0 de vos comp\u00e9tences,ne marchent pas.Donc, je me demande, peut-\u00eatre qu'elle aurait besoin de repos, mais je ne suis pas assezcomp\u00e9tent sur ce mal qui ronge cette jeune femme.Peut-\u00eatre que Bob, toi, tu pourrais regarder ?"
+    },
+    {
+        "start": 206.04,
+        "end": 256.501,
+        "speaker": "SPEAKER_01",
+        "text": "Alors, juste une petite interruption, pour le coup, je reconnais que tes pouvoirs de paladinsont impressionnants pour soigner les blessures, mais en cas de maladie ou m\u00eame d'infectionou m\u00eame de curse, mal\u00e9diction, l\u00e0, \u00e7a devient plus tendu, donc oui, l\u00e0, \u00e7a r\u00e9servaitmon niveau d'expertise.C'\u00e9tait juste pour me la p\u00e9ter.Tu fais bien, tu fais bien, mais je te ram\u00e8ne.Je t'accroche et je vous...Tu fais bien aussi.Voil\u00e0, c'est \u00e7a.Et du coup, par contre, je propose qu'on fasse un rapide tour de table.S'il te pla\u00eet, Shin\u00e9, Grun, est-ce que vous pouvez fouiller ses affaires ou son matos,ses poches, son sac, tout \u00e7a, pour essayer de d\u00e9terminer d'o\u00f9 elle vient, qui elleest, pourquoi est-ce qu'elle avait sur elle, tandis que moi, je vais essayer de regarderson corps pour savoir si elle est bless\u00e9e quelque part, par quoi, comment, et voir,essayer d'identifier d\u00e9j\u00e0 quelle race elle est, bref, d'avoir le maximum d'infos surelle, parce que t'es bien pour soigner les plaies ouvertes, mais pour dire d'o\u00f9 vientqui alors que c'est..."
+    },
+    {
+        "start": 256.48,
+        "end": 262.34,
+        "speaker": "SPEAKER_04",
+        "text": "Dis-donc, c'est quoi ces ordres-l\u00e0 ?Vous allez la fouiller, vous les laquer, l\u00e0, etmoi, pour l'instant, je m'occupe de son corps."
+    },
+    {
+        "start": 262.32,
+        "end": 275.79998779296875,
+        "speaker": "SPEAKER_01",
+        "text": "C'est pas une question de laquer ou quoi que \u00e7a, c'est une question de comp\u00e9tence.Vous \u00eates beaucoup plus dou\u00e9s pour fouiller les choses, retrouver les faux coins ou lesinformations importantes.Elle ne peut rien vous cacher.Alors que moi, elle ne peut pas nous cacher d'informations, et c'est \u00e7a qu'on essaied'obtenir.Alors, j'ai saisi ce que tu voulais faire, Bob, tr\u00e8s bien."
+    },
+    {
+        "start": 275.8,
+        "end": 278.821,
+        "speaker": "SPEAKER_03",
+        "text": "Shin\u00e9grenux, vous allez fouiller, moi, je vais vous surveiller aussi.Oui, non, mais attends."
+    },
+    {
+        "start": 278.8,
+        "end": 295.06,
+        "speaker": "SPEAKER_01",
+        "text": "Oui, non, mais...En tout bien, tout autre.C'est l'esprit d'accord.Vous voudrez que la confiance r\u00e9side.Par contre, j'ai une faveur \u00e0 demander \u00e0 Th\u00e9o, est-ce que tu veux bien prendre unetorche et inspecter les alentours, parce que peut-\u00eatre que ce qu'il a mis dans cet \u00e9tatr\u00f4de encore dans la dente.C'est pas que \u00e7a me fait chier, mais j'aimerais \u00e9viter de me prendre un machin dans le cul."
+    },
+    {
+        "start": 295.04,
+        "end": 319.06,
+        "speaker": "SPEAKER_02",
+        "text": "Deux secondes.Deux secondes.Je fais un tour de table pour l'instant.Donc, Th\u00e9o, tu as dit ce que tu faisais.Bob, tu as dit ce que tu faisais aussi.Donc, tu sugg\u00e9rais quelques instructions \u00e0 Shinda et \u00e0 Colette.C'est mes potes !C'est juste, c'est la chose la plus logique \u00e0 faire.Evidemment, je ne juge pas.Je veux juste un peu foutre la merde, mais je ne juge pas.Et donc, qu'est-ce que tu voulais faire ?"
+    },
+    {
+        "start": 319.04,
+        "end": 325.06,
+        "speaker": "SPEAKER_04",
+        "text": "Moi aussi, je voulais faire chier le monde parce que ce que j'allais faire, quoi qu'ilen soit, j'allais la d\u00e9trousser, la fouiller."
+    },
+    {
+        "start": 325.04,
+        "end": 331.061,
+        "speaker": "SPEAKER_00",
+        "text": "En plus, il demande \u00e0 Th\u00e9o d'aller v\u00e9rifier les environs, donc il ne pourra pas nous surveiller.C'est parfait."
+    },
+    {
+        "start": 331.04,
+        "end": 341.06,
+        "speaker": "SPEAKER_03",
+        "text": "Oui, oui, oui.Si je vais fouiller, tu as int\u00e9r\u00eat \u00e0 les surveiller parce que si je m'aper\u00e7ois qu'ily en a un qui a vol\u00e9, je jure que je lui coupe la main.D'accord.C'est comme \u00e7a.Moi, d'avoir fouill\u00e9, c'est..."
+    },
+    {
+        "start": 341.04,
+        "end": 348.06,
+        "speaker": "SPEAKER_02",
+        "text": "Pour les voleurs, on leur coupe la main.Tr\u00e8s bien.Donc, d'abord, Shinda, qu'est-ce que tu fais ?"
+    },
+    {
+        "start": 348.04,
+        "end": 363.06,
+        "speaker": "SPEAKER_04",
+        "text": "Je vais commencer \u00e0 fouiller d\u00e9licatement dans les poches pour essayer de retrouverdes papiers, enfin des \u00e9l\u00e9ments qui pourraient nous mettre sur la piste, enfin sur une identit\u00e9ou quelque chose comme \u00e7a.Mais sans d\u00e9rober, hein.Juste un...Oui, voil\u00e0, sur les affaires."
+    },
+    {
+        "start": 363.04,
+        "end": 369.061,
+        "speaker": "SPEAKER_01",
+        "text": "Au-dessus des affaires, je vais fouiller son sac.L\u00e0, tu les marches dessus.Tu les marches dessus.Je ne suis pas dou\u00e9.D\u00e9sol\u00e9."
+    },
+    {
+        "start": 369.04,
+        "end": 388.061,
+        "speaker": "SPEAKER_04",
+        "text": "Pose ton art.Pose ton art.Non, voil\u00e0.Excusez-moi.Voil\u00e0, pardon.Voil\u00e0.Donc, je vais fouiller sur tout.Je vais voir si je peux...Comment identifier une certaine...Comment ?Fa\u00e7on de...Comment ?Une origine des armes, en fait, si c'est plut\u00f4t humain ou si c'est rapport \u00e0 une raceou quoi, parce que...Tr\u00e8s bien, Shinda.Maintenant, \u00e0 toi, Grunlek."
+    },
+    {
+        "start": 388.04,
+        "end": 389.061,
+        "speaker": "SPEAKER_02",
+        "text": "Que fais-tu ?"
+    },
+    {
+        "start": 389.04,
+        "end": 400.06,
+        "speaker": "SPEAKER_00",
+        "text": "Alors, avant d'aider Shinde, je vais quand m\u00eame voir si je ne peux pas lui pr\u00e9parerpeut-\u00eatre une petite tisane, quelque chose, des herbes pour un peu adoucir ses maux.Je dois bien voir \u00e7a qui tra\u00eene quelque part dans mon..."
+    },
+    {
+        "start": 400.04,
+        "end": 429.06,
+        "speaker": "SPEAKER_02",
+        "text": "Alors, oui, mais tu sais, vous avez beaucoup voyag\u00e9 et puis vous avez fait peu de halteces derniers jours.Tout ce qui est nourriture, tout ce qui est r\u00e9serve, c'est vraiment appauvri.Il te reste \u00e9ventuellement quelques feuilles de tisane.Il te reste quelques \u00e9pices.La viande s\u00e9ch\u00e9e est tr\u00e8s rarifi\u00e9e.Tr\u00e8s rarifi\u00e9e.Maintenant, dans tes r\u00e9serves, dans tes stocks, vous avez quasiment plus rien pour fairedu voyage.Donc, c'est peut-\u00eatre probablement vos derni\u00e8res tisanes que tu pr\u00e9pares."
+    },
+    {
+        "start": 429.04,
+        "end": 430.061,
+        "speaker": "SPEAKER_03",
+        "text": "Je vais..."
+    },
+    {
+        "start": 430.04,
+        "end": 431.061,
+        "speaker": "SPEAKER_00",
+        "text": "Je pr\u00e9pare une tisane quand m\u00eame."
+    },
+    {
+        "start": 431.04,
+        "end": 435.0400085449219,
+        "speaker": "SPEAKER_03",
+        "text": "Je vais aller faire un tour \u00e0 c\u00f4t\u00e9.Tu peux venir avec moi.Tu retrouveras peut-\u00eatre des herbes dont tu as besoin."
+    },
+    {
+        "start": 435.04,
+        "end": 439.06,
+        "speaker": "SPEAKER_00",
+        "text": "Dans un premier temps, je pr\u00e9pare la tisane et apr\u00e8s, je peux te rejoindre si tu veux."
+    },
+    {
+        "start": 439.04,
+        "end": 441.06,
+        "speaker": "SPEAKER_04",
+        "text": "Est-ce qu'elle est consciente ou... ?"
+    },
+    {
+        "start": 441.04,
+        "end": 448.061,
+        "speaker": "SPEAKER_02",
+        "text": "Non, elle est dans les vapes.Elle d\u00e9lire un peu.Elle a du mal \u00e0 articuler.Elle s'exprime pas bien.Elle balbutie."
+    },
+    {
+        "start": 448.04,
+        "end": 453.061,
+        "speaker": "SPEAKER_01",
+        "text": "Voil\u00e0, exactement.Non, non, mais elle est en pleine fi\u00e8vre de grippe.L\u00e0, tu peux rien faire.Elle est dans le stun.D'accord."
+    },
+    {
+        "start": 453.04,
+        "end": 456.0400085449219,
+        "speaker": "SPEAKER_04",
+        "text": "Sinon, j'aurais \u00e9t\u00e9 poli.J'aurais demand\u00e9.Est-ce que je peux fouiller dans vos affaires et tout \u00e7a ?"
+    },
+    {
+        "start": 456.04,
+        "end": 457.061,
+        "speaker": "SPEAKER_01",
+        "text": "Non, mais laisse tomber."
+    },
+    {
+        "start": 457.04,
+        "end": 478.06,
+        "speaker": "SPEAKER_02",
+        "text": "Elle est dans l'\u00e9tat o\u00f9 elle est.Juste pour rebondir sur ce que tu as dit, Th\u00e9o.Tu as propos\u00e9 \u00e0 Grand Lake de venir voir avec toi s'il pouvait r\u00e9cup\u00e9rer du mat\u00e9riel,de la mati\u00e8re premi\u00e8re pour la nourriture, des \u00e9pices ou des feuilles.Il est tr\u00e8s, tr\u00e8s bon cuisinier.Il saurait reconna\u00eetre l'\u00e9vidence.Mais ce n'est pas un herboriste."
+    },
+    {
+        "start": 478.04,
+        "end": 483.06,
+        "speaker": "SPEAKER_03",
+        "text": "Je viens de r\u00e9aliser.C'est plut\u00f4t \u00e0 Naruto que j'aurais d\u00fb demander \u00e7a."
+    },
+    {
+        "start": 484.04,
+        "end": 489.06,
+        "speaker": "SPEAKER_03",
+        "text": "\u00c0 Chine.Chine.S'il vous en prie."
+    },
+    {
+        "start": 491.04,
+        "end": 493.06,
+        "speaker": "SPEAKER_02",
+        "text": "Les soir\u00e9es de Chine sont toujours un succ\u00e8s, d'ailleurs."
+    },
+    {
+        "start": 495.04,
+        "end": 502.06,
+        "speaker": "SPEAKER_02",
+        "text": "Tr\u00e8s bien.Donc, Th\u00e9o, toi, tu d\u00e9places ton personnage.Je vais commencer par toi.Tu vas voir par o\u00f9."
+    },
+    {
+        "start": 502.04,
+        "end": 506.06,
+        "speaker": "SPEAKER_03",
+        "text": "Je vais monter vers le nord, mais d'abord, que la lumi\u00e8re soit."
+    },
+    {
+        "start": 506.04,
+        "end": 513.06,
+        "speaker": "SPEAKER_00",
+        "text": "Apr\u00e8s, on n'a peut-\u00eatre pas r\u00e9alis\u00e9, mais peut-\u00eatre que ce qu'il m'a demand\u00e9 de l'accompagner,c'est qu'il avait un peu peur et qu'il voulait du soutien.Non, moi, ce que j'allais lui proposer, c'est..."
+    },
+    {
+        "start": 513.04,
+        "end": 521.061,
+        "speaker": "SPEAKER_01",
+        "text": "Il veut t'emp\u00eacher de voler, surtout.Ce que j'allais surtout te proposer, c'est d'\u00e9viter de claquer de la magie.C'\u00e9tait d'\u00e9viter de claquer de la magie pour \u00e7a et juste prendre une torche.Bon."
+    },
+    {
+        "start": 521.04,
+        "end": 524.061,
+        "speaker": "SPEAKER_03",
+        "text": "Mais ce n'est pas...Il brille tout le temps."
+    },
+    {
+        "start": 524.04,
+        "end": 525.061,
+        "speaker": "SPEAKER_01",
+        "text": "C'est une luciole."
+    },
+    {
+        "start": 525.04,
+        "end": 536.06,
+        "speaker": "SPEAKER_03",
+        "text": "C'est ma foi qui alimente.Est-ce qu'il y a un portrait gigantesque dans l'herbe, l\u00e0 ?O\u00f9 est-ce que je peux bouger \u00e7a ?Oh, mon Dieu !Quelle est cette photo g\u00e9ante ?"
+    },
+    {
+        "start": 538.04,
+        "end": 543.061,
+        "speaker": "SPEAKER_01",
+        "text": "C'est \u00e7a, c'est \u00e7a.C'est le boss de fin.Mais sinon, j'ai rien dit, alors.Objection rejet\u00e9e."
+    },
+    {
+        "start": 545.04,
+        "end": 553.06,
+        "speaker": "SPEAKER_01",
+        "text": "Je vais partir...Le portrait de l'herbe dispara\u00eet myst\u00e9rieusement.Essaye de voir s'il y a des indices.Fais pas le con, t'\u00e9loigne pas trop, surtout."
+    },
+    {
+        "start": 553.04,
+        "end": 557.061,
+        "speaker": "SPEAKER_03",
+        "text": "Je vais aller pas loin.Je vais me balader vers l'enfant."
+    },
+    {
+        "start": 557.04,
+        "end": 559.06,
+        "speaker": "SPEAKER_02",
+        "text": "En allant par l\u00e0, tu vois la fl\u00e8che ?"
+    },
+    {
+        "start": 559.04,
+        "end": 560.061,
+        "speaker": "SPEAKER_03",
+        "text": "Voil\u00e0, je vais parler."
+    },
+    {
+        "start": 560.04,
+        "end": 568.061,
+        "speaker": "SPEAKER_02",
+        "text": "Tr\u00e8s bien, c'est parfait.Donc, en allant par l\u00e0, tu sais que tu la recueilles par ici.D'accord ?Ah, d'accord."
+    },
+    {
+        "start": 568.04,
+        "end": 571.061,
+        "speaker": "SPEAKER_03",
+        "text": "Je vais peut-\u00eatre aller de l'autre c\u00f4t\u00e9, alors.D'accord."
+    },
+    {
+        "start": 571.04,
+        "end": 575.06,
+        "speaker": "SPEAKER_04",
+        "text": "Et \u00e7a fait deux heures, c'est \u00e7a, qu'il l'a recueillie ?Je vais aller plut\u00f4t de ce c\u00f4t\u00e9."
+    },
+    {
+        "start": 575.04,
+        "end": 576.061,
+        "speaker": "SPEAKER_03",
+        "text": "Tr\u00e8s bien."
+    },
+    {
+        "start": 576.04,
+        "end": 578.06,
+        "speaker": "SPEAKER_04",
+        "text": "Je te laisse te d\u00e9placer."
+    },
+    {
+        "start": 578.04,
+        "end": 631.06,
+        "speaker": "SPEAKER_02",
+        "text": "Tu vas par l\u00e0-bas.Tu reconnais les empreintes de pas.Et \u00e0 peine plus loin, c'est par l\u00e0 o\u00f9 tu l'as r\u00e9cup\u00e9r\u00e9e.Tu reconnais les empreintes de ces pas, les empreintes erratiques.Et tu vois aussi qu'il y a des petits bouts de parchemin.Comme si elle avait fait tomber du mat\u00e9riel avant que tu l'as r\u00e9cup\u00e9r\u00e9e.Parce que ta premi\u00e8re pr\u00e9occupation quand tu l'as r\u00e9cup\u00e9r\u00e9e, c'\u00e9tait de venir \u00e0 son secours.Donc, ce n'est pas de d\u00e9trousser ses poches comme l'auraient fait d'autres personnes du groupe.Mais donc, tu l'as r\u00e9cup\u00e9r\u00e9e \u00e0 cet endroit-l\u00e0.Donc, tu trouves des parchemins.Et ces parchemins sont, tu vois, de prime abord.Donc, ils ne sont pas scell\u00e9s.Il y a des \u00e9critures dessus.Et tu reconnais des \u00e9critures peut-\u00eatre un peu \u00e9sot\u00e9riques.Donc, qui \u00e9chappent un peu \u00e0 ton langage, ton parler."
+    },
+    {
+        "start": 631.04,
+        "end": 635.06,
+        "speaker": "SPEAKER_03",
+        "text": "D'accord.Dans ce cas-l\u00e0, je vais ramener \u00e7a au camp."
+    },
+    {
+        "start": 635.04,
+        "end": 638.061,
+        "speaker": "SPEAKER_02",
+        "text": "Tr\u00e8s bien.Toi, donc Bob, dis-moi.Rappelle-moi ce que tu voulais faire."
+    },
+    {
+        "start": 638.04,
+        "end": 665.06,
+        "speaker": "SPEAKER_01",
+        "text": "Alors, je vais \u00e9changer ma place avec Grenegg si \u00e7a ne te d\u00e9range pas.Juste ne serait-ce que pour l'aspect de la chose.Voil\u00e0, exactement.Et j'avais l'intention de fouiller, elle par contre, le corps de la jeune fille.Non pas ses affaires.Mais litt\u00e9ralement, sans aucune piti\u00e9 pour sa dignit\u00e9 de femme.Je veux voir si elle a des blessures, des h\u00e9matomes, quelque chose, des \u00e9chymoses.Si son mal est d'ordre magique.S'il est d'ordre infectieux.Si elle s'est piqu\u00e9e sur quelque chose.Bref, inspection totale, absolue, int\u00e9grale."
+    },
+    {
+        "start": 665.04,
+        "end": 676.06,
+        "speaker": "SPEAKER_02",
+        "text": "Donc, elle est en effet fi\u00e9vreuse, cette jeune femme.Et ce qui se passe, c'est que tu commences \u00e0 d\u00e9nuder sa peau fragile.Sa peau de soie."
+    },
+    {
+        "start": 677.04,
+        "end": 685.128,
+        "speaker": "SPEAKER_02",
+        "text": "Toi-m\u00eame, tu es pris d'un...Comment dirais-je ?Tu vas quand m\u00eame la d\u00e9nuder.R\u00e9glons une question."
+    },
+    {
+        "start": 685.168,
+        "end": 712.06,
+        "speaker": "SPEAKER_01",
+        "text": "Je la vois directement.C'est un elfe ?Un gobelin ?Un jeune elfe.C'est un jeune elfe.Une ?Une jeune elfe.Oui, exactement.Pour v\u00e9rifier.C'est dur \u00e0 savoir du premier...C'\u00e9tait une question pi\u00e8ge, j'avais bien compris que tu me...C'est \u00e7a, c'est \u00e7a.Je ne dis pas que c'est mal.Est-ce que j'ai droit \u00e0 des points d'exp\u00e9rience ?Non, ce n'est pas \u00e7a.Bon, c'est une elfe.Elle le prendra mal, mais ce n'est pas grave.Elle n'est pas conscient\u00e9e.Si ses v\u00eatements sont indicatifs d'un lieu d'o\u00f9 elle pourrait venir,si elle a quelque chose..."
+    },
+    {
+        "start": 712.04,
+        "end": 733.061,
+        "speaker": "SPEAKER_02",
+        "text": "Tu vois que ce sont des v\u00eatements tr\u00e8s simples.Probablement que cette femme n'est pas tr\u00e8s pr\u00e9occup\u00e9e par les fastes des grandes villes.Contrairement \u00e0 toi, o\u00f9 quand tu marches, \u00e7a fait un peu...Je caricature un peu, mais \u00e7a fait un peu genre Mister T avec les brelois.J'entends, tu fais bien.Tu viens, tu es comme \u00e7a."
+    },
+    {
+        "start": 733.04,
+        "end": 738.06,
+        "speaker": "SPEAKER_01",
+        "text": "Une elfe de la for\u00eat, dans ce cas-l\u00e0.Je serais peut-\u00eatre trop loin d'assumer que c'est une druide, peut-\u00eatre."
+    },
+    {
+        "start": 738.04,
+        "end": 752.06,
+        "speaker": "SPEAKER_02",
+        "text": "Ah, tu te rapproches.Tu commences \u00e0 la d\u00e9nuder, donc tu vas me faire un test mental.Et si tu as une comp\u00e9tence contextuelle type observation, cela peut te servir."
+    },
+    {
+        "start": 752.04,
+        "end": 761.06,
+        "speaker": "SPEAKER_01",
+        "text": "A savoir que j'ai tous les PC et tout le truc pour enregistrer le setup.Je dis aux gens qui me regardent, coucou.Est-ce que quelqu'un peut me dire...Est-ce que quelqu'un m'affiche sous les yeux ?"
+    },
+    {
+        "start": 762.04,
+        "end": 768.06,
+        "speaker": "SPEAKER_02",
+        "text": "Il peut me dire si j'ai des comp\u00e9tences de quoi que ce soit.Au pire, on n'a qu'\u00e0 consid\u00e9rer que tu n'as aucune comp\u00e9tence."
+    },
+    {
+        "start": 769.04,
+        "end": 772.06,
+        "speaker": "SPEAKER_02",
+        "text": "Erudition et perception."
+    },
+    {
+        "start": 772.04,
+        "end": 778.06,
+        "speaker": "SPEAKER_01",
+        "text": "Ce sera 42.C'est d\u00e9j\u00e0 en dessous de mon niveau de volont\u00e9.Donc d\u00e9j\u00e0, il n'y a aucun souci."
+    },
+    {
+        "start": 778.04,
+        "end": 781.06,
+        "speaker": "SPEAKER_02",
+        "text": "C'est exactement \u00e7a, tu n'as pas \u00e0 t'inqui\u00e9ter."
+    },
+    {
+        "start": 781.04,
+        "end": 785.061,
+        "speaker": "SPEAKER_01",
+        "text": "En plus, c'est 42.Normalement, \u00e7a devrait \u00eatre un coup critique, quoi qu'il fasse.C'est vrai."
+    },
+    {
+        "start": 785.04,
+        "end": 813.06,
+        "speaker": "SPEAKER_02",
+        "text": "De toute fa\u00e7on, tu as r\u00e9ussi \u00e0 trouver la r\u00e9ponse \u00e0 la question sur l'univers et le reste.En effet, tu analyses sa peau de soi.Quelques fragrances te parviennent \u00e0 tes narines.Tu reconnais des fragrances naturelles.\u00c7a confirme que la mani\u00e8re dont elle prend soin de son corps,confirme que c'est une druide.C'est une jeune elfe de la for\u00eat."
+    },
+    {
+        "start": 813.04,
+        "end": 816.06,
+        "speaker": "SPEAKER_01",
+        "text": "OK les mecs, c'est une fermi\u00e8re et elle se sauce au patchouli."
+    },
+    {
+        "start": 819.04,
+        "end": 833.06,
+        "speaker": "SPEAKER_01",
+        "text": "Non, d\u00e9conne.Donc oui, c'est une druidesse de la for\u00eat.Excellent, tr\u00e8s bien.Dans ce cas, est-ce que c'est mal de ma part d'assumer que son mal est probablement magique ?Pour la bonne simple raison que si c'\u00e9tait une fi\u00e8vre naturelle,Th\u00e9o aurait pu la soigner ou au moins la faire baisser \u00e0 grands coups d'un coup des mains."
+    },
+    {
+        "start": 833.04,
+        "end": 841.06,
+        "speaker": "SPEAKER_02",
+        "text": "Tu as de tr\u00e8s fortes chances.Enfin, tu penses tr\u00e8s fortement.C'est quelque chose de magique qui l'arrange."
+    },
+    {
+        "start": 841.04,
+        "end": 843.06,
+        "speaker": "SPEAKER_01",
+        "text": "Le probl\u00e8me, c'est que je ne suis pas fort en magie druidique."
+    },
+    {
+        "start": 843.04,
+        "end": 854.06,
+        "speaker": "SPEAKER_02",
+        "text": "Tu penses m\u00eame que c'est peut-\u00eatre, en connaissant la classe des druides,tu penses m\u00eame que c'est un lien \u00e0 quelque chose.Peut-\u00eatre un lien \u00e0 la nature ou un lien \u00e0 des animaux."
+    },
+    {
+        "start": 854.04,
+        "end": 856.06,
+        "speaker": "SPEAKER_01",
+        "text": "Un lien \u00e0 la for\u00eat ou \u00e0 des animaux ?"
+    },
+    {
+        "start": 856.04,
+        "end": 861.06,
+        "speaker": "SPEAKER_02",
+        "text": "Je passe au personnage suivant.Toi, Naruto, qu'est-ce que tu fais ?"
+    },
+    {
+        "start": 861.04,
+        "end": 864.06,
+        "speaker": "SPEAKER_04",
+        "text": "Je lui balance un kunai dans l'\u0153il et je le transforme en rodin."
+    },
+    {
+        "start": 864.04,
+        "end": 868.06,
+        "speaker": "SPEAKER_02",
+        "text": "Eh bien, elle dispara\u00eet et une bouche appara\u00eet \u00e0 sa place."
+    },
+    {
+        "start": 868.04,
+        "end": 870.06,
+        "speaker": "SPEAKER_04",
+        "text": "Merde !"
+    },
+    {
+        "start": 871.04,
+        "end": 874.06,
+        "speaker": "SPEAKER_04",
+        "text": "Niveau physique, on y a gagn\u00e9."
+    },
+    {
+        "start": 876.04,
+        "end": 882.06,
+        "speaker": "SPEAKER_04",
+        "text": "Qu'est-ce que j'aurais pu trouver d'identifiable dans son bardin ?"
+    },
+    {
+        "start": 882.04,
+        "end": 918.06,
+        "speaker": "SPEAKER_02",
+        "text": "Tu retrouves une \u00e9p\u00e9e sur le c\u00f4t\u00e9, comme tu peux le voir sur le plan.Cette \u00e9p\u00e9e n'a pas \u00e9norm\u00e9ment d'ornements.Le m\u00e9tal de cette \u00e9p\u00e9e semble \u00eatre fait d'un seul bloc.Le m\u00e9tal est pur.Le m\u00e9tal est gondol\u00e9 par certains endroits.Ce n'est pas un forgeron royal.Ce n'est pas des forges citadines qui l'ont con\u00e7u.C'est surtout une \u00e9p\u00e9e de survie.Une \u00e9p\u00e9e qui n'est pas l\u00e0 pour gu\u00e9rouiller.Tu vois quelques symboles kabbalistiques dessusqui te rappellent, dans ta culture de demi-\u00e9l\u00e9mentaire,le respect qu'on peut accorder \u00e0 la nature."
+    },
+    {
+        "start": 918.04,
+        "end": 930.06,
+        "speaker": "SPEAKER_04",
+        "text": "D'accord.Qu'est-ce que tu fais ?Je cr\u00e9e une connexion avec elle directement.J'essaie de parler...Ah, vous \u00eates pour le tard, c'est \u00e7a !"
+    },
+    {
+        "start": 932.04,
+        "end": 942.06,
+        "speaker": "SPEAKER_04",
+        "text": "On partage cette passion pour la nature,ce respect, cette communion avec la nature.C'est exactement \u00e7a.Quelque part, je me retrouve dans ses pr\u00e9ceptes."
+    },
+    {
+        "start": 942.04,
+        "end": 947.06,
+        "speaker": "SPEAKER_01",
+        "text": "Si je peux me permettre, tu m'as donn\u00e9 une excellente id\u00e9e.Je t'en prie, si tu veux que je d\u00e9veloppe..."
+    },
+    {
+        "start": 947.04,
+        "end": 951.06,
+        "speaker": "SPEAKER_02",
+        "text": "Je ne voulais pas t'interrompre,je voulais juste te dire..."
+    },
+    {
+        "start": 951.04,
+        "end": 957.06,
+        "speaker": "SPEAKER_04",
+        "text": "Je voudrais bien aimer m'entretenir avec elle,mais vu qu'elle est un peu dans le coltard...Elle se retourne dans sa couche"
+    },
+    {
+        "start": 957.04,
+        "end": 964.06,
+        "speaker": "SPEAKER_02",
+        "text": "et te saisit la mainalors que tu as la main sur la garde de son \u00e9p\u00e9e.D'accord."
+    },
+    {
+        "start": 964.04,
+        "end": 970.06,
+        "speaker": "SPEAKER_04",
+        "text": "Je repose son \u00e9p\u00e9e, je lui saisis la main,je la regarde et je la tapote pour la r\u00e9conforter."
+    },
+    {
+        "start": 976.04,
+        "end": 982.06,
+        "speaker": "SPEAKER_00",
+        "text": "Le tout pendant qu'elle est \u00e0 moiti\u00e9 nueet que Bob la tripote, je tiens \u00e0 le dire.Tiens la cam\u00e9ra."
+    },
+    {
+        "start": 983.04,
+        "end": 997.061,
+        "speaker": "SPEAKER_02",
+        "text": "C'\u00e9tait pour v\u00e9rifier s'il \u00e9tait bless\u00e9, les mecs.S'il vous pla\u00eet.Pendant que tu es en train de la rassurer,Grelec, qu'est-ce que tu fais ?Tu pr\u00e9pares le th\u00e9, tu disais une tisane.Ta tisane est pr\u00eate.Qu'est-ce que tu fais ?"
+    },
+    {
+        "start": 997.04,
+        "end": 1007.06,
+        "speaker": "SPEAKER_00",
+        "text": "Je vais m'avancer vers elle avec la tisane.Je vais demander \u00e0 Sheen et \u00e0 Bobde m'aider \u00e0 la mettre en position assise.Tu la bois devant elle.Et puis l'aider \u00e0 boire."
+    },
+    {
+        "start": 1007.04,
+        "end": 1009.06,
+        "speaker": "SPEAKER_02",
+        "text": "En position lat\u00e9rale de s\u00e9curit\u00e9."
+    },
+    {
+        "start": 1010.04,
+        "end": 1016.06,
+        "speaker": "SPEAKER_00",
+        "text": "D'accord.Est-ce qu'elle accepte d\u00e9j\u00e0 ?Parce qu'on est un peu des \u00e9trangers pour elle."
+    },
+    {
+        "start": 1016.04,
+        "end": 1038.06,
+        "speaker": "SPEAKER_02",
+        "text": "Pour le coup,elle n'a pas grand choix.Elle se laisse faire.Elle d\u00e9lire.Cela dit, apr\u00e8s que tu lui fais boirequelque gorg\u00e9e, tu remarques que son \u00e9tatsemble aller l\u00e9g\u00e8rement mieux.Vous pensez tous,gr\u00e2ce aux observations de Bob,que peut-\u00eatre d'ici une heure, deux heures,"
+    },
+    {
+        "start": 1039.04,
+        "end": 1045.06,
+        "speaker": "SPEAKER_02",
+        "text": "vers l'aube,elle prendra s\u00fbrement conscience."
+    },
+    {
+        "start": 1045.04,
+        "end": 1049.06,
+        "speaker": "SPEAKER_03",
+        "text": "La tisane, \u00e7a l'a soign\u00e9.C'\u00e9tait un rhume qu'elle avait."
+    },
+    {
+        "start": 1049.04,
+        "end": 1107.06,
+        "speaker": "SPEAKER_01",
+        "text": "J'ai une id\u00e9e.Je pense qu'elle peut \u00eatre glorieuse.Elle peut aussi compl\u00e8tement foirer.Je peux ?Tr\u00e8s bien.J'ai un pouvoir magiquequi nous co\u00fbte de la concentrationet qui peut \u00eatre pratique sur un aspect tactique,mais qui peut nous donner des r\u00e9ponses.C'est un plan mental qui nous permetde communiquer par t\u00e9l\u00e9pathieafin d'\u00e9viter les zones d'infiltrationou d'autres moyens sympas.Le probl\u00e8me, c'est que je dois me concentrerpour l'ex\u00e9cuter.Cela n'a pas de gros avantagessur le champ de bataille.Du coup, Shyn,parce que tu as un grand lien avec la natureet que tu es la plus proche d'ellesur le plan mental,on pourrait ouvrir une connexion \u00e0 toi,moi qui suis juste l\u00e0 en tant que hostafin que son cerveau se fondedans le n\u00f4tre.Et toi, tu pourrais tenter de l'atteindreou de communiquer avec, ou m\u00eamevoir si tu peux voir son d\u00e9lireou essayer d'arracher une info."
+    },
+    {
+        "start": 1107.04,
+        "end": 1113.06,
+        "speaker": "SPEAKER_03",
+        "text": "Alors prudence !Prudence !On va rentrer dans ses r\u00eaves !"
+    },
+    {
+        "start": 1113.04,
+        "end": 1117.06,
+        "speaker": "SPEAKER_04",
+        "text": "On peut pas lui redonner de la tisane ?Il a laiss\u00e9 se reposer, il lui posait des questions"
+    },
+    {
+        "start": 1117.04,
+        "end": 1125.06,
+        "speaker": "SPEAKER_01",
+        "text": "\u00e0 son r\u00e9veil.Le probl\u00e8me, c'est de violer son esprit.C'est parler \u00e0 son esprit plut\u00f4t qu'\u00e0 sa boucheet il refuse de fonctionner \u00e0 cause de la mal\u00e9diction."
+    },
+    {
+        "start": 1125.04,
+        "end": 1141.06,
+        "speaker": "SPEAKER_02",
+        "text": "Normalement, ton interlocuteur mentaldoit \u00eatre absolument,non seulement apte,mais ouvert \u00e0 la connexion,doit autoriser cette connexion.Donc, \u00e0 partir du moment o\u00f9 elle n'est pas vraiment conscientede son existence,elle ne peut pas..."
+    },
+    {
+        "start": 1141.04,
+        "end": 1161.06,
+        "speaker": "SPEAKER_01",
+        "text": "Il faut demander \u00e0 un pr\u00eatrecomment \u00e7a marche les connexions.Il ne peut pas faire de lien mental avec quelqu'un d'inconscient ou d\u00e9lirant.Aussi, \u00e7a aurait \u00e9t\u00e9 risqu\u00e9,j'aurais pas voulu y aller jusqu'au bout,parce que si elle est maudite et que c'est au niveau mental,c\u00e9r\u00e9bral ou autre, \u00e7a aurait pu nous infecteret \u00e7a aurait pu \u00eatre de la merde.C'est une id\u00e9e, je discute.Tr\u00e8s bien."
+    },
+    {
+        "start": 1161.04,
+        "end": 1187.06,
+        "speaker": "SPEAKER_02",
+        "text": "On va d\u00e9j\u00e0 attendre de voir ce que Th\u00e9o nous diraquand il sera rentr\u00e9.Les rares amis que tu poss\u00e8des,qui sont autour de toi aujourd'hui,sont les rares personnes \u00e0 conna\u00eetreton origine,ta parent\u00e9 d\u00e9moniaque.Et tu te rappelles aussi que ton lien mentalque tu peux d\u00e9ployer gr\u00e2ce \u00e0 ta concentrationvient du fait que tu laissescette part d\u00e9moniaque de toiprendre l\u00e9g\u00e8rement le dessus.Peut-\u00eatre qu'il faudrait mod\u00e9rer cet usage."
+    },
+    {
+        "start": 1187.04,
+        "end": 1195.06,
+        "speaker": "SPEAKER_01",
+        "text": "Je reconnais que c'\u00e9tait tr\u00e8s risqu\u00e9,c'\u00e9tait une id\u00e9e en l'air, on ne sait jamais.Si vous me dites qu'elle ira mieux d'ici quelques heures,on va la laisser pioncer, on ira bien."
+    },
+    {
+        "start": 1195.04,
+        "end": 1203.06,
+        "speaker": "SPEAKER_02",
+        "text": "Tr\u00e8s bien.Pendant que Th\u00e9ose rapproche,qu'est-ce que tu as trouv\u00e9 ?"
+    },
+    {
+        "start": 1203.04,
+        "end": 1211.06,
+        "speaker": "SPEAKER_03",
+        "text": "J'ai trouv\u00e9visiblement des pi\u00e8ces de parchemin.Je me suis pos\u00e9 sur une des couchetteset l\u00e0, il y a la musique de Professeur Layton qui commence."
+    },
+    {
+        "start": 1217.04,
+        "end": 1239.06,
+        "speaker": "SPEAKER_02",
+        "text": "Tu me fais un jetd'observation, s'il te pla\u00eet.Bob, encore.Mais il ne peut pas partir de...Fais-moi un jet de physiqueplusobservation.Donc tu as 10% en observationet tu as en physique30%.79%."
+    },
+    {
+        "start": 1241.04,
+        "end": 1293.06,
+        "speaker": "SPEAKER_02",
+        "text": "Tr\u00e8s bien.Alors queTh\u00e9o s'avance avec un parchemintranquillement,il s'arr\u00eate brusquement,\u00e9carquille les yeuxet il se met \u00e0 hurler tout ce qu'il peut.Il hurle en se tenant le cou,se retourneet vous voyez appara\u00eetre sur son dosune \u00e9norme araign\u00e9equi couraitsur son dos, sur son armure,et qui a plong\u00e9 ses pattesentre les plis de son armure.Arnois.Exactement.Tu sens, toi, Th\u00e9o, quelque chose d'horrible,de froid te p\u00e9n\u00e9trer la chairalors que tu te retournes et cette \u00e9norme araign\u00e9esur ton dosdont les cerfs,les dentssont plant\u00e9es dans ta chairet tu hurles et tu te retournes \u00e0 ce moment-l\u00e0et hop, tu ne peux que..."
+    },
+    {
+        "start": 1293.04,
+        "end": 1299.06,
+        "speaker": "SPEAKER_01",
+        "text": "Je ne peux rien faire, je suis dans le seum, l\u00e0.Rame-moi \u00e7a, esp\u00e8ce de trou du cul !Non, t'es fou, je vais te tuer !"
+    }
+]

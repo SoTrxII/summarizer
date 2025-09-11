@@ -17,7 +17,7 @@ from summarizer.services.speech_to_text import (
 )
 from summarizer.services.summaries.models import SummaryArguments
 from summarizer.services.summaries.summarizer import Summarizer
-from summarizer.services.transformers import SceneChunker
+from summarizer.services.transformers import RuptureSceneChunker
 from summarizer.utils.azure_completion_provider import (
     azure_completion_provider,
     get_foundry_connection,
@@ -53,7 +53,7 @@ class Container(containers.DeclarativeContainer):
 
     # Transformers
     scene_chunker = providers.Factory(
-        SceneChunker,
+        RuptureSceneChunker,
         device=device
     )
 
