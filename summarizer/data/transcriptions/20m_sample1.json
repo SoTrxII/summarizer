@@ -1,0 +1,3098 @@
+[
+    {
+        "start": 30.0,
+        "end": 51.36000061035156,
+        "speaker": "UNKNOWN",
+        "text": "Messieurs, ce soir, vous incarnez des aventuriers, quatre aventuriers qui se connaissent depuis"
+    },
+    {
+        "start": 51.36000061035156,
+        "end": 52.36000061035156,
+        "speaker": "UNKNOWN",
+        "text": "d\u00e9j\u00e0 quelques ann\u00e9es."
+    },
+    {
+        "start": 52.36000061035156,
+        "end": 58.2400016784668,
+        "speaker": "UNKNOWN",
+        "text": "Vous \u00eates originaire de diff\u00e9rents horizons et vous vous retrouvez ce soir dans la for\u00eat"
+    },
+    {
+        "start": 58.2400016784668,
+        "end": 62.959999084472656,
+        "speaker": "UNKNOWN",
+        "text": "d'\u00e9meraude au chevet, si je peux appeler \u00e7a un chevet, d'une jeune femme que vous"
+    },
+    {
+        "start": 62.959999084472656,
+        "end": 63.959999084472656,
+        "speaker": "UNKNOWN",
+        "text": "avez recueillie dans la for\u00eat."
+    },
+    {
+        "start": 63.959999084472656,
+        "end": 70.04000091552734,
+        "speaker": "UNKNOWN",
+        "text": "Cette jeune femme bless\u00e9e, malade, bless\u00e9e par quoi vous n'avez pas tout \u00e0 fait identifi\u00e9"
+    },
+    {
+        "start": 70.04000091552734,
+        "end": 71.04000091552734,
+        "speaker": "UNKNOWN",
+        "text": "\u00e7a."
+    },
+    {
+        "start": 71.04000091552734,
+        "end": 76.08000183105469,
+        "speaker": "UNKNOWN",
+        "text": "C'est exactement Th\u00e9o, le paladin, qui l'a retrouv\u00e9e au plein milieu de la for\u00eat,"
+    },
+    {
+        "start": 76.08000183105469,
+        "end": 77.27999877929688,
+        "speaker": "UNKNOWN",
+        "text": "errante, fi\u00e9vreuse."
+    },
+    {
+        "start": 77.27999877929688,
+        "end": 81.68000030517578,
+        "speaker": "UNKNOWN",
+        "text": "Tu l'as ramen\u00e9e au campement alors que tu venais le dresser, toi Gronlech, et toi pendant"
+    },
+    {
+        "start": 81.68000030517578,
+        "end": 85.23999786376953,
+        "speaker": "UNKNOWN",
+        "text": "ce temps-l\u00e0, Sheen, tu veillais autour avec ton arc."
+    },
+    {
+        "start": 85.23999786376953,
+        "end": 91.87999725341797,
+        "speaker": "UNKNOWN",
+        "text": "Pendant que toi, Bob, tu mettais le feu au milieu de campement."
+    },
+    {
+        "start": 91.87999725341797,
+        "end": 95.08000183105469,
+        "speaker": "UNKNOWN",
+        "text": "Je ne parle pas des draps, je parle d'un petit feu pour r\u00e9chauffer les gens."
+    },
+    {
+        "start": 95.08000183105469,
+        "end": 96.08000183105469,
+        "speaker": "UNKNOWN",
+        "text": "Le feu de camp."
+    },
+    {
+        "start": 96.08000183105469,
+        "end": 97.08000183105469,
+        "speaker": "UNKNOWN",
+        "text": "J'allumais le feu de camp."
+    },
+    {
+        "start": 97.08000183105469,
+        "end": 98.4800033569336,
+        "speaker": "UNKNOWN",
+        "text": "Je ne parle pas de la com\u00e8te pour d\u00e9truire l'univers."
+    },
+    {
+        "start": 98.4800033569336,
+        "end": 106.55999755859375,
+        "speaker": "UNKNOWN",
+        "text": "Pendant que tu t'occupais du feu de camp, qu'est-ce qui se passe ? Th\u00e9o est revenu"
+    },
+    {
+        "start": 106.55999755859375,
+        "end": 117.5199966430664,
+        "speaker": "UNKNOWN",
+        "text": "avec sous le bras une jeune femme qui est fi\u00e9vreuse, qui a du mal \u00e0 parler et qui"
+    },
+    {
+        "start": 117.5199966430664,
+        "end": 118.5199966430664,
+        "speaker": "UNKNOWN",
+        "text": "ressemble \u00e0 \u00e7a."
+    },
+    {
+        "start": 118.5199966430664,
+        "end": 124.27999877929688,
+        "speaker": "UNKNOWN",
+        "text": "Cette jeune femme semble d\u00e9lir\u00e9e."
+    },
+    {
+        "start": 124.27999877929688,
+        "end": 129.0399932861328,
+        "speaker": "UNKNOWN",
+        "text": "Vous l'avez allong\u00e9e \u00e0 c\u00f4t\u00e9 du campement, vous avez commenc\u00e9 \u00e0 la soigner."
+    },
+    {
+        "start": 129.0399932861328,
+        "end": 133.9600067138672,
+        "speaker": "UNKNOWN",
+        "text": "Toi-m\u00eame, Th\u00e9o, tu as utilis\u00e9 tes pouvoirs de paladin pour essayer d'identifier ce"
+    },
+    {
+        "start": 133.9600067138672,
+        "end": 134.9600067138672,
+        "speaker": "UNKNOWN",
+        "text": "qu'elle avait."
+    },
+    {
+        "start": 134.9600067138672,
+        "end": 141.24000549316406,
+        "speaker": "UNKNOWN",
+        "text": "Visiblement, ton pouvoir de paladin de soin semblait ne pas agir comme si le mal \u00e9tait"
+    },
+    {
+        "start": 141.24000549316406,
+        "end": 144.44000244140625,
+        "speaker": "UNKNOWN",
+        "text": "plus profond encore qu'une simple blessure de mortelle."
+    },
+    {
+        "start": 144.44000244140625,
+        "end": 148.27999877929688,
+        "speaker": "UNKNOWN",
+        "text": "Maintenant, vous allez tour \u00e0 tour me dire ce que vous faites autour du campement alors"
+    },
+    {
+        "start": 148.27999877929688,
+        "end": 153.1999969482422,
+        "speaker": "UNKNOWN",
+        "text": "que toi, Th\u00e9o, tu es \u00e0 genoux \u00e0 c\u00f4t\u00e9 de cette jeune femme que tu veilles depuis d\u00e9j\u00e0"
+    },
+    {
+        "start": 153.1999969482422,
+        "end": 154.1999969482422,
+        "speaker": "UNKNOWN",
+        "text": "une heure."
+    },
+    {
+        "start": 154.1999969482422,
+        "end": 156.39999389648438,
+        "speaker": "UNKNOWN",
+        "text": "Vous allez me dire ce que vous faites."
+    },
+    {
+        "start": 156.39999389648438,
+        "end": 157.8000030517578,
+        "speaker": "UNKNOWN",
+        "text": "Donc, toi, Th\u00e9o, d\u00e9j\u00e0, qu'est-ce que tu fais ?"
+    },
+    {
+        "start": 158.8000030517578,
+        "end": 159.8000030517578,
+        "speaker": "UNKNOWN",
+        "text": "Bon, qui prend le cul ?"
+    },
+    {
+        "start": 159.8000030517578,
+        "end": 168.67999267578125,
+        "speaker": "UNKNOWN",
+        "text": "Je voudrais bien, mais je suis trop gros, \u00e7a ne rentrera jamais."
+    },
+    {
+        "start": 168.67999267578125,
+        "end": 172.39999389648438,
+        "speaker": "UNKNOWN",
+        "text": "Du coup, par contre, j'ai plusieurs questions de mon c\u00f4t\u00e9, mais je t'en prie, vas-y, fais-t'en,"
+    },
+    {
+        "start": 172.39999389648438,
+        "end": 173.39999389648438,
+        "speaker": "UNKNOWN",
+        "text": "toi."
+    },
+    {
+        "start": 173.39999389648438,
+        "end": 178.47999572753906,
+        "speaker": "UNKNOWN",
+        "text": "Ok, je viens de ramener cette jeune femme, visiblement, avec mes pouvoirs de paladin,"
+    },
+    {
+        "start": 178.47999572753906,
+        "end": 181.32000732421875,
+        "speaker": "UNKNOWN",
+        "text": "ma blague a bien march\u00e9 sur la voix, je trouve."
+    },
+    {
+        "start": 181.32000732421875,
+        "end": 184.27999877929688,
+        "speaker": "UNKNOWN",
+        "text": "Elle est compl\u00e8tement d\u00e9stabilis\u00e9e, je t'\u00e9missionne."
+    },
+    {
+        "start": 185.27999877929688,
+        "end": 190.72000122070312,
+        "speaker": "UNKNOWN",
+        "text": "Visiblement, mes pouvoirs de paladin, qui sont pourtant au-del\u00e0 de vos comp\u00e9tences,"
+    },
+    {
+        "start": 190.72000122070312,
+        "end": 191.72000122070312,
+        "speaker": "UNKNOWN",
+        "text": "ne marchent pas."
+    },
+    {
+        "start": 191.72000122070312,
+        "end": 196.9199981689453,
+        "speaker": "UNKNOWN",
+        "text": "Donc, je me demande, peut-\u00eatre qu'elle aurait besoin de repos, mais je ne suis pas assez"
+    },
+    {
+        "start": 196.9199981689453,
+        "end": 203.67999267578125,
+        "speaker": "UNKNOWN",
+        "text": "comp\u00e9tent sur ce mal qui ronge cette jeune femme."
+    },
+    {
+        "start": 203.67999267578125,
+        "end": 206.0399932861328,
+        "speaker": "UNKNOWN",
+        "text": "Peut-\u00eatre que Bob, toi, tu pourrais regarder ?"
+    },
+    {
+        "start": 206.0399932861328,
+        "end": 209.75999450683594,
+        "speaker": "UNKNOWN",
+        "text": "Alors, juste une petite interruption, pour le coup, je reconnais que tes pouvoirs de paladin"
+    },
+    {
+        "start": 209.75999450683594,
+        "end": 213.63999938964844,
+        "speaker": "UNKNOWN",
+        "text": "sont impressionnants pour soigner les blessures, mais en cas de maladie ou m\u00eame d'infection"
+    },
+    {
+        "start": 214.0,
+        "end": 221.8800048828125,
+        "speaker": "UNKNOWN",
+        "text": "ou m\u00eame de curse, mal\u00e9diction, l\u00e0, \u00e7a devient plus tendu, donc oui, l\u00e0, \u00e7a r\u00e9servait"
+    },
+    {
+        "start": 221.8800048828125,
+        "end": 222.8800048828125,
+        "speaker": "UNKNOWN",
+        "text": "mon niveau d'expertise."
+    },
+    {
+        "start": 222.8800048828125,
+        "end": 224.75999450683594,
+        "speaker": "UNKNOWN",
+        "text": "C'\u00e9tait juste pour me la p\u00e9ter."
+    },
+    {
+        "start": 224.75999450683594,
+        "end": 227.75999450683594,
+        "speaker": "UNKNOWN",
+        "text": "Tu fais bien, tu fais bien, mais je te ram\u00e8ne."
+    },
+    {
+        "start": 227.75999450683594,
+        "end": 229.63999938964844,
+        "speaker": "UNKNOWN",
+        "text": "Je t'accroche et je vous..."
+    },
+    {
+        "start": 229.63999938964844,
+        "end": 230.63999938964844,
+        "speaker": "UNKNOWN",
+        "text": "Tu fais bien aussi."
+    },
+    {
+        "start": 230.63999938964844,
+        "end": 231.63999938964844,
+        "speaker": "UNKNOWN",
+        "text": "Voil\u00e0, c'est \u00e7a."
+    },
+    {
+        "start": 231.63999938964844,
+        "end": 234.8000030517578,
+        "speaker": "UNKNOWN",
+        "text": "Et du coup, par contre, je propose qu'on fasse un rapide tour de table."
+    },
+    {
+        "start": 234.8000030517578,
+        "end": 239.1199951171875,
+        "speaker": "UNKNOWN",
+        "text": "S'il te pla\u00eet, Shin\u00e9, Grun, est-ce que vous pouvez fouiller ses affaires ou son matos,"
+    },
+    {
+        "start": 239.1199951171875,
+        "end": 241.75999450683594,
+        "speaker": "UNKNOWN",
+        "text": "ses poches, son sac, tout \u00e7a, pour essayer de d\u00e9terminer d'o\u00f9 elle vient, qui elle"
+    },
+    {
+        "start": 241.75999450683594,
+        "end": 243.9600067138672,
+        "speaker": "UNKNOWN",
+        "text": "est, pourquoi est-ce qu'elle avait sur elle, tandis que moi, je vais essayer de regarder"
+    },
+    {
+        "start": 243.9600067138672,
+        "end": 249.36000061035156,
+        "speaker": "UNKNOWN",
+        "text": "son corps pour savoir si elle est bless\u00e9e quelque part, par quoi, comment, et voir,"
+    },
+    {
+        "start": 249.36000061035156,
+        "end": 252.47999572753906,
+        "speaker": "UNKNOWN",
+        "text": "essayer d'identifier d\u00e9j\u00e0 quelle race elle est, bref, d'avoir le maximum d'infos sur"
+    },
+    {
+        "start": 252.47999572753906,
+        "end": 255.47999572753906,
+        "speaker": "UNKNOWN",
+        "text": "elle, parce que t'es bien pour soigner les plaies ouvertes, mais pour dire d'o\u00f9 vient"
+    },
+    {
+        "start": 255.47999572753906,
+        "end": 256.4800109863281,
+        "speaker": "UNKNOWN",
+        "text": "qui alors que c'est..."
+    },
+    {
+        "start": 256.4800109863281,
+        "end": 260.1600036621094,
+        "speaker": "UNKNOWN",
+        "text": "Dis-donc, c'est quoi ces ordres-l\u00e0 ? Vous allez la fouiller, vous les laquer, l\u00e0, et"
+    },
+    {
+        "start": 260.1600036621094,
+        "end": 262.32000732421875,
+        "speaker": "UNKNOWN",
+        "text": "moi, pour l'instant, je m'occupe de son corps."
+    },
+    {
+        "start": 262.32000732421875,
+        "end": 265.4800109863281,
+        "speaker": "UNKNOWN",
+        "text": "C'est pas une question de laquer ou quoi que \u00e7a, c'est une question de comp\u00e9tence."
+    },
+    {
+        "start": 265.4800109863281,
+        "end": 268.9200134277344,
+        "speaker": "UNKNOWN",
+        "text": "Vous \u00eates beaucoup plus dou\u00e9s pour fouiller les choses, retrouver les faux coins ou les"
+    },
+    {
+        "start": 268.9200134277344,
+        "end": 270.2799987792969,
+        "speaker": "UNKNOWN",
+        "text": "informations importantes."
+    },
+    {
+        "start": 270.2799987792969,
+        "end": 271.2799987792969,
+        "speaker": "UNKNOWN",
+        "text": "Elle ne peut rien vous cacher."
+    },
+    {
+        "start": 271.79998779296875,
+        "end": 273.79998779296875,
+        "speaker": "UNKNOWN",
+        "text": "Alors que moi, elle ne peut pas nous cacher d'informations, et c'est \u00e7a qu'on essaie"
+    },
+    {
+        "start": 273.79998779296875,
+        "end": 274.79998779296875,
+        "speaker": "UNKNOWN",
+        "text": "d'obtenir."
+    },
+    {
+        "start": 274.79998779296875,
+        "end": 275.79998779296875,
+        "speaker": "UNKNOWN",
+        "text": "Alors, j'ai saisi ce que tu voulais faire, Bob, tr\u00e8s bien."
+    },
+    {
+        "start": 275.79998779296875,
+        "end": 277.79998779296875,
+        "speaker": "UNKNOWN",
+        "text": "Shin\u00e9grenux, vous allez fouiller, moi, je vais vous surveiller aussi."
+    },
+    {
+        "start": 277.79998779296875,
+        "end": 278.79998779296875,
+        "speaker": "UNKNOWN",
+        "text": "Oui, non, mais attends."
+    },
+    {
+        "start": 278.79998779296875,
+        "end": 279.79998779296875,
+        "speaker": "UNKNOWN",
+        "text": "Oui, non, mais..."
+    },
+    {
+        "start": 279.79998779296875,
+        "end": 280.79998779296875,
+        "speaker": "UNKNOWN",
+        "text": "En tout bien, tout autre."
+    },
+    {
+        "start": 280.79998779296875,
+        "end": 281.79998779296875,
+        "speaker": "UNKNOWN",
+        "text": "C'est l'esprit d'accord."
+    },
+    {
+        "start": 281.79998779296875,
+        "end": 282.79998779296875,
+        "speaker": "UNKNOWN",
+        "text": "Vous voudrez que la confiance r\u00e9side."
+    },
+    {
+        "start": 282.79998779296875,
+        "end": 287.79998779296875,
+        "speaker": "UNKNOWN",
+        "text": "Par contre, j'ai une faveur \u00e0 demander \u00e0 Th\u00e9o, est-ce que tu veux bien prendre une"
+    },
+    {
+        "start": 287.79998779296875,
+        "end": 291.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "torche et inspecter les alentours, parce que peut-\u00eatre que ce qu'il a mis dans cet \u00e9tat"
+    },
+    {
+        "start": 291.0400085449219,
+        "end": 292.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "r\u00f4de encore dans la dente."
+    },
+    {
+        "start": 292.0400085449219,
+        "end": 295.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "C'est pas que \u00e7a me fait chier, mais j'aimerais \u00e9viter de me prendre un machin dans le cul."
+    },
+    {
+        "start": 295.0400085449219,
+        "end": 296.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Deux secondes."
+    },
+    {
+        "start": 296.0400085449219,
+        "end": 297.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Deux secondes."
+    },
+    {
+        "start": 297.0400085449219,
+        "end": 298.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Je fais un tour de table pour l'instant."
+    },
+    {
+        "start": 298.0400085449219,
+        "end": 300.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Donc, Th\u00e9o, tu as dit ce que tu faisais."
+    },
+    {
+        "start": 300.0400085449219,
+        "end": 302.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Bob, tu as dit ce que tu faisais aussi."
+    },
+    {
+        "start": 302.0400085449219,
+        "end": 310.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Donc, tu sugg\u00e9rais quelques instructions \u00e0 Shinda et \u00e0 Colette."
+    },
+    {
+        "start": 310.0400085449219,
+        "end": 311.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "C'est mes potes !"
+    },
+    {
+        "start": 311.0400085449219,
+        "end": 313.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "C'est juste, c'est la chose la plus logique \u00e0 faire."
+    },
+    {
+        "start": 313.0400085449219,
+        "end": 315.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Evidemment, je ne juge pas."
+    },
+    {
+        "start": 315.0400085449219,
+        "end": 317.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Je veux juste un peu foutre la merde, mais je ne juge pas."
+    },
+    {
+        "start": 317.0400085449219,
+        "end": 319.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Et donc, qu'est-ce que tu voulais faire ?"
+    },
+    {
+        "start": 319.0400085449219,
+        "end": 321.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Moi aussi, je voulais faire chier le monde parce que ce que j'allais faire, quoi qu'il"
+    },
+    {
+        "start": 321.0400085449219,
+        "end": 325.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "en soit, j'allais la d\u00e9trousser, la fouiller."
+    },
+    {
+        "start": 325.0400085449219,
+        "end": 330.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "En plus, il demande \u00e0 Th\u00e9o d'aller v\u00e9rifier les environs, donc il ne pourra pas nous surveiller."
+    },
+    {
+        "start": 330.0400085449219,
+        "end": 331.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "C'est parfait."
+    },
+    {
+        "start": 331.0400085449219,
+        "end": 332.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Oui, oui, oui."
+    },
+    {
+        "start": 332.0400085449219,
+        "end": 334.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Si je vais fouiller, tu as int\u00e9r\u00eat \u00e0 les surveiller parce que si je m'aper\u00e7ois qu'il"
+    },
+    {
+        "start": 334.0400085449219,
+        "end": 337.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "y en a un qui a vol\u00e9, je jure que je lui coupe la main."
+    },
+    {
+        "start": 337.0400085449219,
+        "end": 338.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "D'accord."
+    },
+    {
+        "start": 338.0400085449219,
+        "end": 339.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "C'est comme \u00e7a."
+    },
+    {
+        "start": 339.0400085449219,
+        "end": 341.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Moi, d'avoir fouill\u00e9, c'est..."
+    },
+    {
+        "start": 341.0400085449219,
+        "end": 344.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Pour les voleurs, on leur coupe la main."
+    },
+    {
+        "start": 344.0400085449219,
+        "end": 345.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Tr\u00e8s bien."
+    },
+    {
+        "start": 345.0400085449219,
+        "end": 348.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Donc, d'abord, Shinda, qu'est-ce que tu fais ?"
+    },
+    {
+        "start": 348.0400085449219,
+        "end": 353.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Je vais commencer \u00e0 fouiller d\u00e9licatement dans les poches pour essayer de retrouver"
+    },
+    {
+        "start": 353.0400085449219,
+        "end": 357.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "des papiers, enfin des \u00e9l\u00e9ments qui pourraient nous mettre sur la piste, enfin sur une identit\u00e9"
+    },
+    {
+        "start": 357.0400085449219,
+        "end": 358.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "ou quelque chose comme \u00e7a."
+    },
+    {
+        "start": 358.0400085449219,
+        "end": 360.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Mais sans d\u00e9rober, hein."
+    },
+    {
+        "start": 360.0400085449219,
+        "end": 361.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Juste un..."
+    },
+    {
+        "start": 361.0400085449219,
+        "end": 363.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Oui, voil\u00e0, sur les affaires."
+    },
+    {
+        "start": 363.0400085449219,
+        "end": 365.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Au-dessus des affaires, je vais fouiller son sac."
+    },
+    {
+        "start": 365.0400085449219,
+        "end": 366.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "L\u00e0, tu les marches dessus."
+    },
+    {
+        "start": 366.0400085449219,
+        "end": 367.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Tu les marches dessus."
+    },
+    {
+        "start": 367.0400085449219,
+        "end": 368.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Je ne suis pas dou\u00e9."
+    },
+    {
+        "start": 368.0400085449219,
+        "end": 369.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "D\u00e9sol\u00e9."
+    },
+    {
+        "start": 369.0400085449219,
+        "end": 370.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Pose ton art."
+    },
+    {
+        "start": 370.0400085449219,
+        "end": 371.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Pose ton art."
+    },
+    {
+        "start": 371.0400085449219,
+        "end": 372.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Non, voil\u00e0."
+    },
+    {
+        "start": 372.0400085449219,
+        "end": 373.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Excusez-moi."
+    },
+    {
+        "start": 373.0400085449219,
+        "end": 374.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Voil\u00e0, pardon."
+    },
+    {
+        "start": 374.0400085449219,
+        "end": 375.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Voil\u00e0."
+    },
+    {
+        "start": 375.0400085449219,
+        "end": 376.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Donc, je vais fouiller sur tout."
+    },
+    {
+        "start": 376.0400085449219,
+        "end": 377.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Je vais voir si je peux..."
+    },
+    {
+        "start": 377.0400085449219,
+        "end": 379.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Comment identifier une certaine..."
+    },
+    {
+        "start": 379.0400085449219,
+        "end": 380.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Comment ?"
+    },
+    {
+        "start": 380.0400085449219,
+        "end": 381.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Fa\u00e7on de..."
+    },
+    {
+        "start": 381.0400085449219,
+        "end": 382.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Comment ?"
+    },
+    {
+        "start": 382.0400085449219,
+        "end": 385.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Une origine des armes, en fait, si c'est plut\u00f4t humain ou si c'est rapport \u00e0 une race"
+    },
+    {
+        "start": 385.0400085449219,
+        "end": 386.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "ou quoi, parce que..."
+    },
+    {
+        "start": 386.0400085449219,
+        "end": 387.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Tr\u00e8s bien, Shinda."
+    },
+    {
+        "start": 387.0400085449219,
+        "end": 388.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Maintenant, \u00e0 toi, Grunlek."
+    },
+    {
+        "start": 388.0400085449219,
+        "end": 389.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Que fais-tu ?"
+    },
+    {
+        "start": 389.0400085449219,
+        "end": 393.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Alors, avant d'aider Shinde, je vais quand m\u00eame voir si je ne peux pas lui pr\u00e9parer"
+    },
+    {
+        "start": 393.0400085449219,
+        "end": 398.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "peut-\u00eatre une petite tisane, quelque chose, des herbes pour un peu adoucir ses maux."
+    },
+    {
+        "start": 398.0400085449219,
+        "end": 400.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Je dois bien voir \u00e7a qui tra\u00eene quelque part dans mon..."
+    },
+    {
+        "start": 400.0400085449219,
+        "end": 404.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Alors, oui, mais tu sais, vous avez beaucoup voyag\u00e9 et puis vous avez fait peu de halte"
+    },
+    {
+        "start": 404.0400085449219,
+        "end": 405.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "ces derniers jours."
+    },
+    {
+        "start": 405.0400085449219,
+        "end": 409.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Tout ce qui est nourriture, tout ce qui est r\u00e9serve, c'est vraiment appauvri."
+    },
+    {
+        "start": 409.0400085449219,
+        "end": 413.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Il te reste \u00e9ventuellement quelques feuilles de tisane."
+    },
+    {
+        "start": 413.0400085449219,
+        "end": 415.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Il te reste quelques \u00e9pices."
+    },
+    {
+        "start": 415.0400085449219,
+        "end": 419.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "La viande s\u00e9ch\u00e9e est tr\u00e8s rarifi\u00e9e."
+    },
+    {
+        "start": 419.0400085449219,
+        "end": 420.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Tr\u00e8s rarifi\u00e9e."
+    },
+    {
+        "start": 420.0400085449219,
+        "end": 424.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Maintenant, dans tes r\u00e9serves, dans tes stocks, vous avez quasiment plus rien pour faire"
+    },
+    {
+        "start": 424.0400085449219,
+        "end": 425.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "du voyage."
+    },
+    {
+        "start": 425.0400085449219,
+        "end": 429.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Donc, c'est peut-\u00eatre probablement vos derni\u00e8res tisanes que tu pr\u00e9pares."
+    },
+    {
+        "start": 429.0400085449219,
+        "end": 430.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Je vais..."
+    },
+    {
+        "start": 430.0400085449219,
+        "end": 431.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Je pr\u00e9pare une tisane quand m\u00eame."
+    },
+    {
+        "start": 431.0400085449219,
+        "end": 433.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Je vais aller faire un tour \u00e0 c\u00f4t\u00e9."
+    },
+    {
+        "start": 433.0400085449219,
+        "end": 434.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Tu peux venir avec moi."
+    },
+    {
+        "start": 434.0400085449219,
+        "end": 435.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Tu retrouveras peut-\u00eatre des herbes dont tu as besoin."
+    },
+    {
+        "start": 435.0400085449219,
+        "end": 439.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Dans un premier temps, je pr\u00e9pare la tisane et apr\u00e8s, je peux te rejoindre si tu veux."
+    },
+    {
+        "start": 439.0400085449219,
+        "end": 441.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Est-ce qu'elle est consciente ou... ?"
+    },
+    {
+        "start": 441.0400085449219,
+        "end": 443.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Non, elle est dans les vapes."
+    },
+    {
+        "start": 443.0400085449219,
+        "end": 444.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Elle d\u00e9lire un peu."
+    },
+    {
+        "start": 444.0400085449219,
+        "end": 446.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Elle a du mal \u00e0 articuler."
+    },
+    {
+        "start": 446.0400085449219,
+        "end": 447.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Elle s'exprime pas bien."
+    },
+    {
+        "start": 447.0400085449219,
+        "end": 448.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Elle balbutie."
+    },
+    {
+        "start": 448.0400085449219,
+        "end": 449.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Voil\u00e0, exactement."
+    },
+    {
+        "start": 449.0400085449219,
+        "end": 450.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Non, non, mais elle est en pleine fi\u00e8vre de grippe."
+    },
+    {
+        "start": 450.0400085449219,
+        "end": 451.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "L\u00e0, tu peux rien faire."
+    },
+    {
+        "start": 451.0400085449219,
+        "end": 452.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Elle est dans le stun."
+    },
+    {
+        "start": 452.0400085449219,
+        "end": 453.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "D'accord."
+    },
+    {
+        "start": 453.0400085449219,
+        "end": 454.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Sinon, j'aurais \u00e9t\u00e9 poli."
+    },
+    {
+        "start": 454.0400085449219,
+        "end": 455.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "J'aurais demand\u00e9."
+    },
+    {
+        "start": 455.0400085449219,
+        "end": 456.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Est-ce que je peux fouiller dans vos affaires et tout \u00e7a ?"
+    },
+    {
+        "start": 456.0400085449219,
+        "end": 457.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Non, mais laisse tomber."
+    },
+    {
+        "start": 457.0400085449219,
+        "end": 458.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Elle est dans l'\u00e9tat o\u00f9 elle est."
+    },
+    {
+        "start": 458.0400085449219,
+        "end": 460.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Juste pour rebondir sur ce que tu as dit, Th\u00e9o."
+    },
+    {
+        "start": 460.0400085449219,
+        "end": 467.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Tu as propos\u00e9 \u00e0 Grand Lake de venir voir avec toi s'il pouvait r\u00e9cup\u00e9rer du mat\u00e9riel,"
+    },
+    {
+        "start": 467.0400085449219,
+        "end": 471.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "de la mati\u00e8re premi\u00e8re pour la nourriture, des \u00e9pices ou des feuilles."
+    },
+    {
+        "start": 471.0400085449219,
+        "end": 473.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Il est tr\u00e8s, tr\u00e8s bon cuisinier."
+    },
+    {
+        "start": 473.0400085449219,
+        "end": 476.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Il saurait reconna\u00eetre l'\u00e9vidence."
+    },
+    {
+        "start": 476.0400085449219,
+        "end": 478.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Mais ce n'est pas un herboriste."
+    },
+    {
+        "start": 478.0400085449219,
+        "end": 480.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Je viens de r\u00e9aliser."
+    },
+    {
+        "start": 480.0400085449219,
+        "end": 483.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "C'est plut\u00f4t \u00e0 Naruto que j'aurais d\u00fb demander \u00e7a."
+    },
+    {
+        "start": 484.0400085449219,
+        "end": 486.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "\u00c0 Chine."
+    },
+    {
+        "start": 486.0400085449219,
+        "end": 487.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Chine."
+    },
+    {
+        "start": 487.0400085449219,
+        "end": 489.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "S'il vous en prie."
+    },
+    {
+        "start": 491.0400085449219,
+        "end": 493.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Les soir\u00e9es de Chine sont toujours un succ\u00e8s, d'ailleurs."
+    },
+    {
+        "start": 495.0400085449219,
+        "end": 496.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Tr\u00e8s bien."
+    },
+    {
+        "start": 496.0400085449219,
+        "end": 499.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Donc, Th\u00e9o, toi, tu d\u00e9places ton personnage."
+    },
+    {
+        "start": 499.0400085449219,
+        "end": 500.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Je vais commencer par toi."
+    },
+    {
+        "start": 500.0400085449219,
+        "end": 502.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Tu vas voir par o\u00f9."
+    },
+    {
+        "start": 502.0400085449219,
+        "end": 506.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Je vais monter vers le nord, mais d'abord, que la lumi\u00e8re soit."
+    },
+    {
+        "start": 506.0400085449219,
+        "end": 509.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "Apr\u00e8s, on n'a peut-\u00eatre pas r\u00e9alis\u00e9, mais peut-\u00eatre que ce qu'il m'a demand\u00e9 de l'accompagner,"
+    },
+    {
+        "start": 509.0400085449219,
+        "end": 511.0400085449219,
+        "speaker": "UNKNOWN",
+        "text": "c'est qu'il avait un peu peur et qu'il voulait du soutien."
+    },
+    {
+        "start": 511.0400085449219,
+        "end": 513.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Non, moi, ce que j'allais lui proposer, c'est..."
+    },
+    {
+        "start": 513.0399780273438,
+        "end": 514.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Il veut t'emp\u00eacher de voler, surtout."
+    },
+    {
+        "start": 514.0399780273438,
+        "end": 517.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Ce que j'allais surtout te proposer, c'est d'\u00e9viter de claquer de la magie."
+    },
+    {
+        "start": 517.0399780273438,
+        "end": 520.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'\u00e9tait d'\u00e9viter de claquer de la magie pour \u00e7a et juste prendre une torche."
+    },
+    {
+        "start": 520.0399780273438,
+        "end": 521.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Bon."
+    },
+    {
+        "start": 521.0399780273438,
+        "end": 523.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Mais ce n'est pas..."
+    },
+    {
+        "start": 523.0399780273438,
+        "end": 524.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Il brille tout le temps."
+    },
+    {
+        "start": 524.0399780273438,
+        "end": 525.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'est une luciole."
+    },
+    {
+        "start": 525.0399780273438,
+        "end": 527.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'est ma foi qui alimente."
+    },
+    {
+        "start": 527.0399780273438,
+        "end": 531.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Est-ce qu'il y a un portrait gigantesque dans l'herbe, l\u00e0 ?"
+    },
+    {
+        "start": 531.0399780273438,
+        "end": 533.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "O\u00f9 est-ce que je peux bouger \u00e7a ?"
+    },
+    {
+        "start": 533.0399780273438,
+        "end": 534.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Oh, mon Dieu !"
+    },
+    {
+        "start": 534.0399780273438,
+        "end": 536.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Quelle est cette photo g\u00e9ante ?"
+    },
+    {
+        "start": 538.0399780273438,
+        "end": 539.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'est \u00e7a, c'est \u00e7a."
+    },
+    {
+        "start": 539.0399780273438,
+        "end": 540.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'est le boss de fin."
+    },
+    {
+        "start": 540.0399780273438,
+        "end": 542.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Mais sinon, j'ai rien dit, alors."
+    },
+    {
+        "start": 542.0399780273438,
+        "end": 543.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Objection rejet\u00e9e."
+    },
+    {
+        "start": 545.0399780273438,
+        "end": 546.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je vais partir..."
+    },
+    {
+        "start": 546.0399780273438,
+        "end": 549.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Le portrait de l'herbe dispara\u00eet myst\u00e9rieusement."
+    },
+    {
+        "start": 549.0399780273438,
+        "end": 551.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Essaye de voir s'il y a des indices."
+    },
+    {
+        "start": 551.0399780273438,
+        "end": 553.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Fais pas le con, t'\u00e9loigne pas trop, surtout."
+    },
+    {
+        "start": 553.0399780273438,
+        "end": 556.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je vais aller pas loin."
+    },
+    {
+        "start": 556.0399780273438,
+        "end": 557.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je vais me balader vers l'enfant."
+    },
+    {
+        "start": 557.0399780273438,
+        "end": 559.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "En allant par l\u00e0, tu vois la fl\u00e8che ?"
+    },
+    {
+        "start": 559.0399780273438,
+        "end": 560.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Voil\u00e0, je vais parler."
+    },
+    {
+        "start": 560.0399780273438,
+        "end": 561.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tr\u00e8s bien, c'est parfait."
+    },
+    {
+        "start": 561.0399780273438,
+        "end": 566.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Donc, en allant par l\u00e0, tu sais que tu la recueilles par ici."
+    },
+    {
+        "start": 566.0399780273438,
+        "end": 567.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "D'accord ?"
+    },
+    {
+        "start": 567.0399780273438,
+        "end": 568.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Ah, d'accord."
+    },
+    {
+        "start": 568.0399780273438,
+        "end": 570.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je vais peut-\u00eatre aller de l'autre c\u00f4t\u00e9, alors."
+    },
+    {
+        "start": 570.0399780273438,
+        "end": 571.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "D'accord."
+    },
+    {
+        "start": 571.0399780273438,
+        "end": 573.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Et \u00e7a fait deux heures, c'est \u00e7a, qu'il l'a recueillie ?"
+    },
+    {
+        "start": 573.0399780273438,
+        "end": 575.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je vais aller plut\u00f4t de ce c\u00f4t\u00e9."
+    },
+    {
+        "start": 575.0399780273438,
+        "end": 576.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tr\u00e8s bien."
+    },
+    {
+        "start": 576.0399780273438,
+        "end": 578.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je te laisse te d\u00e9placer."
+    },
+    {
+        "start": 578.0399780273438,
+        "end": 581.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tu vas par l\u00e0-bas."
+    },
+    {
+        "start": 581.0399780273438,
+        "end": 583.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tu reconnais les empreintes de pas."
+    },
+    {
+        "start": 583.0399780273438,
+        "end": 587.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Et \u00e0 peine plus loin, c'est par l\u00e0 o\u00f9 tu l'as r\u00e9cup\u00e9r\u00e9e."
+    },
+    {
+        "start": 587.0399780273438,
+        "end": 591.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tu reconnais les empreintes de ces pas, les empreintes erratiques."
+    },
+    {
+        "start": 591.0399780273438,
+        "end": 597.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Et tu vois aussi qu'il y a des petits bouts de parchemin."
+    },
+    {
+        "start": 597.0399780273438,
+        "end": 602.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Comme si elle avait fait tomber du mat\u00e9riel avant que tu l'as r\u00e9cup\u00e9r\u00e9e."
+    },
+    {
+        "start": 602.0399780273438,
+        "end": 607.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Parce que ta premi\u00e8re pr\u00e9occupation quand tu l'as r\u00e9cup\u00e9r\u00e9e, c'\u00e9tait de venir \u00e0 son secours."
+    },
+    {
+        "start": 607.0399780273438,
+        "end": 611.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Donc, ce n'est pas de d\u00e9trousser ses poches comme l'auraient fait d'autres personnes du groupe."
+    },
+    {
+        "start": 611.0399780273438,
+        "end": 616.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Mais donc, tu l'as r\u00e9cup\u00e9r\u00e9e \u00e0 cet endroit-l\u00e0."
+    },
+    {
+        "start": 616.0399780273438,
+        "end": 618.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Donc, tu trouves des parchemins."
+    },
+    {
+        "start": 618.0399780273438,
+        "end": 621.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Et ces parchemins sont, tu vois, de prime abord."
+    },
+    {
+        "start": 621.0399780273438,
+        "end": 622.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Donc, ils ne sont pas scell\u00e9s."
+    },
+    {
+        "start": 622.0399780273438,
+        "end": 624.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Il y a des \u00e9critures dessus."
+    },
+    {
+        "start": 624.0399780273438,
+        "end": 628.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Et tu reconnais des \u00e9critures peut-\u00eatre un peu \u00e9sot\u00e9riques."
+    },
+    {
+        "start": 628.0399780273438,
+        "end": 631.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Donc, qui \u00e9chappent un peu \u00e0 ton langage, ton parler."
+    },
+    {
+        "start": 631.0399780273438,
+        "end": 635.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "D'accord. Dans ce cas-l\u00e0, je vais ramener \u00e7a au camp."
+    },
+    {
+        "start": 635.0399780273438,
+        "end": 636.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tr\u00e8s bien."
+    },
+    {
+        "start": 636.0399780273438,
+        "end": 637.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Toi, donc Bob, dis-moi."
+    },
+    {
+        "start": 637.0399780273438,
+        "end": 638.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Rappelle-moi ce que tu voulais faire."
+    },
+    {
+        "start": 638.0399780273438,
+        "end": 642.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Alors, je vais \u00e9changer ma place avec Grenegg si \u00e7a ne te d\u00e9range pas."
+    },
+    {
+        "start": 642.0399780273438,
+        "end": 645.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Juste ne serait-ce que pour l'aspect de la chose."
+    },
+    {
+        "start": 645.0399780273438,
+        "end": 646.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Voil\u00e0, exactement."
+    },
+    {
+        "start": 646.0399780273438,
+        "end": 648.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Et j'avais l'intention de fouiller, elle par contre, le corps de la jeune fille."
+    },
+    {
+        "start": 648.0399780273438,
+        "end": 649.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Non pas ses affaires."
+    },
+    {
+        "start": 649.0399780273438,
+        "end": 654.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Mais litt\u00e9ralement, sans aucune piti\u00e9 pour sa dignit\u00e9 de femme."
+    },
+    {
+        "start": 654.0399780273438,
+        "end": 657.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je veux voir si elle a des blessures, des h\u00e9matomes, quelque chose, des \u00e9chymoses."
+    },
+    {
+        "start": 657.0399780273438,
+        "end": 660.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Si son mal est d'ordre magique."
+    },
+    {
+        "start": 660.0399780273438,
+        "end": 661.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "S'il est d'ordre infectieux."
+    },
+    {
+        "start": 661.0399780273438,
+        "end": 662.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Si elle s'est piqu\u00e9e sur quelque chose."
+    },
+    {
+        "start": 662.0399780273438,
+        "end": 665.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Bref, inspection totale, absolue, int\u00e9grale."
+    },
+    {
+        "start": 665.0399780273438,
+        "end": 668.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Donc, elle est en effet fi\u00e9vreuse, cette jeune femme."
+    },
+    {
+        "start": 668.0399780273438,
+        "end": 674.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Et ce qui se passe, c'est que tu commences \u00e0 d\u00e9nuder sa peau fragile."
+    },
+    {
+        "start": 674.0399780273438,
+        "end": 676.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Sa peau de soie."
+    },
+    {
+        "start": 677.0399780273438,
+        "end": 681.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Toi-m\u00eame, tu es pris d'un..."
+    },
+    {
+        "start": 681.0399780273438,
+        "end": 682.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Comment dirais-je ?"
+    },
+    {
+        "start": 682.0399780273438,
+        "end": 683.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tu vas quand m\u00eame la d\u00e9nuder."
+    },
+    {
+        "start": 683.0399780273438,
+        "end": 686.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "R\u00e9glons une question. Je la vois directement."
+    },
+    {
+        "start": 686.0399780273438,
+        "end": 688.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'est un elfe ?"
+    },
+    {
+        "start": 688.0399780273438,
+        "end": 689.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Un gobelin ?"
+    },
+    {
+        "start": 689.0399780273438,
+        "end": 690.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Un jeune elfe."
+    },
+    {
+        "start": 690.0399780273438,
+        "end": 691.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'est un jeune elfe."
+    },
+    {
+        "start": 691.0399780273438,
+        "end": 692.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Une ?"
+    },
+    {
+        "start": 692.0399780273438,
+        "end": 693.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Une jeune elfe."
+    },
+    {
+        "start": 693.0399780273438,
+        "end": 694.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Oui, exactement."
+    },
+    {
+        "start": 694.0399780273438,
+        "end": 695.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Pour v\u00e9rifier."
+    },
+    {
+        "start": 695.0399780273438,
+        "end": 696.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'est dur \u00e0 savoir du premier..."
+    },
+    {
+        "start": 696.0399780273438,
+        "end": 698.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'\u00e9tait une question pi\u00e8ge, j'avais bien compris que tu me..."
+    },
+    {
+        "start": 698.0399780273438,
+        "end": 699.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'est \u00e7a, c'est \u00e7a."
+    },
+    {
+        "start": 699.0399780273438,
+        "end": 701.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je ne dis pas que c'est mal."
+    },
+    {
+        "start": 701.0399780273438,
+        "end": 702.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Est-ce que j'ai droit \u00e0 des points d'exp\u00e9rience ?"
+    },
+    {
+        "start": 702.0399780273438,
+        "end": 704.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Non, ce n'est pas \u00e7a."
+    },
+    {
+        "start": 704.0399780273438,
+        "end": 705.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Bon, c'est une elfe."
+    },
+    {
+        "start": 705.0399780273438,
+        "end": 706.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Elle le prendra mal, mais ce n'est pas grave."
+    },
+    {
+        "start": 706.0399780273438,
+        "end": 707.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Elle n'est pas conscient\u00e9e."
+    },
+    {
+        "start": 707.0399780273438,
+        "end": 710.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Si ses v\u00eatements sont indicatifs d'un lieu d'o\u00f9 elle pourrait venir,"
+    },
+    {
+        "start": 710.0399780273438,
+        "end": 712.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "si elle a quelque chose..."
+    },
+    {
+        "start": 712.0399780273438,
+        "end": 715.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tu vois que ce sont des v\u00eatements tr\u00e8s simples."
+    },
+    {
+        "start": 715.0399780273438,
+        "end": 723.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Probablement que cette femme n'est pas tr\u00e8s pr\u00e9occup\u00e9e par les fastes des grandes villes."
+    },
+    {
+        "start": 723.0399780273438,
+        "end": 726.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Contrairement \u00e0 toi, o\u00f9 quand tu marches, \u00e7a fait un peu..."
+    },
+    {
+        "start": 726.0399780273438,
+        "end": 730.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je caricature un peu, mais \u00e7a fait un peu genre Mister T avec les brelois."
+    },
+    {
+        "start": 730.0399780273438,
+        "end": 732.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "J'entends, tu fais bien."
+    },
+    {
+        "start": 732.0399780273438,
+        "end": 733.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tu viens, tu es comme \u00e7a."
+    },
+    {
+        "start": 733.0399780273438,
+        "end": 735.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Une elfe de la for\u00eat, dans ce cas-l\u00e0."
+    },
+    {
+        "start": 735.0399780273438,
+        "end": 738.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je serais peut-\u00eatre trop loin d'assumer que c'est une druide, peut-\u00eatre."
+    },
+    {
+        "start": 738.0399780273438,
+        "end": 741.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Ah, tu te rapproches."
+    },
+    {
+        "start": 741.0399780273438,
+        "end": 747.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tu commences \u00e0 la d\u00e9nuder, donc tu vas me faire un test mental."
+    },
+    {
+        "start": 747.0399780273438,
+        "end": 752.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Et si tu as une comp\u00e9tence contextuelle type observation, cela peut te servir."
+    },
+    {
+        "start": 752.0399780273438,
+        "end": 756.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "A savoir que j'ai tous les PC et tout le truc pour enregistrer le setup."
+    },
+    {
+        "start": 756.0399780273438,
+        "end": 758.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je dis aux gens qui me regardent, coucou."
+    },
+    {
+        "start": 758.0399780273438,
+        "end": 759.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Est-ce que quelqu'un peut me dire..."
+    },
+    {
+        "start": 759.0399780273438,
+        "end": 761.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Est-ce que quelqu'un m'affiche sous les yeux ?"
+    },
+    {
+        "start": 762.0399780273438,
+        "end": 765.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Il peut me dire si j'ai des comp\u00e9tences de quoi que ce soit."
+    },
+    {
+        "start": 765.0399780273438,
+        "end": 768.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Au pire, on n'a qu'\u00e0 consid\u00e9rer que tu n'as aucune comp\u00e9tence."
+    },
+    {
+        "start": 769.0399780273438,
+        "end": 772.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Erudition et perception."
+    },
+    {
+        "start": 772.0399780273438,
+        "end": 774.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Ce sera 42."
+    },
+    {
+        "start": 774.0399780273438,
+        "end": 776.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'est d\u00e9j\u00e0 en dessous de mon niveau de volont\u00e9."
+    },
+    {
+        "start": 776.0399780273438,
+        "end": 778.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Donc d\u00e9j\u00e0, il n'y a aucun souci."
+    },
+    {
+        "start": 778.0399780273438,
+        "end": 781.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'est exactement \u00e7a, tu n'as pas \u00e0 t'inqui\u00e9ter."
+    },
+    {
+        "start": 781.0399780273438,
+        "end": 782.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "En plus, c'est 42."
+    },
+    {
+        "start": 782.0399780273438,
+        "end": 784.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Normalement, \u00e7a devrait \u00eatre un coup critique, quoi qu'il fasse."
+    },
+    {
+        "start": 784.0399780273438,
+        "end": 785.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'est vrai."
+    },
+    {
+        "start": 785.0399780273438,
+        "end": 788.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "De toute fa\u00e7on, tu as r\u00e9ussi \u00e0 trouver la r\u00e9ponse \u00e0 la question sur l'univers et le reste."
+    },
+    {
+        "start": 788.0399780273438,
+        "end": 793.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "En effet, tu analyses sa peau de soi."
+    },
+    {
+        "start": 793.0399780273438,
+        "end": 798.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Quelques fragrances te parviennent \u00e0 tes narines."
+    },
+    {
+        "start": 798.0399780273438,
+        "end": 801.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tu reconnais des fragrances naturelles."
+    },
+    {
+        "start": 801.0399780273438,
+        "end": 805.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "\u00c7a confirme que la mani\u00e8re dont elle prend soin de son corps,"
+    },
+    {
+        "start": 805.0399780273438,
+        "end": 811.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "confirme que c'est une druide."
+    },
+    {
+        "start": 811.0399780273438,
+        "end": 813.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'est une jeune elfe de la for\u00eat."
+    },
+    {
+        "start": 813.0399780273438,
+        "end": 816.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "OK les mecs, c'est une fermi\u00e8re et elle se sauce au patchouli."
+    },
+    {
+        "start": 819.0399780273438,
+        "end": 820.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Non, d\u00e9conne."
+    },
+    {
+        "start": 820.0399780273438,
+        "end": 822.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Donc oui, c'est une druidesse de la for\u00eat."
+    },
+    {
+        "start": 822.0399780273438,
+        "end": 823.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Excellent, tr\u00e8s bien."
+    },
+    {
+        "start": 823.0399780273438,
+        "end": 828.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Dans ce cas, est-ce que c'est mal de ma part d'assumer que son mal est probablement magique ?"
+    },
+    {
+        "start": 828.0399780273438,
+        "end": 830.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Pour la bonne simple raison que si c'\u00e9tait une fi\u00e8vre naturelle,"
+    },
+    {
+        "start": 830.0399780273438,
+        "end": 833.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Th\u00e9o aurait pu la soigner ou au moins la faire baisser \u00e0 grands coups d'un coup des mains."
+    },
+    {
+        "start": 833.0399780273438,
+        "end": 836.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tu as de tr\u00e8s fortes chances."
+    },
+    {
+        "start": 836.0399780273438,
+        "end": 838.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Enfin, tu penses tr\u00e8s fortement."
+    },
+    {
+        "start": 838.0399780273438,
+        "end": 841.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'est quelque chose de magique qui l'arrange."
+    },
+    {
+        "start": 841.0399780273438,
+        "end": 843.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Le probl\u00e8me, c'est que je ne suis pas fort en magie druidique."
+    },
+    {
+        "start": 843.0399780273438,
+        "end": 848.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tu penses m\u00eame que c'est peut-\u00eatre, en connaissant la classe des druides,"
+    },
+    {
+        "start": 848.0399780273438,
+        "end": 850.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "tu penses m\u00eame que c'est un lien \u00e0 quelque chose."
+    },
+    {
+        "start": 850.0399780273438,
+        "end": 854.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Peut-\u00eatre un lien \u00e0 la nature ou un lien \u00e0 des animaux."
+    },
+    {
+        "start": 854.0399780273438,
+        "end": 856.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Un lien \u00e0 la for\u00eat ou \u00e0 des animaux ?"
+    },
+    {
+        "start": 856.0399780273438,
+        "end": 858.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je passe au personnage suivant."
+    },
+    {
+        "start": 858.0399780273438,
+        "end": 861.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Toi, Naruto, qu'est-ce que tu fais ?"
+    },
+    {
+        "start": 861.0399780273438,
+        "end": 864.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je lui balance un kunai dans l'\u0153il et je le transforme en rodin."
+    },
+    {
+        "start": 864.0399780273438,
+        "end": 868.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Eh bien, elle dispara\u00eet et une bouche appara\u00eet \u00e0 sa place."
+    },
+    {
+        "start": 868.0399780273438,
+        "end": 870.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Merde !"
+    },
+    {
+        "start": 871.0399780273438,
+        "end": 874.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Niveau physique, on y a gagn\u00e9."
+    },
+    {
+        "start": 876.0399780273438,
+        "end": 882.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Qu'est-ce que j'aurais pu trouver d'identifiable dans son bardin ?"
+    },
+    {
+        "start": 882.0399780273438,
+        "end": 887.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tu retrouves une \u00e9p\u00e9e sur le c\u00f4t\u00e9, comme tu peux le voir sur le plan."
+    },
+    {
+        "start": 887.0399780273438,
+        "end": 891.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Cette \u00e9p\u00e9e n'a pas \u00e9norm\u00e9ment d'ornements."
+    },
+    {
+        "start": 891.0399780273438,
+        "end": 894.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Le m\u00e9tal de cette \u00e9p\u00e9e semble \u00eatre fait d'un seul bloc."
+    },
+    {
+        "start": 894.0399780273438,
+        "end": 896.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Le m\u00e9tal est pur."
+    },
+    {
+        "start": 896.0399780273438,
+        "end": 898.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Le m\u00e9tal est gondol\u00e9 par certains endroits."
+    },
+    {
+        "start": 898.0399780273438,
+        "end": 900.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Ce n'est pas un forgeron royal."
+    },
+    {
+        "start": 900.0399780273438,
+        "end": 903.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Ce n'est pas des forges citadines qui l'ont con\u00e7u."
+    },
+    {
+        "start": 903.0399780273438,
+        "end": 906.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'est surtout une \u00e9p\u00e9e de survie."
+    },
+    {
+        "start": 906.0399780273438,
+        "end": 909.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Une \u00e9p\u00e9e qui n'est pas l\u00e0 pour gu\u00e9rouiller."
+    },
+    {
+        "start": 909.0399780273438,
+        "end": 912.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tu vois quelques symboles kabbalistiques dessus"
+    },
+    {
+        "start": 912.0399780273438,
+        "end": 915.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "qui te rappellent, dans ta culture de demi-\u00e9l\u00e9mentaire,"
+    },
+    {
+        "start": 915.0399780273438,
+        "end": 918.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "le respect qu'on peut accorder \u00e0 la nature."
+    },
+    {
+        "start": 918.0399780273438,
+        "end": 920.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "D'accord."
+    },
+    {
+        "start": 920.0399780273438,
+        "end": 922.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Qu'est-ce que tu fais ?"
+    },
+    {
+        "start": 922.0399780273438,
+        "end": 925.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je cr\u00e9e une connexion avec elle directement."
+    },
+    {
+        "start": 925.0399780273438,
+        "end": 927.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "J'essaie de parler..."
+    },
+    {
+        "start": 927.0399780273438,
+        "end": 930.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Ah, vous \u00eates pour le tard, c'est \u00e7a !"
+    },
+    {
+        "start": 932.0399780273438,
+        "end": 934.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "On partage cette passion pour la nature,"
+    },
+    {
+        "start": 934.0399780273438,
+        "end": 936.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "ce respect, cette communion avec la nature."
+    },
+    {
+        "start": 936.0399780273438,
+        "end": 938.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'est exactement \u00e7a."
+    },
+    {
+        "start": 938.0399780273438,
+        "end": 942.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Quelque part, je me retrouve dans ses pr\u00e9ceptes."
+    },
+    {
+        "start": 942.0399780273438,
+        "end": 945.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Si je peux me permettre, tu m'as donn\u00e9 une excellente id\u00e9e."
+    },
+    {
+        "start": 945.0399780273438,
+        "end": 947.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je t'en prie, si tu veux que je d\u00e9veloppe..."
+    },
+    {
+        "start": 947.0399780273438,
+        "end": 949.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je ne voulais pas t'interrompre,"
+    },
+    {
+        "start": 949.0399780273438,
+        "end": 951.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "je voulais juste te dire..."
+    },
+    {
+        "start": 951.0399780273438,
+        "end": 953.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je voudrais bien aimer m'entretenir avec elle,"
+    },
+    {
+        "start": 953.0399780273438,
+        "end": 955.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "mais vu qu'elle est un peu dans le coltard..."
+    },
+    {
+        "start": 955.0399780273438,
+        "end": 957.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Elle se retourne dans sa couche"
+    },
+    {
+        "start": 957.0399780273438,
+        "end": 959.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "et te saisit la main"
+    },
+    {
+        "start": 959.0399780273438,
+        "end": 962.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "alors que tu as la main sur la garde de son \u00e9p\u00e9e."
+    },
+    {
+        "start": 962.0399780273438,
+        "end": 964.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "D'accord."
+    },
+    {
+        "start": 964.0399780273438,
+        "end": 967.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je repose son \u00e9p\u00e9e, je lui saisis la main,"
+    },
+    {
+        "start": 967.0399780273438,
+        "end": 970.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "je la regarde et je la tapote pour la r\u00e9conforter."
+    },
+    {
+        "start": 976.0399780273438,
+        "end": 978.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Le tout pendant qu'elle est \u00e0 moiti\u00e9 nue"
+    },
+    {
+        "start": 978.0399780273438,
+        "end": 980.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "et que Bob la tripote, je tiens \u00e0 le dire."
+    },
+    {
+        "start": 980.0399780273438,
+        "end": 982.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tiens la cam\u00e9ra."
+    },
+    {
+        "start": 983.0399780273438,
+        "end": 986.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "C'\u00e9tait pour v\u00e9rifier s'il \u00e9tait bless\u00e9, les mecs."
+    },
+    {
+        "start": 986.0399780273438,
+        "end": 988.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "S'il vous pla\u00eet."
+    },
+    {
+        "start": 988.0399780273438,
+        "end": 990.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Pendant que tu es en train de la rassurer,"
+    },
+    {
+        "start": 990.0399780273438,
+        "end": 992.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Grelec, qu'est-ce que tu fais ?"
+    },
+    {
+        "start": 992.0399780273438,
+        "end": 994.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tu pr\u00e9pares le th\u00e9, tu disais une tisane."
+    },
+    {
+        "start": 994.0399780273438,
+        "end": 996.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Ta tisane est pr\u00eate."
+    },
+    {
+        "start": 996.0399780273438,
+        "end": 997.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Qu'est-ce que tu fais ?"
+    },
+    {
+        "start": 997.0399780273438,
+        "end": 999.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je vais m'avancer vers elle avec la tisane."
+    },
+    {
+        "start": 999.0399780273438,
+        "end": 1001.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Je vais demander \u00e0 Sheen et \u00e0 Bob"
+    },
+    {
+        "start": 1001.0399780273438,
+        "end": 1003.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "de m'aider \u00e0 la mettre en position assise."
+    },
+    {
+        "start": 1003.0399780273438,
+        "end": 1005.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Tu la bois devant elle."
+    },
+    {
+        "start": 1005.0399780273438,
+        "end": 1007.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Et puis l'aider \u00e0 boire."
+    },
+    {
+        "start": 1007.0399780273438,
+        "end": 1009.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "En position lat\u00e9rale de s\u00e9curit\u00e9."
+    },
+    {
+        "start": 1010.0399780273438,
+        "end": 1012.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "D'accord."
+    },
+    {
+        "start": 1012.0399780273438,
+        "end": 1014.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Est-ce qu'elle accepte d\u00e9j\u00e0 ?"
+    },
+    {
+        "start": 1014.0399780273438,
+        "end": 1016.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Parce qu'on est un peu des \u00e9trangers pour elle."
+    },
+    {
+        "start": 1016.0399780273438,
+        "end": 1018.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Pour le coup,"
+    },
+    {
+        "start": 1018.0399780273438,
+        "end": 1020.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "elle n'a pas grand choix."
+    },
+    {
+        "start": 1020.0399780273438,
+        "end": 1022.0399780273438,
+        "speaker": "UNKNOWN",
+        "text": "Elle se laisse faire."
+    },
+    {
+        "start": 1022.0399780273438,
+        "end": 1024.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Elle d\u00e9lire."
+    },
+    {
+        "start": 1024.0400390625,
+        "end": 1026.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Cela dit, apr\u00e8s que tu lui fais boire"
+    },
+    {
+        "start": 1026.0400390625,
+        "end": 1028.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "quelque gorg\u00e9e, tu remarques que son \u00e9tat"
+    },
+    {
+        "start": 1028.0400390625,
+        "end": 1030.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "semble aller l\u00e9g\u00e8rement mieux."
+    },
+    {
+        "start": 1030.0400390625,
+        "end": 1032.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Vous pensez tous,"
+    },
+    {
+        "start": 1032.0400390625,
+        "end": 1035.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "gr\u00e2ce aux observations de Bob,"
+    },
+    {
+        "start": 1035.0400390625,
+        "end": 1038.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "que peut-\u00eatre d'ici une heure, deux heures,"
+    },
+    {
+        "start": 1039.0400390625,
+        "end": 1041.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "vers l'aube,"
+    },
+    {
+        "start": 1041.0400390625,
+        "end": 1045.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "elle prendra s\u00fbrement conscience."
+    },
+    {
+        "start": 1045.0400390625,
+        "end": 1047.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "La tisane, \u00e7a l'a soign\u00e9."
+    },
+    {
+        "start": 1047.0400390625,
+        "end": 1049.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "C'\u00e9tait un rhume qu'elle avait."
+    },
+    {
+        "start": 1049.0400390625,
+        "end": 1051.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "J'ai une id\u00e9e."
+    },
+    {
+        "start": 1051.0400390625,
+        "end": 1053.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Je pense qu'elle peut \u00eatre glorieuse."
+    },
+    {
+        "start": 1053.0400390625,
+        "end": 1055.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Elle peut aussi compl\u00e8tement foirer."
+    },
+    {
+        "start": 1055.0400390625,
+        "end": 1057.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Je peux ?"
+    },
+    {
+        "start": 1057.0400390625,
+        "end": 1059.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Tr\u00e8s bien."
+    },
+    {
+        "start": 1059.0400390625,
+        "end": 1061.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "J'ai un pouvoir magique"
+    },
+    {
+        "start": 1061.0400390625,
+        "end": 1063.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "qui nous co\u00fbte de la concentration"
+    },
+    {
+        "start": 1063.0400390625,
+        "end": 1065.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "et qui peut \u00eatre pratique sur un aspect tactique,"
+    },
+    {
+        "start": 1065.0400390625,
+        "end": 1067.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "mais qui peut nous donner des r\u00e9ponses."
+    },
+    {
+        "start": 1067.0400390625,
+        "end": 1069.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "C'est un plan mental qui nous permet"
+    },
+    {
+        "start": 1069.0400390625,
+        "end": 1071.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "de communiquer par t\u00e9l\u00e9pathie"
+    },
+    {
+        "start": 1071.0400390625,
+        "end": 1073.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "afin d'\u00e9viter les zones d'infiltration"
+    },
+    {
+        "start": 1073.0400390625,
+        "end": 1075.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "ou d'autres moyens sympas."
+    },
+    {
+        "start": 1075.0400390625,
+        "end": 1077.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Le probl\u00e8me, c'est que je dois me concentrer"
+    },
+    {
+        "start": 1077.0400390625,
+        "end": 1079.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "pour l'ex\u00e9cuter."
+    },
+    {
+        "start": 1079.0400390625,
+        "end": 1081.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Cela n'a pas de gros avantages"
+    },
+    {
+        "start": 1081.0400390625,
+        "end": 1083.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "sur le champ de bataille."
+    },
+    {
+        "start": 1083.0400390625,
+        "end": 1085.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Du coup, Shyn,"
+    },
+    {
+        "start": 1085.0400390625,
+        "end": 1087.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "parce que tu as un grand lien avec la nature"
+    },
+    {
+        "start": 1087.0400390625,
+        "end": 1089.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "et que tu es la plus proche d'elle"
+    },
+    {
+        "start": 1089.0400390625,
+        "end": 1091.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "sur le plan mental,"
+    },
+    {
+        "start": 1091.0400390625,
+        "end": 1093.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "on pourrait ouvrir une connexion \u00e0 toi,"
+    },
+    {
+        "start": 1093.0400390625,
+        "end": 1095.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "moi qui suis juste l\u00e0 en tant que host"
+    },
+    {
+        "start": 1095.0400390625,
+        "end": 1097.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "afin que son cerveau se fonde"
+    },
+    {
+        "start": 1097.0400390625,
+        "end": 1099.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "dans le n\u00f4tre."
+    },
+    {
+        "start": 1099.0400390625,
+        "end": 1101.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Et toi, tu pourrais tenter de l'atteindre"
+    },
+    {
+        "start": 1101.0400390625,
+        "end": 1103.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "ou de communiquer avec, ou m\u00eame"
+    },
+    {
+        "start": 1103.0400390625,
+        "end": 1105.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "voir si tu peux voir son d\u00e9lire"
+    },
+    {
+        "start": 1105.0400390625,
+        "end": 1107.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "ou essayer d'arracher une info."
+    },
+    {
+        "start": 1107.0400390625,
+        "end": 1109.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Alors prudence !"
+    },
+    {
+        "start": 1109.0400390625,
+        "end": 1111.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Prudence !"
+    },
+    {
+        "start": 1111.0400390625,
+        "end": 1113.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "On va rentrer dans ses r\u00eaves !"
+    },
+    {
+        "start": 1113.0400390625,
+        "end": 1115.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "On peut pas lui redonner de la tisane ?"
+    },
+    {
+        "start": 1115.0400390625,
+        "end": 1117.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Il a laiss\u00e9 se reposer, il lui posait des questions"
+    },
+    {
+        "start": 1117.0400390625,
+        "end": 1119.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "\u00e0 son r\u00e9veil."
+    },
+    {
+        "start": 1119.0400390625,
+        "end": 1121.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Le probl\u00e8me, c'est de violer son esprit."
+    },
+    {
+        "start": 1121.0400390625,
+        "end": 1123.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "C'est parler \u00e0 son esprit plut\u00f4t qu'\u00e0 sa bouche"
+    },
+    {
+        "start": 1123.0400390625,
+        "end": 1125.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "et il refuse de fonctionner \u00e0 cause de la mal\u00e9diction."
+    },
+    {
+        "start": 1125.0400390625,
+        "end": 1127.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Normalement, ton interlocuteur mental"
+    },
+    {
+        "start": 1127.0400390625,
+        "end": 1129.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "doit \u00eatre absolument,"
+    },
+    {
+        "start": 1129.0400390625,
+        "end": 1131.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "non seulement apte,"
+    },
+    {
+        "start": 1131.0400390625,
+        "end": 1133.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "mais ouvert \u00e0 la connexion,"
+    },
+    {
+        "start": 1133.0400390625,
+        "end": 1135.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "doit autoriser cette connexion."
+    },
+    {
+        "start": 1135.0400390625,
+        "end": 1137.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Donc, \u00e0 partir du moment o\u00f9 elle n'est pas vraiment consciente"
+    },
+    {
+        "start": 1137.0400390625,
+        "end": 1139.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "de son existence,"
+    },
+    {
+        "start": 1139.0400390625,
+        "end": 1141.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "elle ne peut pas..."
+    },
+    {
+        "start": 1141.0400390625,
+        "end": 1143.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Il faut demander \u00e0 un pr\u00eatre"
+    },
+    {
+        "start": 1143.0400390625,
+        "end": 1145.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "comment \u00e7a marche les connexions."
+    },
+    {
+        "start": 1145.0400390625,
+        "end": 1147.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Il ne peut pas faire de lien mental avec quelqu'un d'inconscient ou d\u00e9lirant."
+    },
+    {
+        "start": 1147.0400390625,
+        "end": 1149.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Aussi, \u00e7a aurait \u00e9t\u00e9 risqu\u00e9,"
+    },
+    {
+        "start": 1149.0400390625,
+        "end": 1151.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "j'aurais pas voulu y aller jusqu'au bout,"
+    },
+    {
+        "start": 1151.0400390625,
+        "end": 1153.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "parce que si elle est maudite et que c'est au niveau mental,"
+    },
+    {
+        "start": 1153.0400390625,
+        "end": 1155.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "c\u00e9r\u00e9bral ou autre, \u00e7a aurait pu nous infecter"
+    },
+    {
+        "start": 1155.0400390625,
+        "end": 1157.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "et \u00e7a aurait pu \u00eatre de la merde."
+    },
+    {
+        "start": 1157.0400390625,
+        "end": 1159.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "C'est une id\u00e9e, je discute."
+    },
+    {
+        "start": 1159.0400390625,
+        "end": 1161.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Tr\u00e8s bien."
+    },
+    {
+        "start": 1161.0400390625,
+        "end": 1163.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "On va d\u00e9j\u00e0 attendre de voir ce que Th\u00e9o nous dira"
+    },
+    {
+        "start": 1163.0400390625,
+        "end": 1165.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "quand il sera rentr\u00e9."
+    },
+    {
+        "start": 1165.0400390625,
+        "end": 1167.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Les rares amis que tu poss\u00e8des,"
+    },
+    {
+        "start": 1167.0400390625,
+        "end": 1169.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "qui sont autour de toi aujourd'hui,"
+    },
+    {
+        "start": 1169.0400390625,
+        "end": 1171.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "sont les rares personnes \u00e0 conna\u00eetre"
+    },
+    {
+        "start": 1171.0400390625,
+        "end": 1173.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "ton origine,"
+    },
+    {
+        "start": 1173.0400390625,
+        "end": 1175.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "ta parent\u00e9 d\u00e9moniaque."
+    },
+    {
+        "start": 1175.0400390625,
+        "end": 1177.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Et tu te rappelles aussi que ton lien mental"
+    },
+    {
+        "start": 1177.0400390625,
+        "end": 1179.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "que tu peux d\u00e9ployer gr\u00e2ce \u00e0 ta concentration"
+    },
+    {
+        "start": 1179.0400390625,
+        "end": 1181.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "vient du fait que tu laisses"
+    },
+    {
+        "start": 1181.0400390625,
+        "end": 1183.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "cette part d\u00e9moniaque de toi"
+    },
+    {
+        "start": 1183.0400390625,
+        "end": 1185.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "prendre l\u00e9g\u00e8rement le dessus."
+    },
+    {
+        "start": 1185.0400390625,
+        "end": 1187.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Peut-\u00eatre qu'il faudrait mod\u00e9rer cet usage."
+    },
+    {
+        "start": 1187.0400390625,
+        "end": 1189.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Je reconnais que c'\u00e9tait tr\u00e8s risqu\u00e9,"
+    },
+    {
+        "start": 1189.0400390625,
+        "end": 1191.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "c'\u00e9tait une id\u00e9e en l'air, on ne sait jamais."
+    },
+    {
+        "start": 1191.0400390625,
+        "end": 1193.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Si vous me dites qu'elle ira mieux d'ici quelques heures,"
+    },
+    {
+        "start": 1193.0400390625,
+        "end": 1195.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "on va la laisser pioncer, on ira bien."
+    },
+    {
+        "start": 1195.0400390625,
+        "end": 1197.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Tr\u00e8s bien."
+    },
+    {
+        "start": 1197.0400390625,
+        "end": 1199.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Pendant que Th\u00e9o"
+    },
+    {
+        "start": 1199.0400390625,
+        "end": 1201.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "se rapproche,"
+    },
+    {
+        "start": 1201.0400390625,
+        "end": 1203.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "qu'est-ce que tu as trouv\u00e9 ?"
+    },
+    {
+        "start": 1203.0400390625,
+        "end": 1205.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "J'ai trouv\u00e9"
+    },
+    {
+        "start": 1205.0400390625,
+        "end": 1207.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "visiblement des pi\u00e8ces de parchemin."
+    },
+    {
+        "start": 1207.0400390625,
+        "end": 1209.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Je me suis pos\u00e9 sur une des couchettes"
+    },
+    {
+        "start": 1209.0400390625,
+        "end": 1211.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "et l\u00e0, il y a la musique de Professeur Layton qui commence."
+    },
+    {
+        "start": 1217.0400390625,
+        "end": 1219.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Tu me fais un jet"
+    },
+    {
+        "start": 1219.0400390625,
+        "end": 1221.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "d'observation, s'il te pla\u00eet."
+    },
+    {
+        "start": 1221.0400390625,
+        "end": 1223.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Bob, encore."
+    },
+    {
+        "start": 1223.0400390625,
+        "end": 1225.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Mais il ne peut pas partir de..."
+    },
+    {
+        "start": 1225.0400390625,
+        "end": 1227.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Fais-moi un jet de physique"
+    },
+    {
+        "start": 1227.0400390625,
+        "end": 1229.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "plus"
+    },
+    {
+        "start": 1229.0400390625,
+        "end": 1231.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "observation."
+    },
+    {
+        "start": 1231.0400390625,
+        "end": 1233.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Donc tu as 10% en observation"
+    },
+    {
+        "start": 1233.0400390625,
+        "end": 1235.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "et tu as en physique"
+    },
+    {
+        "start": 1235.0400390625,
+        "end": 1237.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "30%."
+    },
+    {
+        "start": 1237.0400390625,
+        "end": 1239.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "79%."
+    },
+    {
+        "start": 1241.0400390625,
+        "end": 1243.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Tr\u00e8s bien."
+    },
+    {
+        "start": 1243.0400390625,
+        "end": 1245.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Alors que"
+    },
+    {
+        "start": 1245.0400390625,
+        "end": 1247.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Th\u00e9o s'avance avec un parchemin"
+    },
+    {
+        "start": 1247.0400390625,
+        "end": 1249.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "tranquillement,"
+    },
+    {
+        "start": 1249.0400390625,
+        "end": 1251.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "il s'arr\u00eate brusquement,"
+    },
+    {
+        "start": 1251.0400390625,
+        "end": 1253.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "\u00e9carquille les yeux"
+    },
+    {
+        "start": 1253.0400390625,
+        "end": 1255.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "et il se met \u00e0 hurler tout ce qu'il peut."
+    },
+    {
+        "start": 1255.0400390625,
+        "end": 1257.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Il hurle en se tenant le cou,"
+    },
+    {
+        "start": 1257.0400390625,
+        "end": 1259.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "se retourne"
+    },
+    {
+        "start": 1259.0400390625,
+        "end": 1261.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "et vous voyez appara\u00eetre sur son dos"
+    },
+    {
+        "start": 1261.0400390625,
+        "end": 1263.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "une \u00e9norme araign\u00e9e"
+    },
+    {
+        "start": 1263.0400390625,
+        "end": 1265.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "qui courait"
+    },
+    {
+        "start": 1265.0400390625,
+        "end": 1267.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "sur son dos, sur son armure,"
+    },
+    {
+        "start": 1267.0400390625,
+        "end": 1269.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "et qui a plong\u00e9 ses pattes"
+    },
+    {
+        "start": 1269.0400390625,
+        "end": 1271.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "entre les plis de son armure."
+    },
+    {
+        "start": 1271.0400390625,
+        "end": 1273.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Arnois."
+    },
+    {
+        "start": 1273.0400390625,
+        "end": 1275.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Exactement."
+    },
+    {
+        "start": 1275.0400390625,
+        "end": 1277.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Tu sens, toi, Th\u00e9o, quelque chose d'horrible,"
+    },
+    {
+        "start": 1277.0400390625,
+        "end": 1279.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "de froid te p\u00e9n\u00e9trer la chair"
+    },
+    {
+        "start": 1279.0400390625,
+        "end": 1281.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "alors que tu te retournes et cette \u00e9norme araign\u00e9e"
+    },
+    {
+        "start": 1281.0400390625,
+        "end": 1283.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "sur ton dos"
+    },
+    {
+        "start": 1283.0400390625,
+        "end": 1285.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "dont les cerfs,"
+    },
+    {
+        "start": 1285.0400390625,
+        "end": 1287.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "les dents"
+    },
+    {
+        "start": 1287.0400390625,
+        "end": 1289.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "sont plant\u00e9es dans ta chair"
+    },
+    {
+        "start": 1289.0400390625,
+        "end": 1291.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "et tu hurles et tu te retournes \u00e0 ce moment-l\u00e0"
+    },
+    {
+        "start": 1291.0400390625,
+        "end": 1293.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "et hop, tu ne peux que..."
+    },
+    {
+        "start": 1293.0400390625,
+        "end": 1295.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Je ne peux rien faire, je suis dans le seum, l\u00e0."
+    },
+    {
+        "start": 1295.0400390625,
+        "end": 1297.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Rame-moi \u00e7a, esp\u00e8ce de trou du cul !"
+    },
+    {
+        "start": 1297.0400390625,
+        "end": 1299.0400390625,
+        "speaker": "UNKNOWN",
+        "text": "Non, t'es fou, je vais te tuer !"
+    }
+]
