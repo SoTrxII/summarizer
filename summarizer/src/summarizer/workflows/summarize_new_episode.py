@@ -27,7 +27,7 @@ from summarizer.services.speech_to_text import SpeechToText
 from summarizer.services.summaries.models.episode_summary import EpisodeSummary
 from summarizer.services.summaries.models.scene_summary import SceneSummary
 from summarizer.services.summaries.summarizer import Summarizer
-from summarizer.services.transformers import SceneChunker
+from summarizer.services.transformers import RuptureSceneChunker
 from summarizer.utils.telemetry import span
 
 from .runtime import wfr
@@ -81,7 +81,7 @@ def transcribe_audio(
 def split_into_scenes(
     _: WorkflowActivityContext,
     input: WorkflowInput,
-    scene_chunker: SceneChunker = Provide[Container.scene_chunker],
+    scene_chunker: RuptureSceneChunker = Provide[Container.scene_chunker],
     summary_repo: SummaryRepository = Provide[Container.summary_repository]
 ) -> List[Scene]:
     """
