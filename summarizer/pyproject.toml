@@ -30,6 +30,7 @@ dependencies = [
     "httpx (>=0.28.1,<1.0.0)",
     "opentelemetry-distro (>=0.57b0,<0.58)",
     "opentelemetry-instrumentation (>=0.57b0,<0.58)",
+    "ruptures (>=1.1.10,<2.0.0)",
 ]
 
 [project.scripts]
