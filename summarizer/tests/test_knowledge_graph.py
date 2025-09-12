@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from summarizer.services.knowledge_graph import KnowledgeGraph
-from summarizer.services.summaries.models.scene_summary import SceneSummary
+from summarizer.services.summaries.models import SceneSummary
 from summarizer.utils.naming import get_standardized_filenames
 
 from .utils.json import read_test_data
