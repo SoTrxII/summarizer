@@ -24,8 +24,7 @@ from summarizer.models.workflow import (
 from summarizer.repositories.storage import AudioRepository, SummaryRepository
 from summarizer.services.knowledge_graph import KnowledgeGraph
 from summarizer.services.speech_to_text import SpeechToText
-from summarizer.services.summaries.models.episode_summary import EpisodeSummary
-from summarizer.services.summaries.models.scene_summary import SceneSummary
+from summarizer.services.summaries.models import EpisodeSummary, SceneSummary
 from summarizer.services.summaries.summarizer import Summarizer
 from summarizer.services.transformers import RuptureSceneChunker
 from summarizer.utils.telemetry import span
