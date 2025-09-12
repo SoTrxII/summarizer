@@ -60,8 +60,9 @@ class Summarizer:
         thread._chat_history.add_user_message(
             f"PREVIOUS EPISODE SUMMARY: {previous_summary or 'NO PREVIOUS SUMMARY'}"
         )
+        aggregated_summary = SceneSummary.merge(scenes_summaries)
 
-        res = await agent.get_response(f"SCENES TO SUMMARIZE\n:{dumps([s.model_dump() for s in scenes_summaries])}", thread=thread)
+        res = await agent.get_response(f"All scenes summaries \n:{aggregated_summary.model_dump_json()}", thread=thread)
         return EpisodeSummary.model_validate_json(res.message.content)
 
     async def campaign(self, episodes_summaries: List[EpisodeSummary], previous_summary: str | None = None) -> str:
@@ -79,7 +80,6 @@ class Summarizer:
             f"PREVIOUS CAMPAIGN SUMMARY: {previous_summary or 'NO PREVIOUS SUMMARY'}"
         )
 
-        episodes_data = [episode.model_dump()
-                         for episode in episodes_summaries]
-        res = await agent.get_response(f"EPISODES TO SUMMARIZE\n:{dumps(episodes_data)}", thread=thread)
+        aggregated_summary = EpisodeSummary.merge(episodes_summaries)
+        res = await agent.get_response(f"EPISODES TO SUMMARIZE\n:{aggregated_summary.model_dump_json()}", thread=thread)
         return res.message.content

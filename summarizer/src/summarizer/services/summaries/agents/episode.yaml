@@ -19,6 +19,7 @@ template: |
     - Collect all scene.key_events, order them by timestamps.start (then scene_id) to produce chronological `key_events`.
     - Deduplicate events with fuzzy description similarity ≥ EVENT_DEDUPE_SIM (0.85) AND time overlap: merge into a single event with combined actors, source_scene references, and aggregated impact text.
     - Keep event_id deterministic (prefer earliest event_id).
+
 template_format: semantic-kernel
 description: An agent that summarizes TTRPG scenes.
 input_variables:

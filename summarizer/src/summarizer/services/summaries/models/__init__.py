@@ -5,19 +5,20 @@ This module provides consistent data structures for summarizing RPG content
 at different levels: scenes, episodes, and campaigns.
 """
 
-from .base_models import Timestamps
-from .episode_summary import EpisodeSummary
-from .scene_summary import PlayerCharacter, SceneSummary
+from .character import Character
+from .event import Event
+from .lore_entry import LoreEntry
+from .summary import EpisodeSummary, SceneSummary, Summary
 from .summary_arguments import SummaryArguments
+from .timestamps import Timestamps
 
 __all__ = [
-    # Base models
+    "Character",
+    "Event",
+    "LoreEntry",
     "Timestamps",
-    # Scene models
-    "PlayerCharacter",
+    "Summary",
     "SceneSummary",
-    # Episode models
     "EpisodeSummary",
-    # Campaign models
     "SummaryArguments",
 ]

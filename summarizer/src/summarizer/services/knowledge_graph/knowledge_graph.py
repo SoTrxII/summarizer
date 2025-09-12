@@ -1,6 +1,6 @@
 from typing import List, Optional, Protocol
 
-from summarizer.services.summaries.models.scene_summary import SceneSummary
+from summarizer.services.summaries.models import SceneSummary
 
 from .models.insert_response import InsertResponse
 

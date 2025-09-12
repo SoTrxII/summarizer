@@ -6,7 +6,7 @@ from typing import List, Optional
 import httpx
 
 from summarizer.services.knowledge_graph.models.insert_response import InsertResponse
-from summarizer.services.summaries.models.scene_summary import SceneSummary
+from summarizer.services.summaries.models import SceneSummary
 
 from .models import LrInsertRequest, LrInsertResponse, LrQueryRequest, LrQueryResponse
 
@@ -37,7 +37,7 @@ class LightRAG:
 
         for i, scene_summary in enumerate(scene_summaries):
             text_parts = self._build_tags(campaign_id, episode_id, i)
-            text_parts.append(scene_summary.to_text())
+            text_parts.append(str(scene_summary))
 
             res = await self._insert_document(LrInsertRequest(
                 text="\n".join(text_parts),
