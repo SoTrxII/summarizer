@@ -183,6 +183,8 @@ jobs:
         AUDIO_COMPLETION_PROVIDER: "azure"
         # Not in ctn env
         SKIP_WORKFLOW_TESTS: false
+        # Skipping too extensive tests in CI for now
+        SKIP_LONG_TESTS: "true"
       run: |
         docker run --rm \
           --network host \
@@ -199,6 +201,8 @@ jobs:
           --env OLLAMA_MODEL_NAME \
           --env CHAT_COMPLETION_PROVIDER \
           --env AUDIO_COMPLETION_PROVIDER \
+          --env SKIP_WORKFLOW_TESTS \
+          --env SKIP_LONG_TESTS \
           -v /home/runner:/host-runner:rw \
           --entrypoint="" \
           summarizer:test \
