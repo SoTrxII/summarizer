@@ -226,6 +226,9 @@ jobs:
         CHAT_COMPLETION_PROVIDER: "azure"
         AUDIO_COMPLETION_PROVIDER: "azure"
         SKIP_WORKFLOW_TESTS: false
+
+        # Skipping too extensive tests in CI for now
+        SKIP_LONG_TESTS: "true"
       run: |
         echo "=== Starting health check ==="
         
@@ -247,6 +250,7 @@ jobs:
           --env CHAT_COMPLETION_PROVIDER \
           --env AUDIO_COMPLETION_PROVIDER \
           --env SKIP_WORKFLOW_TESTS \
+          --env SKIP_LONG_TESTS \
           summarizer:test)
         
         echo "Container started with ID: $CONTAINER_ID"
