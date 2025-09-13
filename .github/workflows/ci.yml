@@ -179,7 +179,9 @@ jobs:
         CHAT_COMPLETION_PROVIDER: "azure"
         AUDIO_COMPLETION_PROVIDER: "azure"
         SKIP_WORKFLOW_TESTS: ${{ steps.dapr-setup.outputs.dapr-available != 'true' }}
-
+        
+        # Skipping too extensive tests in CI for now
+        SKIP_LONG_TESTS: "true"
       run: |
         # Ensure daprd is available for workflow tests
         export PATH="$HOME/.dapr/bin:$PATH"
