@@ -21,9 +21,9 @@ async def test_workflow_transcript_to_summary(wf_client: DaprWorkflowClient, dat
     """Test the transcript to summary workflow with Dapr sidecar."""
     setup_DI()
     # asset_name = "1m_sample1.json"
-    asset_name = "11.json"
-    campaign_id = 1
-    episode_id = 11
+    asset_name = "01.json"
+    campaign_id = 5
+    episode_id = 1
 
     # Ensure the target directory exists before copying the file
     target_dir = data_dir / "generated" / f"{campaign_id}" / f"{episode_id}"

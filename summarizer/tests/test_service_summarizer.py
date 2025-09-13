@@ -43,6 +43,8 @@ async def test_service_summaries_scene(base_name: str, data_dir: Path, summarize
     # Write summaries
     write_test_data(data_dir / "generated" / "summaries" /
                     scene_summaries_file, summaries, ensure_ascii=False)
+    # write_test_data(data_dir / "summaries" /
+    #                 scene_summaries_file, summaries, ensure_ascii=False)
 
     assert all(summary is not None for summary in summaries)
     logging.info(f"Summarization results: {summaries}")
@@ -64,9 +66,10 @@ async def test_service_summaries_episode(base_name: str, data_dir: Path, summari
     summary = await summarizer.episode(sample_scenes)
 
     # Write episode summary
-    write_test_data(data_dir / "summaries" /
+    write_test_data(data_dir / "generated" / "summaries" /
                     episode_summary_file, summary, ensure_ascii=False)
-
+    # write_test_data(data_dir / "summaries" /
+    #                 episode_summary_file, summary, ensure_ascii=False)
     assert summary is not None
     logging.info(f"Summarization result: {summary}")
 
@@ -88,14 +91,20 @@ async def test_service_summaries_campaign(data_dir: Path, summarizer: Summarizer
     summary = await summarizer.campaign(sample_episodes)
 
     # Write campaign summary
-    write_test_data(data_dir / "summaries" /
+    write_test_data(data_dir / "generated" / "summaries" /
                     "campaign_summary.json", summary, ensure_ascii=False)
+    # write_test_data(data_dir / "summaries" /
+    #                 "campaign_summary.json", summary, ensure_ascii=False)
 
     assert summary is not None
     logging.info(f"Campaign summarization result: {summary}")
 
 
 @pytest.mark.asyncio
+@pytest.mark.skipif(
+    getenv("SKIP_WORKFLOW_TESTS", "false").lower() == "true",
+    reason="Workflow tests skipped in CI (SKIP_WORKFLOW_TESTS=true)"
+)
 async def test_service_summaries_scene_quality(data_dir: Path, summarizer: Summarizer, deepeval_model: AzureOpenAIModel, azure_text_to_text_provider: AzureChatCompletion):
     """
     This test ensures that character information is correctly mapped between scenes and summaries.
