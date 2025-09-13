@@ -20,8 +20,8 @@ from tests.utils.dapr import managed_workflow_context
 async def test_workflow_transcript_to_summary(wf_client: DaprWorkflowClient, data_dir: Path):
     """Test the transcript to summary workflow with Dapr sidecar."""
     setup_DI()
-    # asset_name = "1m_sample1.json"
-    asset_name = "01.json"
+    asset_name = "1m_sample1.json"
+    # asset_name = "01.json"
     campaign_id = 5
     episode_id = 1
 
@@ -31,14 +31,14 @@ async def test_workflow_transcript_to_summary(wf_client: DaprWorkflowClient, dat
 
     # Copy the target test file to the generated directory, which is where the test summary-store
     # points to
-    # copyfile(
-    #     data_dir / "transcriptions" / asset_name,
-    #     target_dir / "transcript.json"
-    # )
     copyfile(
-        data_dir / "past_campaigns" / "05" / asset_name,
+        data_dir / "transcriptions" / asset_name,
         target_dir / "transcript.json"
     )
+    # copyfile(
+    #     data_dir / "past_campaigns" / "05" / asset_name,
+    #     target_dir / "transcript.json"
+    # )
 
     # Create workflow input
     input = WorkflowInput(
