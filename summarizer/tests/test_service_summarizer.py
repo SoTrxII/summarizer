@@ -102,8 +102,8 @@ async def test_service_summaries_campaign(data_dir: Path, summarizer: Summarizer
 
 @pytest.mark.asyncio
 @pytest.mark.skipif(
-    getenv("SKIP_WORKFLOW_TESTS", "false").lower() == "true",
-    reason="Workflow tests skipped in CI (SKIP_WORKFLOW_TESTS=true)"
+    getenv("SKIP_LONG_TESTS", "false").lower() == "true",
+    reason="Workflow tests skipped in CI (SKIP_LONG_TESTS=true)"
 )
 async def test_service_summaries_scene_quality(data_dir: Path, summarizer: Summarizer, deepeval_model: AzureOpenAIModel, azure_text_to_text_provider: AzureChatCompletion):
     """
@@ -135,8 +135,8 @@ async def test_service_summaries_scene_quality(data_dir: Path, summarizer: Summa
 
 @pytest.mark.asyncio
 @pytest.mark.skipif(
-    getenv("SKIP_WORKFLOW_TESTS", "false").lower() == "true",
-    reason="Workflow tests skipped in CI (SKIP_WORKFLOW_TESTS=true)"
+    getenv("SKIP_LONG_TESTS", "false").lower() == "true",
+    reason="Workflow tests skipped in CI (SKIP_LONG_TESTS=true)"
 )
 async def test_service_summaries_episode_quality(data_dir: Path, summarizer: Summarizer, deepeval_model: AzureOpenAIModel, azure_text_to_text_provider: AzureChatCompletion):
     """

@@ -56,8 +56,8 @@ async def test_service_transformer_scene_chunker_rupture(data_dir: Path):
 
 @pytest.mark.asyncio
 @pytest.mark.skipif(
-    getenv("SKIP_WORKFLOW_TESTS", "false").lower() == "true",
-    reason="Workflow tests skipped in CI (SKIP_WORKFLOW_TESTS=true)"
+    getenv("SKIP_LONG_TESTS", "false").lower() == "true",
+    reason="Workflow tests skipped in CI (SKIP_LONG_TESTS=true)"
 )
 async def test_chunking_method_comparison(data_dir: Path, azure_text_to_text_provider: AzureChatCompletion):
     """Test and compare ruptures vs naive chunking methods on topic quality.
