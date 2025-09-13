@@ -60,13 +60,15 @@ def load_agent(path: Path, kernel: Kernel, format: Optional[Type[BaseModel]] = N
     # Note : The manner to set the structured output is not yet unified
     # So i'll let it hardcoded for the time being
     # TODO : Remove this when the structured output is unified
-    match settings:
-        case OllamaChatPromptExecutionSettings():
-            settings.format = format.model_json_schema()  # type: ignore
-        case AzureChatPromptExecutionSettings():
-            settings.response_format = format  # type: ignore
-        case _:
-            raise ValueError(f"Unknown prompt execution settings: {settings}")
+    if format is not None:
+        match settings:
+            case OllamaChatPromptExecutionSettings():
+                settings.format = format.model_json_schema()  # type: ignore
+            case AzureChatPromptExecutionSettings():
+                settings.response_format = format  # type: ignore
+            case _:
+                raise ValueError(
+                    f"Unknown prompt execution settings: {settings}")
 
     # settings.function_choice_behavior = FunctionChoiceBehavior.Auto()
     # Note : Without a kernel ref, the agent creation will create a new kernel
