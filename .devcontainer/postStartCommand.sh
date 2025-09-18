@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -ex
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-LIGHTRAG_VERSION=1.4.7
-DAPR_VERSION=1.15.11
+LIGHTRAG_VERSION=1.4.8.2
+DAPR_VERSION=1.16.0
 ASPIRE_DASHBOARD_VERSION=9.4
 
 # -- Dapr 
@@ -21,4 +21,4 @@ docker run --rm -it \
     --name aspire-dashboard \
     mcr.microsoft.com/dotnet/aspire-dashboard:"$ASPIRE_DASHBOARD_VERSION"
 
-bash "$SCRIPT_DIR/../rag/start-lightrag-server.sh" "$LIGHTRAG_VERSION"
+bash "$SCRIPT_DIR/../rag/start-lightrag-server.sh" "v$LIGHTRAG_VERSION"

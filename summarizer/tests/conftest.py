@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 from typing import Generator
 
+import nltk
 import pytest
 import pytest_asyncio
 import torch
@@ -45,6 +46,16 @@ load_dotenv()
 
 ASPIRE_DASHBOARD = os.environ.get(
     "ASPIRE_DASHBOARD_URL", "http://localhost:4317")
+
+
+@pytest.fixture(scope="session", autouse=True)
+def setup_nltk_data():
+    """Download required NLTK data for tests."""
+    try:
+        nltk.download('punkt_tab', quiet=True)
+    except Exception:
+        # Fallback to older punkt if punkt_tab is not available
+        nltk.download('punkt', quiet=True)
 
 
 @pytest.fixture(scope="function", autouse=True)

@@ -9,9 +9,7 @@
       "gpu": "optional"
     },
   "features": {
-    "azure-cli": {
-      "version": "latest"
-    },
+    "azure-cli": {},
     "ghcr.io/devcontainers-extra/features/poetry:2": {},
     "ghcr.io/devcontainers-extra/features/ruff:1": {},
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
@@ -19,7 +17,9 @@
     "ghcr.io/devcontainers/features/terraform:1": {},
     "ghcr.io/dapr/cli/dapr-cli:0": {},
     "ghcr.io/devcontainers/features/nvidia-cuda:2": {},
-    "ghcr.io/prulloac/devcontainer-features/ollama:1": {}
+    "ghcr.io/prulloac/devcontainer-features/ollama:1": {
+      "pull": "phi4-mini"
+    }
   },
   "forwardPorts": [
     18888,
