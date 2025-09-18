@@ -19,7 +19,8 @@
     "ghcr.io/devcontainers/features/nvidia-cuda:2": {},
     "ghcr.io/prulloac/devcontainer-features/ollama:1": {
       "pull": "phi4-mini"
-    }
+    },
+    "ghcr.io/devcontainers/features/git-lfs:1": {}
   },
   "forwardPorts": [
     18888,
