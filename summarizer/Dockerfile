@@ -1,60 +1,98 @@
-# `python-base` sets up all our shared environment variables
+# Build stage with Poetry and build dependencies
 FROM python:3.12-slim AS python-poetry-build-base
 
-ARG DAPR_VERSION=1.15.1
+ARG DAPR_VERSION=1.16.0
 # TODO: Remove Cuda on some build
 
-    # python no pyc files + pip longer timeout
+# Python and pip cache settings - DISABLE ALL CACHES
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_DEFAULT_TIMEOUT=100 \
-    # poetry set location
-    POETRY_VERSION=2.1.1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    # Poetry settings - DISABLE CACHES
+    POETRY_VERSION=2.2.0 \
     POETRY_HOME="/opt/poetry" \
-    \
-    # Poetry can create a venv for you, but it will be a random venv name 
-    # You could also have POETRY_VIRTUALENVS_IN_PROJECT=1 to get a deterministic venv name
-    # but it will be in the project directory, which might cause problem if you wanna mount your project in dev
-    # Instead we create/activate our own venv in a known location, prompting poetry to use it
-    # Once poetry lets us set the venv name in its confing, we can remove this 
-    # Ref: https://github.com/python-poetry/poetry/issues/263#issuecomment-1404129650
+    POETRY_NO_INTERACTION=1 \
+    POETRY_VENV_IN_PROJECT=0 \
+    POETRY_CACHE_DIR=/tmp/poetry_cache \
+    # Virtual environment location
     VIRTUAL_ENV="/opt/pysetup/venv"
 
-# create the venv and activate it
+# Create the venv and activate it
 RUN python -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-# install poetry 
+# Install poetry and clean up apt cache
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
         curl \
-        build-essential
-# use official curl to respect $POETRY_VERSION & $POETRY_HOME
-# (pip install poetry doesn't respect $POETRY_HOME)
+        build-essential \
+    && curl -sSL https://install.python-poetry.org | python3 - \
+    && apt-get purge -y curl \
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="$POETRY_HOME/bin:$PATH"
-
-# `development` image is used during development
-FROM python-poetry-build-base
 
 WORKDIR /app
 
-RUN apt-get update && \
-    apt-get install -y ffmpeg && \
-    # Dummy README to satisfy Poetry
-    touch /app/README.md
+# Install runtime dependencies (ffmpeg) and clean cache
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y ffmpeg \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-
+# Copy dependency files
 COPY poetry.lock pyproject.toml ./
-# Install dependencies without the root package first, including test dependencies for development/testing
-# https://github.com/m-bain/whisperX/issues/1038
-RUN poetry install --no-root --with dev && pip install ctranslate2==4.6.0
+# Dummy README to satisfy Poetry
+RUN touch /app/README.md
+
+# Install dependencies without cache and clean up
+RUN poetry config cache-dir /tmp/poetry_cache \
+    && poetry install --no-root --only=main --no-cache \
+    && pip install --no-cache-dir ctranslate2==4.6.0 \
+    && rm -rf /tmp/poetry_cache \
+    && rm -rf /root/.cache/pip \
+    && find /opt/pysetup/venv -name "*.pyc" -delete \
+    && find /opt/pysetup/venv -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
+
+# Production stage - copy only runtime files
+FROM python:3.12-slim AS production
+
+# Runtime environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    VIRTUAL_ENV="/opt/pysetup/venv"
+
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+# Install only runtime dependencies
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y ffmpeg \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy virtual environment from build stage
+COPY --from=python-poetry-build-base $VIRTUAL_ENV $VIRTUAL_ENV
+
+# Copy project configuration files needed for pip install
+COPY pyproject.toml ./
+COPY README.md ./
 
 # Copy source code
 COPY src/ src/
-# Now install the root package
-RUN poetry install --only-root
 
-COPY . .
-ENTRYPOINT [ "poetry", "run", "summarizer" ]
+# Install the root package without cache
+RUN pip install --no-cache-dir --no-deps -e .
+
+# Clean up any remaining cache
+RUN find /opt/pysetup/venv -name "*.pyc" -delete \
+    && find /opt/pysetup/venv -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true \
+    && rm -rf /root/.cache
+
+ENTRYPOINT [ "python", "-m", "summarizer" ]
