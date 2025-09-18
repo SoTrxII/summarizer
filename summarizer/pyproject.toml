@@ -43,6 +43,9 @@ packages = [{include = "summarizer", from = "src"}]
 pytest = ">=8.4.1,<9.0.0"
 pytest-asyncio = ">=1.1.0,<2.0.0"
 deepeval = "^3.4.8"
+spacy = "^3.8.7"
+nltk = "^3.9.1"
+fr-core-news-sm = {url = "https://github.com/explosion/spacy-models/releases/download/fr_core_news_sm-3.8.0/fr_core_news_sm-3.8.0-py3-none-any.whl"}
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

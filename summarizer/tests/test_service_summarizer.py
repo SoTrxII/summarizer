@@ -4,9 +4,10 @@ from os import getenv
 from pathlib import Path
 
 import pytest
-from deepeval.metrics import SummarizationMetric
+from deepeval import assert_test
+from deepeval.metrics import ArenaGEval
 from deepeval.models import AzureOpenAIModel
-from deepeval.test_case import LLMTestCase
+from deepeval.test_case import ArenaTestCase, LLMTestCase, LLMTestCaseParams
 from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion
 from semantic_kernel.connectors.ai.open_ai.prompt_execution_settings.azure_chat_prompt_execution_settings import (
     AzureChatPromptExecutionSettings,
@@ -19,6 +20,12 @@ from summarizer.services.summaries.summarizer import Summarizer
 from summarizer.utils.naming import get_standardized_filenames
 
 from .utils.json import read_test_data, write_test_data
+from .utils.summary_evaluation_metrics import (
+    CoherenceMetric,
+    EntityDensityMetric,
+    VaguenessMetric,
+    repetitiveness_factory,
+)
 
 # Base names for test data
 base_names = ["1m_sample1", "1m_sample2"]
@@ -109,7 +116,9 @@ async def test_service_summaries_scene_quality(data_dir: Path, summarizer: Summa
     """
     This test ensures that character information is correctly mapped between scenes and summaries.
     """
-    THRESHOLD = 0.5
+
+    # Sample are in French, so we need a French model
+    NLP_FR_MODEL = "fr_core_news_sm"
 
     # Input
     scenes_file, _, _ = get_standardized_filenames("5m_sample1")
@@ -123,14 +132,18 @@ async def test_service_summaries_scene_quality(data_dir: Path, summarizer: Summa
 
     # Evaluate
     test_case = LLMTestCase(input=input, actual_output=summary.human_summary)
-    metric = SummarizationMetric(model=deepeval_model, threshold=THRESHOLD)
-    metric.measure(test_case)
+    repetitiveness = repetitiveness_factory(model=deepeval_model)
+    density = EntityDensityMetric(nlp_model=NLP_FR_MODEL)
+    coherence = CoherenceMetric(nlp_model=NLP_FR_MODEL)
+    vagueness = VaguenessMetric(
+        nlp_model=NLP_FR_MODEL, chat_completion_client=azure_text_to_text_provider)
 
-    assert metric.score is not None and metric.score >= THRESHOLD, "\n".join([
-        "Reason: " + str(metric.reason),
-        "Details: " + str(metric.score_breakdown),
-        "Output: " + summary.human_summary
-    ])
+    # repetitiveness.measure(test_case)
+    # density.measure(test_case)
+    # coherence.measure(test_case)
+    # vagueness.measure(test_case)
+    # assert repetitiveness.is_successful
+    assert_test(test_case, [repetitiveness, density, coherence, vagueness])
 
 
 @pytest.mark.asyncio
@@ -147,7 +160,7 @@ async def test_service_summaries_episode_quality(data_dir: Path, summarizer: Sum
     ###########
     # Naive summarization
     ##########
-    data_file = data_dir / "transcriptions" / "1h_sample1_diarized.json"
+    data_file = data_dir / "transcriptions" / "4h_sample1_diarized.json"
     sentences = read_test_data(data_file, Sentence)
     input = dumps(sentences)
 
@@ -166,13 +179,11 @@ async def test_service_summaries_episode_quality(data_dir: Path, summarizer: Sum
     assert control_summary is not None
 
     control_tc = LLMTestCase(input=input, actual_output=control_summary.text)
-    control_metric = SummarizationMetric(model=deepeval_model)
-    control_metric.measure(control_tc)
 
     ###########
     # Summarizer
     ##########
-    scenes_file, _, _ = get_standardized_filenames("1h_sample1")
+    scenes_file, _, _ = get_standardized_filenames("4h_sample1")
     sample_scenes = read_test_data(data_dir / "scenes" / scenes_file, Scene)
     if len(sample_scenes) == 0:
         raise ValueError("No scenes found in the sample file")
@@ -183,15 +194,34 @@ async def test_service_summaries_episode_quality(data_dir: Path, summarizer: Sum
 
     sum_tc = LLMTestCase(
         input=input, actual_output=episode_summary.human_summary)
-    sum_metric = SummarizationMetric(model=deepeval_model)
-    sum_metric.measure(sum_tc)
 
     ###########
     # Comparison
     ##########
-    assert sum_metric.score is not None and control_metric.score is not None
-    assert sum_metric.score >= control_metric.score, "\n".join([
-        f"Summarizer score: {sum_metric.score} (reason: {sum_metric.reason}, details: {sum_metric.score_breakdown})",
-        f"Control score: {control_metric.score} (reason: {control_metric.reason}, details: {control_metric.score_breakdown})",
-        "Output: " + episode_summary.human_summary
+    a_test_case = ArenaTestCase(contestants={
+        "control": control_tc,
+        "summarizer": sum_tc
+    })
+
+    metric = ArenaGEval(
+        name="Judge",
+        criteria="Choose the better summary with the most details in between the contestants for a player having missed the episode",
+        evaluation_params=[
+            LLMTestCaseParams.INPUT,
+            LLMTestCaseParams.ACTUAL_OUTPUT,
+        ],
+        model=deepeval_model
+    )
+    metric.measure(a_test_case)
+    print(f"Winner: {metric.winner}")
+    print(f"Reason: {metric.reason}")
+    print("\n" + "="*50 + " CONTROL OUTPUT " + "="*50)
+    print(control_summary.text)
+    print("\n" + "="*50 + " SUMMARIZER OUTPUT " + "="*50)
+    print(episode_summary.human_summary)
+    print("="*115)
+    assert metric.winner == "summarizer", "\n".join([
+        f"Control won. Reason : {metric.reason}",
+        "Control output: " + control_summary.text,
+        "SummarizerOutput: " + episode_summary.human_summary
     ])

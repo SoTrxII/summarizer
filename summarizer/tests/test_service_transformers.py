@@ -37,7 +37,7 @@ async def test_service_transformer_scene_chunker_rupture(data_dir: Path):
     OK/KO test for the RuptureSceneChunker.
     """
 
-    data_file = data_dir / "transcriptions" / "20m_sample1.json"
+    data_file = data_dir / "transcriptions" / "4h_sample1_diarized.json"
     sentences = read_test_data(data_file, Sentence)
 
     chunker = RuptureSceneChunker("cpu")
@@ -47,7 +47,7 @@ async def test_service_transformer_scene_chunker_rupture(data_dir: Path):
     output_dir = data_dir / "generated" / "scenes"
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    with open(output_dir / "20m_sample1_scenes.json", "w") as f:
+    with open(output_dir / "4h_sample1_scenes.json", "w") as f:
         dump(scenes, f)
 
     assert scenes is not None

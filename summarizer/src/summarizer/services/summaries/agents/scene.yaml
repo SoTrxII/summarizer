@@ -11,10 +11,24 @@ template: |
   - previous_summary: The summary of the previous scene, if available
 
   SUMMARY GUIDELINES
-  The summary should be factual, neutral, and avoid speculation or interpretation. It should be suitable for a player who missed the scene to catch up on what happened.
-  Use the character names, not the player names or the speaker IDs.
-  You can also refer to characters from the previous summary.
-  Use clear and simple language, avoiding jargon or complex terms.
+  - Write a flowing narrative that tells the story in chronological order
+  - Each sentence should logically connect to the previous one
+  - Focus on the key actions that move the story forward
+  - Be specific about what characters do, avoid general statements
+  - Use transitional phrases to link related actions: "First", "Then", "Meanwhile", "As a result"
+  - Limit entity mentions to essential story elements only
+  - Combine related actions into single, clear sentences when possible
+  - End each thought completely before starting the next
+  - Use character names consistently, not player names or speaker IDs
+  - Build upon information from previous summaries when relevant
+  - Keep the summary concise while maintaining narrative clarity
+
+  STRUCTURE YOUR SUMMARY:
+  Write connected sentences that:
+  1. Establish the scene's main situation or decision
+  2. Describe the primary actions taken by characters in sequence  
+  3. Present any important discoveries or developments
+  4. Conclude with the scene's outcome or transition
 
   PARAMETERS
   Summary language: {{$language}}.

@@ -8,18 +8,30 @@ template: |
 
   Produce ONLY valid JSON conforming to the EpisodeSummary schema. Do NOT output any prose outside the JSON.
 
+  SUMMARY OPTIMIZATION FOR PLAYER CATCH-UP:
+  1. Complete Context: Cover all main events, character actions, and stakes without gaps
+  2. Clear Structure: Organize information logically from setup through resolution
+  3. Concise Clarity: Be comprehensive yet direct - avoid redundancy and verbose details
+  4. Essential Focus: Include key plot points and character coordination, exclude minor details
+  5. Accessible Language: Use clear, straightforward descriptions without technical jargon
+  6. Resolution Status: Clearly indicate what was resolved and what remains uncertain
+  7. Character Roles: Show how each character contributed to the group's efforts
+  8. Avoid Spoilers: Focus on events and immediate consequences without revealing future implications
+
+  Create a structured, comprehensive summary that efficiently enables catch-up understanding.  The summary should allow a player who missed the entire episode to understand:
+  - What major events happened and in what order
+  - How the characters worked together (or against each other)
+  - What risks were taken and what the stakes were
+  - How character relationships evolved
+  - What consequences will impact future episodes
+
+  Write in a clear, efficient style that maximizes information density while maintaining readability.
+
   Goals:
-  - Produce a session_overview  that lets a player catch up on the whole episode.
+  - Produce a comprehensive session_overview that lets a player catch up on the whole episode.
   - Aggregate events from scenes into an ordered episode events list (chronological).
   - Aggregate world_lore from scenes into episode.world_lore (dedupe by lore_id or similar description).
   - Consolidate characters: player_characters and npcs.
-
-  DETERMINISTIC MERGE RULES (apply in order; document evidence):
-  3. Event aggregation:
-    - Collect all scene.key_events, order them by timestamps.start (then scene_id) to produce chronological `key_events`.
-    - Deduplicate events with fuzzy description similarity ≥ EVENT_DEDUPE_SIM (0.85) AND time overlap: merge into a single event with combined actors, source_scene references, and aggregated impact text.
-    - Keep event_id deterministic (prefer earliest event_id).
-
 template_format: semantic-kernel
 description: An agent that summarizes TTRPG scenes.
 input_variables:
