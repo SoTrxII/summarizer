@@ -1,7 +1,6 @@
 # Build stage with Poetry and build dependencies
 FROM python:3.12-slim AS python-poetry-build-base
 
-ARG DAPR_VERSION=1.16.0
 ARG ENABLE_CUDA=false
 
 # Python and pip cache settings - DISABLE ALL CACHES
