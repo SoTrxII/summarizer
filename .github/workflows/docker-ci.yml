@@ -135,18 +135,35 @@ jobs:
 
     - name: Build development image
       run: |
-        echo "Building Docker image locally to avoid stalling..."
+        echo "Building Docker test image locally to avoid stalling..."
         cd summarizer
-        # Build with minimal cache and immediate cleanup
+        # Build test target with minimal cache and immediate cleanup
         DOCKER_BUILDKIT=1 docker build \
+          --target test \
           --progress=plain \
           --no-cache \
           --build-arg REMOVE_CUDA=true \
           -t summarizer:test \
           .
         
-        echo "Build completed successfully"
+        echo "Test image build completed successfully"
         docker images summarizer:test
+
+    - name: Build production image
+      run: |
+        echo "Building Docker production image..."
+        cd summarizer
+        # Build production target
+        DOCKER_BUILDKIT=1 docker build \
+          --target production \
+          --progress=plain \
+          --no-cache \
+          --build-arg REMOVE_CUDA=true \
+          -t summarizer:production \
+          .
+        
+        echo "Production image build completed successfully"
+        docker images summarizer:production
 
     - name: Check disk usage after build
       run: |
@@ -154,6 +171,8 @@ jobs:
         df -h
         echo "=== Docker system info ==="
         docker system df
+        echo "=== Built images ==="
+        docker images | grep summarizer
         
         # Clean up build cache to free space for tests
         docker builder prune -f
@@ -257,7 +276,7 @@ jobs:
           --env AUDIO_COMPLETION_PROVIDER \
           --env SKIP_WORKFLOW_TESTS \
           --env SKIP_LONG_TESTS \
-          summarizer:test)
+          summarizer:production)
         
         echo "Container started with ID: $CONTAINER_ID"
         
@@ -315,12 +334,12 @@ jobs:
 
     - name: Push image to registry
       run: |
-        echo "Tagging and pushing image..."
-        docker tag summarizer:test ${{ secrets.DOCKER_USERNAME }}/summarizer:latest
-        docker tag summarizer:test ${{ secrets.DOCKER_USERNAME }}/summarizer:${{ github.ref_name }}
+        echo "Tagging and pushing production image..."
+        docker tag summarizer:production ${{ secrets.DOCKER_USERNAME }}/summarizer:latest
+        docker tag summarizer:production ${{ secrets.DOCKER_USERNAME }}/summarizer:${{ github.ref_name }}
         docker push ${{ secrets.DOCKER_USERNAME }}/summarizer:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/summarizer:${{ github.ref_name }}
-        echo "✅ Image push completed"
+        echo "✅ Production image push completed"
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2

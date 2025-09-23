@@ -20,7 +20,9 @@
     "ghcr.io/prulloac/devcontainer-features/ollama:1": {
       "pull": "phi4-mini"
     },
-    "ghcr.io/devcontainers/features/git-lfs:1": {}
+    "ghcr.io/devcontainers/features/git-lfs:1": {
+      "autoPull": "true"
+    }
   },
   "forwardPorts": [
     18888,

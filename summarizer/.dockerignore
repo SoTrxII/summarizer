@@ -98,3 +98,7 @@ data/audios/*.mp3
 data/past_campaigns
 data/past_campaigns_bak
 data/past_campaigns_audios
+
+# Git files (causes issues with LFS in container)
+.git/
+.gitattributes
