@@ -23,6 +23,7 @@ from summarizer.models.workflow import (
 )
 from summarizer.repositories.storage import AudioRepository, SummaryRepository
 from summarizer.services.knowledge_graph import KnowledgeGraph
+from summarizer.services.notifications import DaprNotificationService
 from summarizer.services.speech_to_text import SpeechToText
 from summarizer.services.summaries.models import EpisodeSummary, SceneSummary
 from summarizer.services.summaries.summarizer import Summarizer
@@ -221,7 +222,8 @@ def summarize_campaign(
     _: WorkflowActivityContext,
     campaign_input: SummarizeCampaignActivityInput,
     summarizer: Summarizer = Provide[Container.summarizer],
-    summary_repo: SummaryRepository = Provide[Container.summary_repository]
+    summary_repo: SummaryRepository = Provide[Container.summary_repository],
+    notifier: DaprNotificationService = Provide[Container.notification_service]
 ) -> str:
     logging.info("Summarizing campaign...")
 
@@ -253,6 +255,18 @@ def summarize_campaign(
             campaign_id,
             campaign_summary
         )
+
+        if notifier:
+            logging.info("Sending summary available notification...")
+            await notifier.summary_available({
+                "campaign_id": campaign_id,
+                "episode_id": episode_id,
+                "episode_summary_key": f"campaigns/{campaign_id}/episodes/{episode_id}/summary.json",
+                "campaign_summary_key": f"campaigns/{campaign_id}/summary.json"
+            })
+        else:
+            logging.info(
+                "Notification service not configured, skipping notification.")
 
         return campaign_summary
     return asyncio.run(run())
@@ -327,9 +341,6 @@ def audio_to_summary(ctx: DaprWorkflowContext, input: AudioWorkflowInput):
                 }
             )
             logging.info("✅ Step 6 Complete. Campaign summary generated")
-
-            logging.info("🎉 Workflow completed successfully!")
-            return episode_summary
 
 
 @wfr.workflow

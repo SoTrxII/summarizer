@@ -85,6 +85,8 @@ class AppConfig:
     http_port: int = 8000
     dapr_audio_store_name: str = "audio-store"
     dapr_summary_store_name: str = "summary-store"
+    dapr_notification_pubsub_name: Optional[str] = None
+    dapr_notification_pubsub_topic: str = "notifications"
     otlp_endpoint: Optional[str] = None
     language: str = "English"
 
@@ -142,6 +144,10 @@ class AppConfig:
                 "DAPR_AUDIO_STORE_NAME", "audio-store"),
             dapr_summary_store_name=environ.get(
                 "DAPR_SUMMARY_STORE_NAME", "summary-store"),
+            dapr_notification_pubsub_name=environ.get(
+                "DAPR_NOTIFICATION_PUBSUB_NAME") or None,
+            dapr_notification_pubsub_topic=environ.get(
+                "DAPR_NOTIFICATION_PUBSUB_TOPIC", "notifications"),
             otlp_endpoint=environ.get("OTEL_EXPORTER_OTLP_ENDPOINT"),
             language=language
         )

@@ -9,6 +9,7 @@ from summarizer.repositories.dapr_storage import (
     DaprSummaryRepository,
 )
 from summarizer.services.knowledge_graph import LightRAG
+from summarizer.services.notifications import DaprNotificationService
 from summarizer.services.speech_to_text import (
     AzureOpenAITranscriber,
     LocalWhisperTranscriber,
@@ -137,6 +138,22 @@ class Container(containers.DeclarativeContainer):
         api_key=config.lightrag_api_key
     )
 
+    ###################
+    # Notifications
+    ###################
+    notification_service = providers.Selector(
+        providers.Callable(
+            lambda pubsub_name: "enabled" if pubsub_name else "disabled",
+            config.dapr_notification_pubsub_name
+        ),
+        enabled=providers.Factory(
+            DaprNotificationService,
+            pubsub_name=config.dapr_notification_pubsub_name,
+            topic=config.dapr_notification_pubsub_topic
+        ),
+        disabled=providers.Object(None)
+    )
+
 
 def create_container(app_config: AppConfig) -> Container:
     """Create and configure the dependency injection container."""
@@ -154,6 +171,8 @@ def create_container(app_config: AppConfig) -> Container:
         'inference_device': app_config.inference_device,
         'dapr_audio_store_name': app_config.dapr_audio_store_name,
         'dapr_summary_store_name': app_config.dapr_summary_store_name,
+        'dapr_notification_pubsub_name': app_config.dapr_notification_pubsub_name,
+        'dapr_notification_pubsub_topic': app_config.dapr_notification_pubsub_topic,
         'lightrag_endpoint': app_config.lightrag.endpoint,
         'lightrag_api_key': app_config.lightrag.api_key,
         'language': app_config.language
