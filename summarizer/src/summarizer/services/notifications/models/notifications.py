@@ -10,7 +10,9 @@ class SummaryAvailable(Notification):
     """
     Notification sent when new episode summary is available
     """
+    # The generated summary text
+    summary: str
     # The key for the episode summary in the storage
-    episode_summary_key: str
+    episode_key: str
     # The key for the campaign summary in the storage
-    campaign_summary_key: str
+    campaign_key: str

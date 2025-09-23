@@ -261,8 +261,9 @@ def summarize_campaign(
             await notifier.summary_available({
                 "campaign_id": campaign_id,
                 "episode_id": episode_id,
-                "episode_summary_key": f"campaigns/{campaign_id}/episodes/{episode_id}/summary.json",
-                "campaign_summary_key": f"campaigns/{campaign_id}/summary.json"
+                "summary": episode_summary.human_summary,
+                "episode_key": f"campaigns/{campaign_id}/episodes/{episode_id}/summary.json",
+                "campaign_key": f"campaigns/{campaign_id}/summary.json"
             })
         else:
             logging.info(
