@@ -18,9 +18,10 @@ env:
   DAPR_RUNTIME_VERSION: "1.16.0"
 
 jobs:
+  # Test job only runs on CPU since GitHub runners don't have GPU
   docker-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 60  # Add timeout to prevent infinite stalling
+    timeout-minutes: 60
     
     steps:
     - name: Checkout code
@@ -125,61 +126,21 @@ jobs:
         docker builder prune -a -f
         df -h
         
-    - name: Extract metadata
-      id: meta
-      uses: docker/metadata-action@v5
-      with:
-        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-        tags: |
-          type=ref,event=tag
-
-    - name: Build development image
+    - name: Build test image (CPU only for testing)
       run: |
         echo "Building Docker test image locally to avoid stalling..."
         cd summarizer
-        # Build test target with minimal cache and immediate cleanup
+        # Build test target with CPU only for testing
         DOCKER_BUILDKIT=1 docker build \
           --target test \
           --progress=plain \
           --no-cache \
-          --build-arg REMOVE_CUDA=true \
+          --build-arg ENABLE_CUDA=false \
           -t summarizer:test \
           .
         
         echo "Test image build completed successfully"
         docker images summarizer:test
-
-    - name: Build production image
-      run: |
-        echo "Building Docker production image..."
-        cd summarizer
-        # Build production target
-        DOCKER_BUILDKIT=1 docker build \
-          --target production \
-          --progress=plain \
-          --no-cache \
-          --build-arg REMOVE_CUDA=true \
-          -t summarizer:production \
-          .
-        
-        echo "Production image build completed successfully"
-        docker images summarizer:production
-
-    - name: Check disk usage after build
-      run: |
-        echo "=== Disk usage after build ==="
-        df -h
-        echo "=== Docker system info ==="
-        docker system df
-        echo "=== Built images ==="
-        docker images | grep summarizer
-        
-        # Clean up build cache to free space for tests
-        docker builder prune -f
-        docker system prune -f
-        
-        echo "=== Disk usage after cleanup ==="
-        df -h
 
     - name: Run tests in container
       env:
@@ -229,11 +190,80 @@ jobs:
           summarizer:test \
           poetry run pytest tests/ -v --tb=short -k "not workflow"
 
-    - name: Health Check
+  # Build and publish job with matrix for both CPU and CUDA versions
+  docker-build-publish:
+    needs: docker-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      matrix:
+        variant: 
+          - name: cpu
+            enable_cuda: false
+            suffix: -cpu
+          - name: cuda
+            enable_cuda: true
+            suffix: -cuda
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        lfs: true
+
+    - name: Free Disk Space (Ubuntu)
+      uses: jlumbroso/free-disk-space@main
+      with:
+        tool-cache: false
+        android: true
+        dotnet: true
+        haskell: true
+        large-packages: true
+        docker-images: true
+        swap-storage: true
+
+    - name: Additional cleanup
+      run: |
+        echo "=== Additional disk cleanup ==="
+        sudo apt-get clean
+        sudo apt-get autoremove -y
+        sudo apt-get autoclean
+        docker system prune -a -f --volumes
+        echo "=== Final disk usage ==="
+        df -h
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=tag,suffix=${{ matrix.variant.suffix }}
+
+    - name: Build production image (${{ matrix.variant.name }})
+      run: |
+        echo "Building Docker production image for ${{ matrix.variant.name }}..."
+        cd summarizer
+        # Build production target
+        DOCKER_BUILDKIT=1 docker build \
+          --target production \
+          --progress=plain \
+          --no-cache \
+          --build-arg ENABLE_CUDA=${{ matrix.variant.enable_cuda }} \
+          -t summarizer:production-${{ matrix.variant.name }} \
+          .
+        
+        echo "Production image build completed successfully for ${{ matrix.variant.name }}"
+        docker images summarizer:production-${{ matrix.variant.name }}
+
+    - name: Health Check (${{ matrix.variant.name }})
       env:
         # General settinfgs
         HUGGING_FACE_TOKEN: ${{ secrets.HUGGING_FACE_TOKEN }}
-        INFERENCE_DEVICE: cpu
+        INFERENCE_DEVICE: ${{ matrix.variant.name == 'cpu' && 'cpu' || 'cuda' }}
         
         # Azure provider tests
         AZURE_TENANT_ID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).tenantId }}
@@ -255,11 +285,18 @@ jobs:
         # Skipping too extensive tests in CI for now
         SKIP_LONG_TESTS: "true"
       run: |
-        echo "=== Starting health check ==="
+        echo "=== Starting health check for ${{ matrix.variant.name }} ==="
         
-        # Start the container in detached mode with health check
+        # For CUDA variant, skip actual health check on CPU runners but validate build
+        if [ "${{ matrix.variant.name }}" = "cuda" ]; then
+          echo "Skipping health check for CUDA variant on CPU runner"
+          echo "✅ CUDA build validation completed"
+          exit 0
+        fi
+        
+        # Start the container in detached mode with health check (CPU only)
         CONTAINER_ID=$(docker run -d \
-          --name summarizer-healthcheck \
+          --name summarizer-healthcheck-${{ matrix.variant.name }} \
           --publish 8000:8000 \
           --env HTTP_PORT=8000 \
           --env HUGGING_FACE_TOKEN \
@@ -276,7 +313,7 @@ jobs:
           --env AUDIO_COMPLETION_PROVIDER \
           --env SKIP_WORKFLOW_TESTS \
           --env SKIP_LONG_TESTS \
-          summarizer:production)
+          summarizer:production-${{ matrix.variant.name }})
         
         echo "Container started with ID: $CONTAINER_ID"
         
@@ -332,15 +369,32 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Push image to registry
+    - name: Push image to registry (${{ matrix.variant.name }})
       run: |
-        echo "Tagging and pushing production image..."
-        docker tag summarizer:production ${{ secrets.DOCKER_USERNAME }}/summarizer:latest
-        docker tag summarizer:production ${{ secrets.DOCKER_USERNAME }}/summarizer:${{ github.ref_name }}
-        docker push ${{ secrets.DOCKER_USERNAME }}/summarizer:latest
-        docker push ${{ secrets.DOCKER_USERNAME }}/summarizer:${{ github.ref_name }}
-        echo "✅ Production image push completed"
+        echo "Tagging and pushing ${{ matrix.variant.name }} image..."
+        
+        # Tag with version and variant suffix
+        docker tag summarizer:production-${{ matrix.variant.name }} ${{ secrets.DOCKER_USERNAME }}/summarizer:${{ github.ref_name }}${{ matrix.variant.suffix }}
+        
+        # For CPU version, also tag as latest and version without suffix for backward compatibility
+        if [ "${{ matrix.variant.name }}" = "cpu" ]; then
+          docker tag summarizer:production-${{ matrix.variant.name }} ${{ secrets.DOCKER_USERNAME }}/summarizer:latest
+          docker tag summarizer:production-${{ matrix.variant.name }} ${{ secrets.DOCKER_USERNAME }}/summarizer:${{ github.ref_name }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/summarizer:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/summarizer:${{ github.ref_name }}
+        fi
+        
+        # Push variant-specific tag
+        docker push ${{ secrets.DOCKER_USERNAME }}/summarizer:${{ github.ref_name }}${{ matrix.variant.suffix }}
+        
+        echo "✅ ${{ matrix.variant.name }} image push completed"
 
+  # Create release only after all builds are successful
+  create-release:
+    needs: docker-build-publish
+    runs-on: ubuntu-latest
+    
+    steps:
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       env:
@@ -350,4 +404,22 @@ jobs:
         draft: false
         prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
         generate_release_notes: true
-        make_latest: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
+        make_latest: ${{ !(contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc')) }}
+        body: |
+          ## Docker Images
+          
+          This release includes both CPU and CUDA variants:
+          
+          **CPU Version (default):**
+          ```bash
+          docker pull ${{ secrets.DOCKER_USERNAME }}/summarizer:${{ github.ref_name }}
+          # or
+          docker pull ${{ secrets.DOCKER_USERNAME }}/summarizer:${{ github.ref_name }}-cpu
+          ```
+          
+          **CUDA Version:**
+          ```bash
+          docker pull ${{ secrets.DOCKER_USERNAME }}/summarizer:${{ github.ref_name }}-cuda
+          ```
+          
+          The CPU version is also available as `latest` for backward compatibility.

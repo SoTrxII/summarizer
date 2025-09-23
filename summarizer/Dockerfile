@@ -2,7 +2,7 @@
 FROM python:3.12-slim AS python-poetry-build-base
 
 ARG DAPR_VERSION=1.16.0
-# TODO: Remove Cuda on some build
+ARG ENABLE_CUDA=false
 
 # Python and pip cache settings - DISABLE ALL CACHES
 ENV PYTHONUNBUFFERED=1 \
@@ -51,8 +51,13 @@ COPY poetry.lock pyproject.toml ./
 RUN touch /app/README.md
 
 # Install dependencies without cache and clean up
-RUN poetry config cache-dir /tmp/poetry_cache \
-    && poetry install --no-root --only=main --no-cache \
+RUN if [ "$ENABLE_CUDA" = "true" ]; then \
+        PYTORCH_EXTRAS=cuda; \
+    else \
+        PYTORCH_EXTRAS=cpu; \
+    fi && \
+    poetry config cache-dir /tmp/poetry_cache \
+    && poetry install --no-root --only=main --extras=$PYTORCH_EXTRAS --no-cache \
     && pip install --no-cache-dir ctranslate2==4.6.0 \
     && rm -rf /tmp/poetry_cache \
     && rm -rf /root/.cache/pip \
@@ -63,8 +68,13 @@ RUN poetry config cache-dir /tmp/poetry_cache \
 FROM python-poetry-build-base AS test
 
 # Install ALL dependencies including dev
-RUN poetry config cache-dir /tmp/poetry_cache \
-    && poetry install --no-root --with dev --no-cache \
+RUN if [ "$ENABLE_CUDA" = "true" ]; then \
+        PYTORCH_EXTRAS=cuda; \
+    else \
+        PYTORCH_EXTRAS=cpu; \
+    fi && \
+    poetry config cache-dir /tmp/poetry_cache \
+    && poetry install --no-root --with dev --extras=$PYTORCH_EXTRAS --no-cache \
     && pip install --no-cache-dir ctranslate2==4.6.0 \
     && rm -rf /tmp/poetry_cache \
     && rm -rf /root/.cache/pip \
@@ -93,7 +103,12 @@ ENTRYPOINT ["python", "-m", "pytest"]
 FROM test AS production
 
 # Remove dev dependencies using poetry
-RUN poetry install --no-root --only=main --sync --no-cache \
+RUN if [ "$ENABLE_CUDA" = "true" ]; then \
+        PYTORCH_EXTRAS=cuda; \
+    else \
+        PYTORCH_EXTRAS=cpu; \
+    fi && \
+    poetry install --no-root --only=main --extras=$PYTORCH_EXTRAS --sync --no-cache \
     && pip install --no-cache-dir ctranslate2==4.6.0 \
     # Remove tests directory (not needed in production)
     && rm -rf tests/ \

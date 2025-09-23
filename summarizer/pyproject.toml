@@ -33,6 +33,32 @@ dependencies = [
     "ruptures (>=1.1.10,<2.0.0)",
 ]
 
+[tool.poetry.dependencies]
+# Default (CPU) PyTorch builds (from pytorch-cpu source)
+torch = [
+    { markers = "extra == 'cpu' and extra != 'cuda'", source = "pytorch-cpu" },
+    { markers = "extra == 'cuda' and extra != 'cpu'", source = "pytorch-cuda" },
+]
+torchaudio = [
+    { markers = "extra == 'cpu' and extra != 'cuda'", source = "pytorch-cpu" },
+    { markers = "extra == 'cuda' and extra != 'cpu'", source = "pytorch-cuda" },
+]
+
+[project.optional-dependencies]
+cpu = ["torch (==2.7.1+cpu)", "torchaudio (==2.7.1+cpu)"]
+cuda = ["torch (==2.7.1+cu126)", "torchaudio (==2.7.1+cu126)"]
+
+[[tool.poetry.source]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+priority = "explicit"
+
+[[tool.poetry.source]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu126"
+priority = "explicit"
+
+
 [project.scripts]
 summarizer = "summarizer.main:cli_main"
 
