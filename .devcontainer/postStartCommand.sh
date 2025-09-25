@@ -21,4 +21,4 @@ docker run --rm -it \
     --name aspire-dashboard \
     mcr.microsoft.com/dotnet/aspire-dashboard:"$ASPIRE_DASHBOARD_VERSION"
 
-bash "$SCRIPT_DIR/../rag/start-lightrag-server.sh" "v$LIGHTRAG_VERSION"
+bash "$SCRIPT_DIR/../knowledge-graph/start-lightrag-server.sh" "v$LIGHTRAG_VERSION"

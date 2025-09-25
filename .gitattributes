@@ -29,5 +29,5 @@
 # Track specific data directories content
 ingester/data/**/* filter=lfs diff=lfs merge=lfs -text
 
-# Exclude rag/data from LFS tracking
-rag/data/**/* !filter !diff !merge
+# Exclude knowledge-graph/data from LFS tracking
+knowledge-graph/data/**/* !filter !diff !merge
