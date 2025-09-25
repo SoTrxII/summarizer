@@ -1,3 +1,4 @@
-.dapr
+.dapr/*
+!.dapr/resources/
 **/.env
-rag/data/rag_storage/
+knowledge-graph/data/rag_storage/

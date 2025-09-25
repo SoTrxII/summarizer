@@ -197,8 +197,8 @@ Currently, the chosen knowledge graph is [LightRAG](https://github.com/HKUDS/Lig
 To start the LightRAG server:
 
 ```bash
-# Navigate to the rag directory
-cd rag
+# Navigate to the knowledge-graph directory
+cd knowledge-graph
 
 # Copy the example environment file and configure it
 cp .env.example .env

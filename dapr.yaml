@@ -1,6 +1,6 @@
 version: 1
 common:
-  resourcesPath: components
+  resourcesPath: .dapr/resources
 apps:
   - appID: summarizer
     # The binding components are resolved with a relative path
