@@ -8,5 +8,5 @@ apps:
     appDirPath: .
     appProtocol: http
     appPort: 8000
-    command: ["poetry", "-C", "./summarizer", "run", "summarizer"]
+    command: ["poetry", "-C", "./ingester", "run", "summarizer"]
     config: dapr-config

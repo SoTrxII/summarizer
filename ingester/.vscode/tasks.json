@@ -5,12 +5,12 @@
 			"label": "daprd-debug-python",
 			"type": "daprd",
 			"appId": "summarizer",
-			"resourcesPath": "/workspaces/summarizer/components",
+			"resourcesPath": "/workspaces/merlain/components",
 			"args": [
 				"--scheduler-host-address",
 				"localhost:50006",
 				"--config",
-				"/workspaces/summarizer/components/dapr-config.yaml"
+				"/workspaces/merlain/components/dapr-config.yaml"
 			]
 			
 		},

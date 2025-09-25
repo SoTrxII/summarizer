@@ -4,10 +4,10 @@
       "path": ".."
     },
     {
-      "path": "../summarizer",
-      "name": "Summarizer",
+      "path": "../ingester",
+      "name": "Ingester",
       "settings": {
-        "python.defaultInterpreterPath": "../summarizer/.venv/bin/python",
+        "python.defaultInterpreterPath": "../ingester/.venv/bin/python",
       }
     },
     {

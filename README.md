@@ -167,7 +167,7 @@ Then copy the `.env.example` file to `.env`.
 # Fill the values in .env
 # You will especially need the HUGGING_FACE_TOKEN 
 # By default, the .env file is configured for local development with Ollama
-cp summarizer/.env.example summarizer/.env
+cp ingester/.env.example ingester/.env
 ```
 
 You will need to fill in the values for your environment variables, especially the `HUGGING_FACE_TOKEN`. This is requirement to use [WhisperX](https://github.com/m-bain/whisperX).
@@ -216,8 +216,8 @@ This project uses three Dapr components:
 | Component         | Type        | Purpose                                                                                                                           | Default Implementation                                    |
 | ----------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
 | **state-store**   | State Store | Actor storage for [Workflows execution](https://docs.dapr.io/developing-applications/building-blocks/workflow/workflow-overview/) | Redis (in-memory)                                         |
-| **audio-store**   | Binding     | Object storage for audio files (input)                                                                                            | Local file system (`summarizer/data/audios` directory)    |
-| **summary-store** | Binding     | Object storage for summary files (output)                                                                                         | Local file system (`summarizer/data/generated` directory) |
+| **audio-store**   | Binding     | Object storage for audio files (input)                                                                                            | Local file system (`ingester/data/audios` directory)    |
+| **summary-store** | Binding     | Object storage for summary files (output)                                                                                         | Local file system (`ingester/data/generated` directory) |
 
 The default components are configured for local development and use Redis for state management and the local file system for file storage. These can be reconfigured for production environments to use cloud storage services like Azure Blob Storage or AWS S3.
 
@@ -279,11 +279,11 @@ An instance of the Aspire Dashboard is also running in the devcontainer. You can
 
 ![Aspire Dashboard](./resources/aspire-dashboard.png)
 
-Once the workflow is done, you'll find the result in the `summarizer/data/generated` directory.
+Once the workflow is done, you'll find the result in the `ingester/data/generated` directory.
 
 #### Result Files
 
-The workflow generates several output files during processing, stored in the `summarizer/data/generated/{campaign_id}/{episode_id}/` directory:
+The workflow generates several output files during processing, stored in the `ingester/data/generated/{campaign_id}/{episode_id}/` directory:
 
 | File              | Description                                | Content                                                                                                                       | When Generated                          |
 | ----------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |

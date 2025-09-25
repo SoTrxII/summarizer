@@ -129,7 +129,7 @@ jobs:
     - name: Build test image (CPU only for testing)
       run: |
         echo "Building Docker test image locally to avoid stalling..."
-        cd summarizer
+        cd ingester
         # Build test target with CPU only for testing
         DOCKER_BUILDKIT=1 docker build \
           --target test \
@@ -246,7 +246,7 @@ jobs:
     - name: Build production image (${{ matrix.variant.name }})
       run: |
         echo "Building Docker production image for ${{ matrix.variant.name }}..."
-        cd summarizer
+        cd ingester
         # Build production target
         DOCKER_BUILDKIT=1 docker build \
           --target production \

@@ -150,19 +150,19 @@ jobs:
       id: cached-poetry-dependencies
       uses: actions/cache@v4
       with:
-        path: summarizer/.venv
+        path: ingester/.venv
         key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
     - name: Install dependencies
       if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       run: |
         echo "Installing dependencies..."
-        cd summarizer
+        cd ingester
         poetry install --no-interaction --with dev
 
 
     - name: Run tests
-      working-directory: ./summarizer
+      working-directory: ./ingester
       env:
         # General settinfgs
         HUGGING_FACE_TOKEN: ${{ secrets.HUGGING_FACE_TOKEN }}

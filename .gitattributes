@@ -27,7 +27,7 @@
 *.pt filter=lfs diff=lfs merge=lfs -text
 *.pth filter=lfs diff=lfs merge=lfs -text
 # Track specific data directories content
-summarizer/data/**/* filter=lfs diff=lfs merge=lfs -text
+ingester/data/**/* filter=lfs diff=lfs merge=lfs -text
 
 # Exclude rag/data from LFS tracking
 rag/data/**/* !filter !diff !merge

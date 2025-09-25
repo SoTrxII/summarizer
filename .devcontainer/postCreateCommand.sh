@@ -4,6 +4,6 @@ set -ex
 echo "Running postCreateCommand..."
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-cd "$SCRIPT_DIR/../summarizer" && \
+cd "$SCRIPT_DIR/../ingester" && \
 poetry config virtualenvs.in-project true && \
 poetry install
