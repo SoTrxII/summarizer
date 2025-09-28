@@ -16,6 +16,7 @@ from summarizer.models.scene import Scene
 from summarizer.models.sentence import Sentence
 from summarizer.models.workflow import (
     AudioWorkflowInput,
+    NotifySummaryAvailableActivityInput,
     SummarizeCampaignActivityInput,
     SummarizeEpisodeActivityInput,
     SummarizeScenesActivityInput,
@@ -189,17 +190,19 @@ def summarize_episode(
     scenes = input["scenes_summaries"]
     campaign_id = input["campaign_id"]
     episode_id = input["episode_id"]
+    is_one_shot = input["is_one_shot"]
 
     async def run():
         scene_objects = [SceneSummary(**s) for s in scenes]
 
-        # Get previous episode
+        # Get previous episode (skip if this is a one-shot episode)
         previous_episode = None
-        for prev_id in range(episode_id - 1, 0, -1):
-            prev_summary = await summary_repo.get_episode_summary(campaign_id, prev_id)
-            if prev_summary:
-                previous_episode = EpisodeSummary(**prev_summary)
-                break
+        if not is_one_shot:
+            for prev_id in range(episode_id - 1, 0, -1):
+                prev_summary = await summary_repo.get_episode_summary(campaign_id, prev_id)
+                if prev_summary:
+                    previous_episode = EpisodeSummary(**prev_summary)
+                    break
 
         # Generate episode summary
         episode_summary = await summarizer.episode(scene_objects, previous_episode)
@@ -222,8 +225,7 @@ def summarize_campaign(
     _: WorkflowActivityContext,
     campaign_input: SummarizeCampaignActivityInput,
     summarizer: Summarizer = Provide[Container.summarizer],
-    summary_repo: SummaryRepository = Provide[Container.summary_repository],
-    notifier: DaprNotificationService = Provide[Container.notification_service]
+    summary_repo: SummaryRepository = Provide[Container.summary_repository]
 ) -> str:
     logging.info("Summarizing campaign...")
 
@@ -256,20 +258,43 @@ def summarize_campaign(
             campaign_summary
         )
 
+        return campaign_summary
+    return asyncio.run(run())
+
+
+@wfr.activity()  # pyright: ignore[reportCallIssue]
+@inject
+@span
+def notify_summary_available(
+    _: WorkflowActivityContext,
+    input: NotifySummaryAvailableActivityInput,
+    notifier: DaprNotificationService = Provide[Container.notification_service]
+) -> bool:
+    """
+    Send a notification that a summary is available.
+    """
+    logging.info("Sending summary available notification...")
+
+    campaign_id = input["campaign_id"]
+    episode_id = input["episode_id"]
+    episode_summary = input["episode_summary"]
+
+    async def run():
         if notifier:
-            logging.info("Sending summary available notification...")
+            episode_summary_obj = EpisodeSummary(**episode_summary)
             await notifier.summary_available({
                 "campaign_id": campaign_id,
                 "episode_id": episode_id,
-                "summary": episode_summary.human_summary,
+                "summary": episode_summary_obj.human_summary,
                 "episode_key": f"campaigns/{campaign_id}/episodes/{episode_id}/summary.json",
                 "campaign_key": f"campaigns/{campaign_id}/summary.json"
             })
+            logging.info("✅ Summary available notification sent successfully")
+            return True
         else:
-            logging.info(
-                "Notification service not configured, skipping notification.")
+            logging.info("Notification service not configured, skipping notification.")
+            return False
 
-        return campaign_summary
     return asyncio.run(run())
 
 
@@ -291,7 +316,7 @@ def audio_to_summary(ctx: DaprWorkflowContext, input: AudioWorkflowInput):
 
             # Step 2: Split into scenes
             logging.info("🎬 Step 2: Starting scene splitting...")
-            scenes: List[Scene] = yield ctx.call_activity(split_into_scenes, input={"campaign_id": input["campaign_id"], "episode_id": input["episode_id"]})
+            scenes: List[Scene] = yield ctx.call_activity(split_into_scenes, input={"campaign_id": input["campaign_id"], "episode_id": input["episode_id"], "is_one_shot": input["is_one_shot"]})
             logging.info(f"✅ Step 2 Complete. Split into {len(scenes)} scenes")
 
             # Step 3: Summarize scenes
@@ -301,7 +326,8 @@ def audio_to_summary(ctx: DaprWorkflowContext, input: AudioWorkflowInput):
                 input={
                     "scenes": scenes,
                     "campaign_id": input["campaign_id"],
-                    "episode_id": input["episode_id"]
+                    "episode_id": input["episode_id"],
+                    "is_one_shot": input["is_one_shot"]
                 }
             )
             logging.info(
@@ -326,22 +352,40 @@ def audio_to_summary(ctx: DaprWorkflowContext, input: AudioWorkflowInput):
                 input={
                     "scenes_summaries": scenes_summaries,
                     "campaign_id": input["campaign_id"],
-                    "episode_id": input["episode_id"]
+                    "episode_id": input["episode_id"],
+                    "is_one_shot": input["is_one_shot"]
                 }
             )
             logging.info("✅ Step 5 Complete. Episode summary generated")
 
-            # Step 6: Summarize campaign
-            logging.info("📖 Step 6: Starting campaign summarization...")
+            # Step 6: Perform campaign summarization for series episodes (not one-shots)
+            if not input["is_one_shot"]:
+                logging.info("� Step 6: Starting campaign summarization...")
+                yield ctx.call_activity(
+                    summarize_campaign,
+                    input={
+                        "episode_summary": episode_summary,
+                        "campaign_id": input["campaign_id"],
+                        "episode_id": input["episode_id"],
+                        "is_one_shot": input["is_one_shot"]
+                    }
+                )
+                logging.info("✅ Step 6 Complete. Campaign summary generated")
+            else:
+                logging.info("⏩ Step 6: Skipping campaign summarization (one-shot episode)")
+
+            # Step 7: Send notification for all episodes
+            logging.info("📬 Step 7: Sending summary available notification...")
             yield ctx.call_activity(
-                summarize_campaign,
+                notify_summary_available,
                 input={
                     "episode_summary": episode_summary,
                     "campaign_id": input["campaign_id"],
-                    "episode_id": input["episode_id"]
+                    "episode_id": input["episode_id"],
+                    "is_one_shot": input["is_one_shot"]
                 }
             )
-            logging.info("✅ Step 6 Complete. Campaign summary generated")
+            logging.info("✅ Step 7 Complete. Summary available notification sent")
 
 
 @wfr.workflow
@@ -353,7 +397,7 @@ def transcript_to_summary(ctx: DaprWorkflowContext, input: WorkflowInput):
 
             # Step 1: Split into scenes
             logging.info("🎬 Step 1: Starting scene splitting...")
-            scenes: List[Scene] = yield ctx.call_activity(split_into_scenes, input={"campaign_id": input["campaign_id"], "episode_id": input["episode_id"]})
+            scenes: List[Scene] = yield ctx.call_activity(split_into_scenes, input={"campaign_id": input["campaign_id"], "episode_id": input["episode_id"], "is_one_shot": input["is_one_shot"]})
             logging.info(f"✅ Step 1 Complete. Split into {len(scenes)} scenes")
 
             # Step 2: Summarize scenes
@@ -363,7 +407,8 @@ def transcript_to_summary(ctx: DaprWorkflowContext, input: WorkflowInput):
                 input={
                     "scenes": scenes,
                     "campaign_id": input["campaign_id"],
-                    "episode_id": input["episode_id"]
+                    "episode_id": input["episode_id"],
+                    "is_one_shot": input["is_one_shot"]
                 }
             )
             logging.info(
@@ -388,22 +433,40 @@ def transcript_to_summary(ctx: DaprWorkflowContext, input: WorkflowInput):
                 input={
                     "scenes_summaries": scenes_summaries,
                     "campaign_id": input["campaign_id"],
-                    "episode_id": input["episode_id"]
+                    "episode_id": input["episode_id"],
+                    "is_one_shot": input["is_one_shot"]
                 }
             )
             logging.info("✅ Step 4 Complete. Episode summary generated")
 
-            # Step 5: Summarize campaign
-            logging.info("📖 Step 5: Starting campaign summarization...")
+            # Step 5: Perform campaign summarization for series episodes (not one-shots)
+            if not input["is_one_shot"]:
+                logging.info("� Step 5: Starting campaign summarization...")
+                yield ctx.call_activity(
+                    summarize_campaign,
+                    input={
+                        "episode_summary": episode_summary,
+                        "campaign_id": input["campaign_id"],
+                        "episode_id": input["episode_id"],
+                        "is_one_shot": input["is_one_shot"]
+                    }
+                )
+                logging.info("✅ Step 5 Complete. Campaign summary generated")
+            else:
+                logging.info("⏩ Step 5: Skipping campaign summarization (one-shot episode)")
+
+            # Step 6: Send notification for all episodes
+            logging.info("📬 Step 6: Sending summary available notification...")
             yield ctx.call_activity(
-                summarize_campaign,
+                notify_summary_available,
                 input={
                     "episode_summary": episode_summary,
                     "campaign_id": input["campaign_id"],
-                    "episode_id": input["episode_id"]
+                    "episode_id": input["episode_id"],
+                    "is_one_shot": input["is_one_shot"]
                 }
             )
-            logging.info("✅ Step 5 Complete. Campaign summary generated")
+            logging.info("✅ Step 6 Complete. Summary available notification sent")
 
             logging.info("🎉 Workflow completed successfully!")
             return episode_summary

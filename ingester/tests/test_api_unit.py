@@ -30,7 +30,8 @@ def test_audio_workflow_validation(client):
     valid_input = {
         "campaign_id": 1,
         "episode_id": 5,
-        "audio_file_path": "test.ogg"
+        "audio_file_path": "test.ogg",
+        "is_one_shot": False
     }
 
     with patch.object(wf_client, 'schedule_new_workflow') as mock_start:
@@ -60,7 +61,8 @@ def test_transcript_workflow_validation(client):
     valid_input = {
         "campaign_id": 1,
         "episode_id": 5,
-        "transcript_storage_key": "test/1/transcript.json"
+        "transcript_storage_key": "test/1/transcript.json",
+        "is_one_shot": False
     }
 
     with patch.object(wf_client, 'schedule_new_workflow') as mock_start:
