@@ -3,12 +3,12 @@
 Myrddin is an open-source project designed to extract and organize information from tabletop RPG audio recordings or transcripts. It built a knowledge graph of your campaign content that can be queried for specific information about characters, events, locations, and story elements.
 
 ## Features
-- Ask questions about your campaign and get answers based on the knowledge graph ([LightRAG](https://github.com/HKUDS/LightRAG))
-- Episodes can be ingested individually (TBD) or as part of a campaign
-- Ingest transcripts or audio recordings 
+- Ask questions about yours campaigns and get answers based a the knowledge graph
+- Get context-aware summaries of episodes and campaigns
+- Episodes can be ingested individually (**TBD**) or as part of a campaign
 - Deploy locally or in the cloud (Azure)
 
-## High-Level Architecture
+## High-Level View
 
 ```mermaid
 graph LR
@@ -48,34 +48,25 @@ graph LR
     class Complete endNode
 ```
 
-## Quick Start
+## Deployment
 
-### Docker Compose Deployment (Recommended)
+### Docker Compose (Recommended)
 
 The easiest way to get started is using the Docker Compose setup in `deploy/locally`, which provides a complete stack with all dependencies:
 
-#### Deployment Steps
+```bash
+cd deploy/locally
 
-1. **Navigate to the deployment directory**:
-   ```bash
-   cd deploy/locally
-   ```
 
-2. **Configure environment variables**:
-   ```bash
-   cp .env.example .env
-   # Edit .env and add your Hugging Face token:
-   # HUGGING_FACE_TOKEN=your_token_here
-   ```
+cp .env.example .env
+# Edit .env and add your Hugging Face token:
+# HUGGING_FACE_TOKEN=your_token_here
 
-3. **Start all services**:
-   ```bash
-   docker compose up -d
-   ```
+# Note : First run takes several minutes to download AI models)
+docker compose up
+```
 
-4. **Wait for initialization** (first run takes several minutes to download AI models)
-
-#### What's Included
+#### Services
 The Docker Compose setup provides:
 - **Main Application**: Summarizer service built from the ingester
 - **Local AI Stack**: Ollama with phi4-mini and bge-m3 models
@@ -83,7 +74,7 @@ The Docker Compose setup provides:
 - **Infrastructure**: Redis, Dapr services for workflow orchestration
 - **Monitoring**: Aspire Dashboard for observability
 
-#### Service Endpoints
+#### Endpoints
 Once running, access:
 - **Main Application (Swagger)**: http://localhost:8001/docs
 - **LightRAG Knowledge Graph (UI)**: http://localhost:9622
@@ -111,237 +102,10 @@ Content-Type: application/json
 }
 ```
 
-## Usage
 
-### Development Setup (Devcontainer)
-
-This will show a basic configuration. For additional parameters, refer to the [configuration](#configuration) section.
-
-First, **open the devcontainer** with your preferred editor. 
-
-Then copy the `.env.example` file to `.env`.
-```bash
-# Fill the values in .env
-# You will especially need the HUGGING_FACE_TOKEN 
-# By default, the .env file is configured for local development with Ollama
-cp ingester/.env.example ingester/.env
-```
-
-You will need to fill in the values for your environment variables, especially the `HUGGING_FACE_TOKEN`. This is requirement to use [WhisperX](https://github.com/m-bain/whisperX).
-Following [these instructions](https://github.com/m-bain/whisperX?tab=readme-ov-file#speaker-diarization), retrieve your token and accept the terms and conditions of the required models.
-
-#### Setting up the chat completion model
-
-**Note**: Ollama is already configured in the devcontainer.
-
-Then start ollama and pull [phi4](https://ollama.com/library/phi4) SLM. This is the model that will be used for chat completion. Any model supporting structured output can be used, remember to change the `OLLAMA_MODEL_NAME` accordingly.
-
-```bash
-ollama serve
-# Phi 4 is ~10GiB, Phi4 mini is ~2.5GiB
-ollama pull phi4
-```
-
-#### Setting up the speech to text model
-
-By default, the speech to text model is set to use a local version of [Whisper X](https://github.com/m-bain/whisperX?tab=readme-ov-file#speaker-diarization). The models used by whisperX will be downloaded during the application execution. So there is no additional configuration needed.
-
-#### Setting up the Knowledge Graph (LightRAG)
-
-**Note**: The LightRag server is already started in the devcontainer.
-
-Currently, the chosen knowledge graph is [LightRAG](https://github.com/HKUDS/LightRAG), which will enable the Q&A part of the application.
-To start the LightRAG server:
-
-```bash
-# Navigate to the knowledge-graph directory
-cd knowledge-graph
-
-# Copy the example environment file and configure it
-cp .env.example .env
-
-# Start the LightRAG server (uses Docker)
-./start-lightrag-server.sh
-```
-
-The LightRAG server will be available at `http://localhost:9621` and will be fed the scenes informations during workflow execution. This creates a searchable knowledge graph of your campaign content that can be queried for specific information about characters, events, locations, and story elements.
-
-#### Setting up Dapr components
-
-This project uses three Dapr components:
-
-| Component         | Type        | Purpose                                                                                                                           | Default Implementation                                    |
-| ----------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| **state-store**   | State Store | Actor storage for [Workflows execution](https://docs.dapr.io/developing-applications/building-blocks/workflow/workflow-overview/) | Redis (in-memory)                                         |
-| **audio-store**   | Binding     | Object storage for audio files (input)                                                                                            | Local file system (`ingester/data/audios` directory)    |
-| **summary-store** | Binding     | Object storage for summary files (output)                                                                                         | Local file system (`ingester/data/generated` directory) |
-
-The default components are configured for local development and use Redis for state management and the local file system for file storage. These can be reconfigured for production environments to use cloud storage services like Azure Blob Storage or AWS S3.
-
-First check that dapr is running. It should be automatically started in the devcontainer. 
-
-```bash 
-dapr version
-# Expected output (versions can change)
-# CLI version: 1.15.2 
-# Runtime version: 1.15.10
-```
-
-#### Running the application
-
-When everything is ready, you can run this command :
-
-```bash
-# The logs will be stored in .dapr/logs directory
-dapr run -f .
-```
-
-Once the app started, in another terminal, you can trigger the audio to summary workflow by making a POST request to the API:
-
-```bash
-curl -X POST "http://localhost:8000/workflows/audio" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "audio_file_path": "1m.ogg",
-    "campaign_id": 1,
-    "episode_id": 1
-  }' | jq
-
-```
-
-Sample output 
-
-```json
-{
-  "_WorkflowState__obj": {
-    "instance_id": "bddfe1140bd9476696932983c7287351",
-    "name": "audio_to_summary",
-    "runtime_status": 0,
-    "created_at": "2025-08-26T14:23:00.237893",
-    "last_updated_at": "2025-08-26T14:23:00.246679",
-    "serialized_input": "{\"campaign_id\": 1, \"episode_id\": 1, \"audio_file_path\": \"1m.ogg\"}",
-    "serialized_output": null,
-    "serialized_custom_status": null,
-    "failure_details": null
-  }
-```
-The instance ID allow you to follow the workflow progress.
-
-```bash
-curl -X GET "http://localhost:8000/workflows/<instance_id>" | jq
-```
-
-
-An instance of the Aspire Dashboard is also running in the devcontainer. You can access it at http://localhost:18888. This will allow you to follow the workflow progress in a more visual way.
-
-![Aspire Dashboard](./resources/aspire-dashboard.png)
-
-Once the workflow is done, you'll find the result in the `ingester/data/generated` directory.
-
-#### Result Files
-
-The workflow generates several output files during processing, stored in the `ingester/data/generated/{campaign_id}/{episode_id}/` directory:
-
-| File              | Description                                | Content                                                                                                                       | When Generated                          |
-| ----------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| `transcript.json` | Raw transcription with speaker diarization | Contains the full audio transcription with timestamps, speaker identification, and individual utterances                      | First step of audio-to-summary workflow |
-| `scenes.json`     | Segmented dialogue scenes                  | Transcript split into logical scenes/segments based on conversation flow and topic changes                                    | Second step after transcription         |
-| `episode.json`    | Complete episode summary                   | Structured summary containing session overview, key events, character updates, NPC details, items/clues, and continuity notes | Final step of both workflows            |
-
-Each file builds upon the previous one, creating a pipeline from raw audio → transcription → scenes → final summary.
-
-**Knowledge Graph Integration:** When LightRAG is enabled, scene summaries are automatically indexed into a knowledge graph during the workflow execution. This allows for semantic search and cross-episode queries about your campaign content.
-
+### Azure (TBD)
 
 ## Configuration
-
-You can independently choose your **LLM provider** (Azure AI Foundry or Ollama) and **Audio transcription provider** (Azure or local Whisper). The choices are controlled by two environment variables:
-
-- `CHAT_COMPLETION_PROVIDER`: "azure" or "ollama" 
-- `AUDIO_COMPLETION_PROVIDER`: "azure" or "local"
-
-**Chat Completion Provider:**
-- For Azure: Set `CHAT_COMPLETION_PROVIDER="azure"` and configure `AI_FOUNDRY_PROJECT_ENDPOINT` + `AZURE_CHAT_DEPLOYMENT_NAME`
-- For Ollama: Set `CHAT_COMPLETION_PROVIDER="ollama"` and configure `OLLAMA_ENDPOINT` + `OLLAMA_MODEL_NAME`
-
-**Audio Transcription Provider:**
-- For Azure: Set `AUDIO_COMPLETION_PROVIDER="azure"` and configure `AZURE_AUDIO_DEPLOYMENT_NAME`
-- For Local: Set `AUDIO_COMPLETION_PROVIDER="local"` (uses local Whisper, no additional config needed)
-
-### Common Configurations
-
-**Full Azure (Recommended for production):**
-```bash
-CHAT_COMPLETION_PROVIDER="azure"
-AUDIO_COMPLETION_PROVIDER="azure"
-AI_FOUNDRY_PROJECT_ENDPOINT="https://<name>.services.ai.azure.com/api/projects/<project-name>"
-AZURE_CHAT_DEPLOYMENT_NAME="<your_chat_model>"
-AZURE_AUDIO_DEPLOYMENT_NAME="whisper"
-```
-
-**Full Local (Best for development):**
-```bash
-CHAT_COMPLETION_PROVIDER="ollama"
-AUDIO_COMPLETION_PROVIDER="local"
-OLLAMA_ENDPOINT="http://localhost:11434" # Or any host ollama is running on
-OLLAMA_MODEL_NAME="phi4"
-```
-
-**Mixed (Azure Chat + Local Audio):**
-```bash
-CHAT_COMPLETION_PROVIDER="azure"
-AUDIO_COMPLETION_PROVIDER="local"
-AI_FOUNDRY_PROJECT_ENDPOINT="https://<name>.services.ai.azure.com/api/projects/<project-name>"
-AZURE_CHAT_DEPLOYMENT_NAME="<your_chat_model>"
-```
-
-**Knowledge Graph Integration (Optional):**
-To enable knowledge graph features, also configure:
-```bash
-LIGHTRAG_ENDPOINT="http://localhost:9621"
-LIGHTRAG_API_KEY="quackquack"
-```
-
-**For any configuration:** Set your Hugging Face token:
-```bash
-HUGGING_FACE_TOKEN=<your_token_here>
-```
-Required for speaker diarization regardless of which providers you choose.
-See [here](https://github.com/m-bain/whisperX?tab=readme-ov-file#speaker-diarization). 
-
-### Querying the Knowledge Graph
-
-Once your episodes have been processed and indexed into the knowledge graph, you can query it for specific information about your campaign. The knowledge graph supports natural language queries and can provide context-aware responses across episodes.
-
-**Programmatic Querying:**
-The knowledge graph can be queried programmatically through the `KnowledgeGraph` service:
-
-```python
-# Query for information across a specific campaign
-response = await knowledge_graph.query(
-    "What NPCs have the party encountered?", 
-    campaign_id=1, 
-    episode_id=None  # Query across all episodes
-)
-
-# Query for information in a specific episode
-response = await knowledge_graph.query(
-    "What happened in the tavern scene?", 
-    campaign_id=1, 
-    episode_id=3
-)
-```
-
-**LightRAG Web Interface:**
-You can also access the LightRAG web interface directly at `http://localhost:9621` to interactively query your knowledge graph and visualize the relationships between entities in your campaign.
-
-**Example Queries:**
-- "What are the main NPCs in this campaign?"
-- "Show me all encounters with dragons"
-- "What items has the party collected?"
-- "Summarize the relationship between [Character A] and [Character B]"
-- "What plot threads are still unresolved?" 
-
 
 ### Environment Variables
 
@@ -381,47 +145,21 @@ This project uses the following environment variables:
 | AZURE_CLIENT_ID                                                     | [Azure client ID](https://learn.microsoft.com/en-us/azure/developer/python/azure-sdk-authenticate#service-principal) (for service principal auth)                                               | false       |                        |
 | AZURE_CLIENT_SECRET                                                 | [Azure client secret](https://learn.microsoft.com/en-us/azure/developer/python/azure-sdk-authenticate#service-principal) (for service principal auth)                                           | false       |                        |
 
-## Data flow  
+### Dapr components
+#### Setting up Dapr components
 
-```mermaid
-graph LR
+This project uses three Dapr components:
 
-    %% Audio-to-Summary Workflow
-    G[Audio-to-Summary Workflow]
-    G --> I2{Step 1: Transcription<br/>Backend?}
-    I2 -->|Azure OpenAI| I3[Azure Whisper API]
-    I2 -->|Local| I4[Local WhisperX Model]
-    I3 --> I5[Generate Transcript with Diarization]
-    I4 --> I5
+| Component         | Type        | Purpose                                                                                                                           | Default Implementation                                  |
+| ----------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| **state-store**   | State Store | Actor storage for [Workflows execution](https://docs.dapr.io/developing-applications/building-blocks/workflow/workflow-overview/) | Redis (in-memory)                                       |
+| **audio-store**   | Binding     | Object storage for audio files (input)                                                                                            | Local file system (`ingester/data/audios` directory)    |
+| **summary-store** | Binding     | Object storage for summary files (output)                                                                                         | Local file system (`ingester/data/generated` directory) |
 
-    I5 --> J[Step 2: Split into Scenes]
-    
-    %% Transcript-to-Summary Workflow (joins here)
-    H[Transcript-to-Summary Workflow]
-    H --> K[Load Existing Transcript]
-    K --> J
-    
-    J --> L[Step 3: Summarize Scenes]
-    L --> L2{LLM Backend?}
-    L2 -->|Azure| L3[Azure OpenAI Chat Model]
-    L2 -->|Ollama| L4[Ollama Local Model]
-    
-    L3 --> M[Step 4: Publish to Knowledge Graph]
-    L4 --> M
-    M --> N[LightRAG Knowledge Graph]
-    
-    M --> O[Step 5: Summarize Episode / Campaign]
-    
-    %% Styling
-    classDef workflow fill:#e1f5fe
-    classDef storage fill:#f3e5f5
-    classDef ai fill:#e8f5e8
-    classDef api fill:#fff3e0
-    classDef kg fill:#fff9c4
-    
-    class G,H workflow
-    class I3,I4,L3,L4,O ai
-    class N kg
-```
+The default components are configured for local development and use Redis for state management and the local file system for file storage. These can be reconfigured for production environments to use cloud storage services like Azure Blob Storage or AWS S3.
 
+## Contributing 
 
+All contributions are welcome! Please open issues or pull requests for any features, bug fixes, or improvements.
+
+You can use the provided devcontainer setup for a consistent development environment.
