@@ -1,163 +1,103 @@
-# TTRPG summarizer and Q&A
+# Myrddin
 
-This project is made to be able to extract information from tabletop RPG audio recordings. Specifically, it:
-- Transcribes the recording and creates structured summaries.
-- Feeds a knowledge graph that you can query for insights.
+Myrddin is an open-source project designed to extract and organize information from tabletop RPG audio recordings or transcripts. It built a knowledge graph of your campaign content that can be queried for specific information about characters, events, locations, and story elements.
 
 ## Features
+- Ask questions about your campaign and get answers based on the knowledge graph ([LightRAG](https://github.com/HKUDS/LightRAG))
+- Episodes can be ingested individually (TBD) or as part of a campaign
+- Ingest transcripts or audio recordings 
+- Deploy locally or in the cloud (Azure)
 
-- Pluggable speech-to-text (Supported backend: Azure OpenAI or local Whisper)
-- Detailed summarization using Semantic Kernel (Supported backend: Azure OpenAI)
-- **Knowledge Graph Integration** with LightRAG for enhanced information retrieval and context-aware queries
-- FastAPI HTTP API to kick off workflows
-- Configurable data source and destination using Dapr bindings
-- OpenTelemetry traces, logs, and metrics (OTLP/gRPC)
+## High-Level Architecture
 
-<details>
-<summary><strong>Sample output</strong></summary>
-
-```json
-{
-  "session_overview": "The party investigates mysterious disappearances in the village of Millhaven, uncovering a cult of shadow worshippers operating from beneath the old mill. After infiltrating their lair and confronting the cult leader, they rescue the missing villagers and discover ancient artifacts tied to a larger conspiracy threatening the realm.",
-  "key_events": [
-    "Party arrives in Millhaven and learns about the missing villagers from Mayor Aldric",
-    "Investigation at the old mill reveals hidden entrance to underground chambers",
-    "Encounter with shadow cultists and their summoned creatures",
-    "Discovery of ritual chamber with imprisoned villagers",
-    "Confrontation with Cultist Leader Malachar and disruption of the shadow ritual",
-    "Rescue of villagers and seizure of the Shadow Crystal artifact",
-    "Village celebration and revelation of larger threat from the Order of the Void"
-  ],
-  "character_updates": [
-    {
-      "name": "Thorin Ironbeard",
-      "changes": [
-        "Gained experience in detecting undead creatures",
-        "Formed strong bond with rescued villager child, Tommy",
-        "Acquired minor curse from Shadow Crystal exposure (temporary strength reduction)"
-      ]
-    },
-    {
-      "name": "Lyra Moonwhisper",
-      "changes": [
-        "Successfully identified and dispelled shadow magic wards",
-        "Learned new spell: Detect Evil and Good from studying cult texts",
-        "Established contact with local nature spirits who aided the investigation"
-      ]
-    },
-    {
-      "name": "Garrett the Swift",
-      "changes": [
-        "Demonstrated exceptional stealth skills infiltrating the cult lair",
-        "Suffered moderate injuries from shadow creature claws (healing required)",
-        "Discovered hidden talent for reading ancient runic inscriptions"
-      ]
-    }
-  ],
-  "npc_updates": [
-    {
-      "name": "Mayor Aldric Stoneheart",
-      "details": [
-        "Revealed knowledge of ancient mill's dark history",
-        "Offered party permanent residence in Millhaven as reward",
-        "Requested party's aid in fortifying village defenses"
-      ]
-    },
-    {
-      "name": "Malachar the Shadow Binder",
-      "details": [
-        "Cult leader seeking to summon avatar of shadow deity",
-        "Escaped through shadow portal after ritual disruption",
-        "Left behind journal revealing Order of the Void connections",
-        "Holds personal vendetta against Lyra's mentor, Archdruid Elara"
-      ]
-    },
-    {
-      "name": "Tommy Fletcher",
-      "details": [
-        "Young villager rescued from cult sacrifice",
-        "Witnessed cult's planning meetings while imprisoned",
-        "Possesses natural resistance to shadow magic",
-        "Became honorary member of the party"
-      ]
-    }
-  ],
-  "items_and_clues": [
-    {
-      "name": "Shadow Crystal",
-      "description": "Dark crystalline artifact used to focus shadow magic rituals",
-      "significance": "Key component for summoning shadow entities; multiple crystals exist across the realm"
-    },
-    {
-      "name": "Malachar's Journal",
-      "description": "Leather-bound tome containing cult plans and Order of the Void intelligence",
-      "significance": "Reveals locations of other cult cells and upcoming convergence ritual"
-    },
-    {
-      "name": "Ancient Mill Blueprints",
-      "description": "Original architectural plans showing hidden chambers and passages",
-      "significance": "Indicates mill was purposely built over ancient shadow temple site"
-    },
-    {
-      "name": "Rune-carved Daggers",
-      "description": "Set of three ceremonial daggers with shadow magic inscriptions",
-      "significance": "Required implements for shadow summoning rituals; one still missing"
-    },
-    {
-      "name": "Villager Testimonies",
-      "description": "Accounts from rescued villagers about cult recruitment methods",
-      "significance": "Reveals cult has infiltrated other nearby settlements"
-    }
-  ],
-  "open_threads": [
-    {
-      "description": "Malachar escaped and threatens revenge against the party, particularly Lyra",
-      "priority": "high",
-      "related_characters": ["Malachar", "Lyra Moonwhisper"]
-    },
-    {
-      "description": "The Order of the Void plans a major convergence ritual in three months",
-      "priority": "high", 
-      "related_characters": ["Order of the Void", "Party"]
-    },
-    {
-      "description": "Third ceremonial dagger remains unaccounted for and is needed for cult rituals",
-      "priority": "medium",
-      "related_characters": ["Party", "Order of the Void"]
-    },
-    {
-      "description": "Tommy's natural shadow magic resistance may be key to stopping the Order",
-      "priority": "medium",
-      "related_characters": ["Tommy Fletcher", "Party"]
-    },
-    {
-      "description": "Connection between Malachar and Archdruid Elara's past needs investigation",
-      "priority": "medium",
-      "related_characters": ["Malachar", "Lyra Moonwhisper", "Archdruid Elara"]
-    },
-    {
-      "description": "Other villages mentioned in cult documents require warning and protection",
-      "priority": "low",
-      "related_characters": ["Party", "Village leaders"]
-    }
-  ],
-  "continuity_notes": [
-    "Thorin's curse will require magical healing or will fade naturally in 1-2 sessions",
-    "Garrett's injuries need proper medical attention before next adventure",
-    "Tommy should be integrated as recurring NPC who provides local knowledge",
-    "Shadow Crystal's influence may affect party members who carried it for extended periods",
-    "Mayor Aldric expects regular updates on Order of the Void threat",
-    "Nature spirits contacted by Lyra may provide ongoing intelligence about shadow magic activity",
-    "Party reputation in Millhaven grants advantage on social interactions with villagers"
-  ]
-}
+```mermaid
+graph LR
+    Start["`🎬 **Ingestion of episode #X of campaign #Y**`"]
+    
+    Start --> SplitScenes["`🎬 **Step 1: Split into Scenes**
+    Parse transcript and group sentences
+    into logical dialogue scenes`"]
+    
+    SplitScenes --> SummarizeScenes["`📝 **Step 2: Summarize Scenes** 
+    Generate AI summaries for each scene
+    using LLM (Azure OpenAI or Ollama)`"]
+    
+    SummarizeScenes --> PublishKG["`🚀 **Step 3: Publish to Knowledge Graph**
+    Send scene summaries to LightRAG
+    for knowledge extraction and storage`"]
+    
+    PublishKG --> SummarizeEpisode["`📖 **Step 4: Summarize Episode**
+    Create comprehensive episode summary
+    from all scene summaries`"]
+    
+    SummarizeEpisode --> SummarizeCampaign["`📚 **Step 5: Summarize Campaign**
+    Update overall campaign summary
+    with new episode information`"]
+    
+    %% Styling
+    classDef startNode fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
+    classDef processNode fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef aiNode fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef kgNode fill:#fff9c4,stroke:#f57c00,stroke-width:2px
+    classDef endNode fill:#e0f2f1,stroke:#00695c,stroke-width:3px
+    
+    class Start startNode
+    class SplitScenes processNode
+    class SummarizeScenes,SummarizeEpisode,SummarizeCampaign aiNode
+    class PublishKG kgNode
+    class Complete endNode
 ```
 
-</details>
+## Quick Start
+
+### Docker Compose Deployment (Recommended)
+
+The easiest way to get started is using the Docker Compose setup in `deploy/locally`, which provides a complete stack with all dependencies:
+
+#### Deployment Steps
+
+1. **Navigate to the deployment directory**:
+   ```bash
+   cd deploy/locally
+   ```
+
+2. **Configure environment variables**:
+   ```bash
+   cp .env.example .env
+   # Edit .env and add your Hugging Face token:
+   # HUGGING_FACE_TOKEN=your_token_here
+   ```
+
+3. **Start all services**:
+   ```bash
+   docker compose up -d
+   ```
+
+4. **Wait for initialization** (first run takes several minutes to download AI models)
+
+#### What's Included
+The Docker Compose setup provides:
+- **Main Application**: Summarizer service built from the ingester
+- **Local AI Stack**: Ollama with phi4-mini and bge-m3 models
+- **Knowledge Graph**: LightRAG server for campaign data storage
+- **Infrastructure**: Redis, Dapr services for workflow orchestration
+- **Monitoring**: Aspire Dashboard for observability
+
+#### Service Endpoints
+Once running, access:
+- **Main Application (Swagger)**: http://localhost:8001/docs
+- **LightRAG Knowledge Graph (UI)**: http://localhost:9622
+- **Aspire Dashboard (Logs)**: http://localhost:18890
+
+This deployment is fully offline and ideal for development, testing, or running without cloud dependencies.
+To start ingesting episodes :
+- Put the audio files in `deploy/locally/storage/audios`
+- Using the swagger UI (http://localhost:8001/docs), call the POST `/workflows/audio` endpoint with the audio file name and campaign/episode IDs.
 
 ## Usage
 
-### Locally
+### Development Setup (Devcontainer)
+
 This will show a basic configuration. For additional parameters, refer to the [configuration](#configuration) section.
 
 First, **open the devcontainer** with your preferred editor. 

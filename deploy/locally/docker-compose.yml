@@ -1,0 +1,167 @@
+services:
+  # Redis - State store for Dapr workflows
+  redis:
+    image: redis:6
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # Ollama - Local LLM server
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+
+  initialize-ollama:
+    image: ollama/ollama:latest
+    depends_on:
+      - ollama
+    restart: "no"
+    network_mode: "service:ollama"
+    entrypoint: > 
+      sh -c ' 
+        ollama pull phi4-mini &&
+        ollama pull bge-m3
+      '
+  
+  # LightRAG - Knowledge Graph server
+  lightrag:
+    image: ghcr.io/hkuds/lightrag:v1.4.8.2
+    ports:
+      - "9622:9621"
+    volumes:
+      - lightrag_storage:/app/data/rag_storage
+      - lightrag_inputs:/app/data/inputs
+    environment:
+      - PORT=9621
+      - LOG_LEVEL=DEBUG
+      - VERBOSE=True
+      - API_KEY=supersecretkey
+      - TIMEOUT=6000
+
+      # LLM configuration
+      - ENABLE_LLM_CACHE=true
+      - SUMMARY_LANGUAGE=English
+      - ENABLE_LLM_CACHE_FOR_EXTRACT=true
+      - LLM_BINDINGS=ollama
+      - LLM_MODEL=phi4-mini
+      - LLM_BINDING_HOST=http://ollama:11434
+      - OLLAMA_LLM_NUM_CTX=32768
+
+      # Embedding model configuration
+      - EMBEDDING_BINDINGS=ollama
+      - EMBEDDING_MODEL=bge-m3
+      - EMBEDDING_BINDING_HOST=http://ollama:11434
+      - EMBEDDING_DIM=1024
+      - OLLAMA_EMBEDDING_NUM_CTX=8192
+
+  # Dapr Placement Service
+  dapr-placement:
+    image: daprio/placement:1.16.0
+    command: ["./placement", "--port", "50006", "--log-level", "debug"]
+
+  # Dapr Scheduler Service
+  dapr-scheduler:
+    # Note : Do not do this in production, this allows the scheduler to write to the /app directory 
+    user: root
+    image: daprio/scheduler:1.16.0
+    command: ["./scheduler", "--port", "50005", "--log-level", "debug"]
+
+  # Dapr Sidecar
+  dapr-sidecar:
+    image: daprio/daprd:1.16.0
+    working_dir: /app
+    user: "0"
+    command: >
+      /daprd
+      --app-id summarizer
+      --app-port 8001
+      --dapr-http-port 3500
+      --dapr-grpc-port 50001
+      --resources-path /components
+      --config /components/dapr-config.yaml
+      --placement-host-address "dapr-placement:50006"
+      --scheduler-host-address "dapr-scheduler:50005"
+    volumes:
+      - .dapr/resources:/components
+      - summarizer_data:/app/data
+    network_mode: "service:summarizer"
+    depends_on:
+      redis:
+        condition: service_healthy
+      dapr-placement:
+        condition: service_started
+      dapr-scheduler:
+        condition: service_started
+
+  # # Main Summarizer Application
+  summarizer:
+    build:
+      context: ../../ingester
+      dockerfile: Dockerfile
+      target: production
+      args:
+      # To enable GPU support, toggle this to true and set INFERENCE_DEVICE to "cuda" below
+      # (make sure your Docker environment supports GPU)
+        ENABLE_CUDA: "false"
+    volumes:
+      - summarizer_data:/app/data
+    env_file:
+      - .env
+    ports:
+      - "8001:8001"
+    environment:
+      # Application config
+      - HTTP_HOST=0.0.0.0
+      - HTTP_PORT=8001
+      
+      # Provider configuration (using local services)
+      - CHAT_COMPLETION_PROVIDER=ollama
+      - AUDIO_COMPLETION_PROVIDER=local
+      
+      # Ollama configuration
+      - OLLAMA_ENDPOINT=http://ollama:11434
+      - OLLAMA_MODEL_NAME=phi4-mini
+      
+      # LightRAG configuration
+      - LIGHTRAG_ENDPOINT=http://lightrag:9621
+      - LIGHTRAG_API_KEY=supersecretkey
+      
+      # General settings
+      - LANGUAGE=English
+      - INFERENCE_DEVICE=cpu
+      
+      # Observability (optional)
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://dashboard:18889
+      
+      # Required: Set your Hugging Face token
+      - HUGGING_FACE_TOKEN=${HUGGING_FACE_TOKEN}
+
+  # Aspire Dashboard for observability (optional)
+  dashboard:
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:9.4
+    ports:
+      - "18890:18888" # Web UI
+    environment:
+      ASPIRE_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: "true"
+      # Use __ instead of : for nested keys in environment vars (more reliable)
+      Dashboard__Frontend__AuthMode: "Unsecured"
+      Dashboard__Otlp__AuthMode: "Unsecured"
+
+volumes:
+  ollama_data:
+    driver: local
+  lightrag_storage:
+    driver: local
+  lightrag_inputs:
+    driver: local
+  summarizer_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./storage
