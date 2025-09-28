@@ -40,7 +40,7 @@ jobs:
     env:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
       OLLAMA_MODEL_NAME: "phi4-mini"
-      OLLAMA_VERSION: "0.11.11"
+      OLLAMA_VERSION: "0.12.3"
       FFMPEG_VERSION: "7.1"
       PYTHON_VERSION: "3.12"
       POETRY_VERSION: "2.2.0"
