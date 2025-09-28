@@ -1,18 +1,20 @@
-from typing import TypedDict
+from pydantic import BaseModel
+from pydantic.alias_generators import to_camel
 
 
-class Notification(TypedDict):
+class Notification(BaseModel):
     campaign_id: int
     episode_id: int
+
+    class Config:
+        alias_generator = to_camel
+        populate_by_name = True
 
 
 class SummaryAvailable(Notification):
     """
     Notification sent when new episode summary is available
     """
-    # The generated summary text
     summary: str
-    # The key for the episode summary in the storage
     episode_key: str
-    # The key for the campaign summary in the storage
     campaign_key: str

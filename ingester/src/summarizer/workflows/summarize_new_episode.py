@@ -24,7 +24,7 @@ from summarizer.models.workflow import (
 )
 from summarizer.repositories.storage import AudioRepository, SummaryRepository
 from summarizer.services.knowledge_graph import KnowledgeGraph
-from summarizer.services.notifications import DaprNotificationService
+from summarizer.services.notifications import DaprNotificationService, SummaryAvailable
 from summarizer.services.speech_to_text import SpeechToText
 from summarizer.services.summaries.models import EpisodeSummary, SceneSummary
 from summarizer.services.summaries.summarizer import Summarizer
@@ -282,13 +282,13 @@ def notify_summary_available(
     async def run():
         if notifier:
             episode_summary_obj = EpisodeSummary(**episode_summary)
-            await notifier.summary_available({
-                "campaign_id": campaign_id,
-                "episode_id": episode_id,
-                "summary": episode_summary_obj.human_summary,
-                "episode_key": f"campaigns/{campaign_id}/episodes/{episode_id}/summary.json",
-                "campaign_key": f"campaigns/{campaign_id}/summary.json"
-            })
+            await notifier.summary_available(SummaryAvailable(
+                campaign_id=campaign_id,
+                episode_id=episode_id,
+                summary=episode_summary_obj.human_summary,
+                episode_key=f"campaigns/{campaign_id}/episodes/{episode_id}/summary.json",
+                campaign_key=f"campaigns/{campaign_id}/summary.json"
+            ))
             logging.info("✅ Summary available notification sent successfully")
             return True
         else:

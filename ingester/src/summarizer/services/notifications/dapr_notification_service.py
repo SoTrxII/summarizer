@@ -1,5 +1,4 @@
 import logging
-from json import dumps
 
 from dapr.clients import DaprClient
 
@@ -45,11 +44,12 @@ class DaprNotificationService:
                 self.logger.info(
                     f"Sending notification to topic '{topic}' on pubsub '{self.pubsub_name}'"
                 )
-
+                data = notification.model_dump_json(by_alias=True)
                 client.publish_event(
                     pubsub_name=self.pubsub_name,
                     topic_name=topic,
-                    data=dumps(notification)
+                    # Camel case conversion
+                    data=data
                 )
 
                 self.logger.info(
