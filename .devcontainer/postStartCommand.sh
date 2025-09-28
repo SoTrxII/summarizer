@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-LIGHTRAG_VERSION=1.4.8.2
+LIGHTRAG_VERSION=1.4.9
 DAPR_VERSION=1.16.0
 ASPIRE_DASHBOARD_VERSION=9.4
 

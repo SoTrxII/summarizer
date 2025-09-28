@@ -30,7 +30,7 @@ services:
   
   # LightRAG - Knowledge Graph server
   lightrag:
-    image: ghcr.io/hkuds/lightrag:v1.4.8.2
+    image: ghcr.io/hkuds/lightrag:v1.4.9
     ports:
       - "9622:9621"
     volumes:
