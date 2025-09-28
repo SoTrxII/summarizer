@@ -93,6 +93,23 @@ This deployment is fully offline and ideal for development, testing, or running 
 To start ingesting episodes :
 - Put the audio files in `deploy/locally/storage/audios`
 - Using the swagger UI (http://localhost:8001/docs), call the POST `/workflows/audio` endpoint with the audio file name and campaign/episode IDs.
+- Once the workflow is completed:
+  -  You'll find the summaries in the `deploy/locally/storage/summaries/{campaign_id}/{episode_id}/` directory.
+     - The `episode.json` file contains the full episode summary.
+     - The `scenes/` directory contains individual scene summaries.
+     - The campaign summary is stored in `campaign.json` at the root of the summaries directory.
+  - You will be able to query the knowledge graph at http://localhost:9622, using the UI or programmatically.
+
+Example : Starting workflow for the provided audio file `1m.ogg`:
+```http
+POST /workflows/audio
+Content-Type: application/json
+{
+  "audio_file_path": "1m.ogg",
+  "campaign_id": 1,
+  "episode_id": 1
+}
+```
 
 ## Usage
 
