@@ -102,7 +102,7 @@ def start_dapr_client() -> Generator[DaprWorkflowClient, None, None]:
 
     # Workspace and component paths
     workspace_root = Path(__file__).parent.parent.parent.parent
-    components_path = workspace_root / "components"
+    components_path = workspace_root / ".dapr" / "resources"
 
     app_id = "summarizer-testing"
     dapr_http_port = "3500"
