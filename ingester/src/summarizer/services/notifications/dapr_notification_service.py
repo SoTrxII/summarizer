@@ -49,7 +49,8 @@ class DaprNotificationService:
                     pubsub_name=self.pubsub_name,
                     topic_name=topic,
                     # Camel case conversion
-                    data=data
+                    data=data,
+                    data_content_type='application/json',
                 )
 
                 self.logger.info(
