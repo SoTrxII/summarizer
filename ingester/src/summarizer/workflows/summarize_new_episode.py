@@ -1,301 +1,26 @@
-import asyncio
 import logging
-from pathlib import Path
-from tempfile import NamedTemporaryFile
 from typing import List
 
-from dapr.ext.workflow import (
-    DaprWorkflowContext,
-    WorkflowActivityContext,
-)
-from dependency_injector.wiring import Provide, inject
+from dapr.ext.workflow import DaprWorkflowContext
 from opentelemetry import trace
 
-from summarizer.container import Container
 from summarizer.models.scene import Scene
 from summarizer.models.sentence import Sentence
-from summarizer.models.workflow import (
-    AudioWorkflowInput,
-    NotifySummaryAvailableActivityInput,
-    SummarizeCampaignActivityInput,
-    SummarizeEpisodeActivityInput,
-    SummarizeScenesActivityInput,
-    WorkflowInput,
-)
-from summarizer.repositories.storage import AudioRepository, SummaryRepository
-from summarizer.services.knowledge_graph import KnowledgeGraph
-from summarizer.services.notifications import DaprNotificationService, SummaryAvailable
-from summarizer.services.speech_to_text import SpeechToText
-from summarizer.services.summaries.models import EpisodeSummary, SceneSummary
-from summarizer.services.summaries.summarizer import Summarizer
-from summarizer.services.transformers import RuptureSceneChunker
-from summarizer.utils.telemetry import span
+from summarizer.models.workflow import AudioWorkflowInput, WorkflowInput
 
+from .activities import (
+    notify_summary_available,
+    publish_scenes_to_lightrag,
+    split_into_scenes,
+    summarize_campaign,
+    summarize_episode,
+    summarize_scenes,
+    transcribe_audio,
+)
 from .runtime import wfr
 
 # Get a tracer for this module
 tracer = trace.get_tracer(__name__)
-
-
-@wfr.activity()  # pyright: ignore[reportCallIssue]
-@inject
-@span
-def transcribe_audio(
-    _: WorkflowActivityContext,
-    input: AudioWorkflowInput,
-    speech_to_text: SpeechToText = Provide[Container.speech_to_text],
-    audio_repo: AudioRepository = Provide[Container.audio_repository],
-    summary_repo: SummaryRepository = Provide[Container.summary_repository]
-) -> List[Sentence]:
-    """
-    Transcribe an audio file on a remote
-    """
-
-    async def run():
-        with NamedTemporaryFile(suffix=".ogg") as tmp:
-            # Get audio data
-            audio_data = await audio_repo.get(input["audio_file_path"])
-            if audio_data:
-                tmp.write(audio_data)
-
-                # Transcribe
-                sentences = await speech_to_text.transcribe(Path(tmp.name), diarize=True)
-
-                # Save transcript
-                await summary_repo.save_transcript(
-                    input["campaign_id"],
-                    input["episode_id"],
-                    sentences
-                )
-
-                return sentences
-            else:
-                raise ValueError(
-                    f"Audio file not found: {input['audio_file_path']}")
-
-    return asyncio.run(run())
-
-
-@wfr.activity()  # pyright: ignore[reportCallIssue]
-@inject
-@span
-def split_into_scenes(
-    _: WorkflowActivityContext,
-    input: WorkflowInput,
-    scene_chunker: RuptureSceneChunker = Provide[Container.scene_chunker],
-    summary_repo: SummaryRepository = Provide[Container.summary_repository]
-) -> List[Scene]:
-    """
-    Split transcribed text from object store into scenes
-    """
-    async def run():
-        # Get transcript
-        sentences = await summary_repo.get_transcript(
-            input["campaign_id"],
-            input["episode_id"]
-        )
-
-        if sentences is None:
-            raise ValueError(
-                f"Transcript not found for campaign {input['campaign_id']}, episode {input['episode_id']}")
-
-        # Process scenes
-        scenes = scene_chunker.group_into_scenes(sentences)
-
-        # Save scenes
-        await summary_repo.save_scenes(
-            input["campaign_id"],
-            input["episode_id"],
-            scenes
-        )
-
-        return scenes
-
-    return asyncio.run(run())
-
-
-@wfr.activity()  # pyright: ignore[reportCallIssue]
-@inject
-@span
-def summarize_scenes(
-    _: WorkflowActivityContext,
-    input: SummarizeScenesActivityInput,
-    summarizer: Summarizer = Provide[Container.summarizer],
-    summary_repo: SummaryRepository = Provide[Container.summary_repository]
-) -> List[dict]:
-    logging.info("Summarizing scenes...")
-
-    async def run():
-        previous_summary = None
-        summaries = []
-        for scene in input["scenes"]:
-            current = await summarizer.scene(scene, previous_summary=previous_summary)
-            summaries.append(current.model_dump())
-            previous_summary = current
-
-        await summary_repo.save_scene_summaries(input["campaign_id"],  input["episode_id"], summaries)
-        return summaries
-    return asyncio.run(run())
-
-
-@wfr.activity()  # pyright: ignore[reportCallIssue]
-@inject
-@span
-def publish_scenes_to_lightrag(
-    _: WorkflowActivityContext,
-    input: dict,
-    knowledge_graph: KnowledgeGraph = Provide[Container.knowledge_graph],
-) -> List[dict]:
-    """
-    Publish scene summaries to LightRAG knowledge graph.
-    """
-    logging.info("Publishing scenes to LightRAG...")
-
-    scenes_summaries = input["scenes_summaries"]
-    campaign_id = input["campaign_id"]
-    episode_id = input["episode_id"]
-
-    async def run():
-        # Convert scene summaries back to SceneSummary objects
-        scene_objects = [SceneSummary(**s) for s in scenes_summaries]
-
-        # Publish to LightRAG
-        responses = await knowledge_graph.index_scenes(campaign_id, episode_id, scene_objects)
-
-        # Log results
-        successful_publishes = sum(
-            1 for r in responses if r.status == "success")
-        total_scenes = len(responses)
-
-        logging.info(
-            f"Published {successful_publishes}/{total_scenes} scenes to LightRAG"
-        )
-
-        return [response.model_dump() for response in responses]
-
-    return asyncio.run(run())
-
-
-@wfr.activity()  # pyright: ignore[reportCallIssue]
-@inject
-@span
-def summarize_episode(
-    _: WorkflowActivityContext,
-    input: SummarizeEpisodeActivityInput,
-    summarizer: Summarizer = Provide[Container.summarizer],
-    summary_repo: SummaryRepository = Provide[Container.summary_repository]
-) -> dict:
-    logging.info("Summarizing episode...")
-
-    scenes = input["scenes_summaries"]
-    campaign_id = input["campaign_id"]
-    episode_id = input["episode_id"]
-    is_one_shot = input["is_one_shot"]
-
-    async def run():
-        scene_objects = [SceneSummary(**s) for s in scenes]
-
-        # Get previous episode (skip if this is a one-shot episode)
-        previous_episode = None
-        if not is_one_shot:
-            for prev_id in range(episode_id - 1, 0, -1):
-                prev_summary = await summary_repo.get_episode_summary(campaign_id, prev_id)
-                if prev_summary:
-                    previous_episode = EpisodeSummary(**prev_summary)
-                    break
-
-        # Generate episode summary
-        episode_summary = await summarizer.episode(scene_objects, previous_episode)
-
-        # Save episode summary
-        await summary_repo.save_episode_summary(
-            campaign_id,
-            episode_id,
-            episode_summary.model_dump()
-        )
-
-        return episode_summary.model_dump()
-    return asyncio.run(run())
-
-
-@wfr.activity()  # pyright: ignore[reportCallIssue]
-@inject
-@span
-def summarize_campaign(
-    _: WorkflowActivityContext,
-    campaign_input: SummarizeCampaignActivityInput,
-    summarizer: Summarizer = Provide[Container.summarizer],
-    summary_repo: SummaryRepository = Provide[Container.summary_repository]
-) -> str:
-    logging.info("Summarizing campaign...")
-
-    episode = campaign_input["episode_summary"]
-    campaign_id = campaign_input["campaign_id"]
-    episode_id = campaign_input["episode_id"]
-
-    async def run():
-        episode_summary = EpisodeSummary(**episode)
-
-        # Get all previous episodes
-        episodes = []
-        for previous_ep_id in range(1, episode_id):
-            prev_summary = await summary_repo.get_episode_summary(campaign_id, previous_ep_id)
-            if prev_summary:
-                episodes.append(EpisodeSummary(**prev_summary))
-
-        episodes.append(episode_summary)
-
-        # Get previous campaign summary
-        previous_campaign_summary = None
-        campaign_summary = await summary_repo.get_campaign_summary(campaign_id)
-
-        # Generate campaign summary
-        campaign_summary = await summarizer.campaign(episodes, previous_campaign_summary)
-
-        # Save campaign summary
-        await summary_repo.save_campaign_summary(
-            campaign_id,
-            campaign_summary
-        )
-
-        return campaign_summary
-    return asyncio.run(run())
-
-
-@wfr.activity()  # pyright: ignore[reportCallIssue]
-@inject
-@span
-def notify_summary_available(
-    _: WorkflowActivityContext,
-    input: NotifySummaryAvailableActivityInput,
-    notifier: DaprNotificationService = Provide[Container.notification_service]
-) -> bool:
-    """
-    Send a notification that a summary is available.
-    """
-    logging.info("Sending summary available notification...")
-
-    campaign_id = input["campaign_id"]
-    episode_id = input["episode_id"]
-    episode_summary = input["episode_summary"]
-
-    async def run():
-        if notifier:
-            episode_summary_obj = EpisodeSummary(**episode_summary)
-            await notifier.summary_available(SummaryAvailable(
-                campaign_id=campaign_id,
-                episode_id=episode_id,
-                summary=episode_summary_obj.human_summary,
-                episode_key=f"campaigns/{campaign_id}/episodes/{episode_id}/summary.json",
-                campaign_key=f"campaigns/{campaign_id}/summary.json"
-            ))
-            logging.info("✅ Summary available notification sent successfully")
-            return True
-        else:
-            logging.info("Notification service not configured, skipping notification.")
-            return False
-
-    return asyncio.run(run())
 
 
 @wfr.workflow
@@ -372,7 +97,8 @@ def audio_to_summary(ctx: DaprWorkflowContext, input: AudioWorkflowInput):
                 )
                 logging.info("✅ Step 6 Complete. Campaign summary generated")
             else:
-                logging.info("⏩ Step 6: Skipping campaign summarization (one-shot episode)")
+                logging.info(
+                    "⏩ Step 6: Skipping campaign summarization (one-shot episode)")
 
             # Step 7: Send notification for all episodes
             logging.info("📬 Step 7: Sending summary available notification...")
@@ -385,7 +111,8 @@ def audio_to_summary(ctx: DaprWorkflowContext, input: AudioWorkflowInput):
                     "is_one_shot": input["is_one_shot"]
                 }
             )
-            logging.info("✅ Step 7 Complete. Summary available notification sent")
+            logging.info(
+                "✅ Step 7 Complete. Summary available notification sent")
 
 
 @wfr.workflow
@@ -453,7 +180,8 @@ def transcript_to_summary(ctx: DaprWorkflowContext, input: WorkflowInput):
                 )
                 logging.info("✅ Step 5 Complete. Campaign summary generated")
             else:
-                logging.info("⏩ Step 5: Skipping campaign summarization (one-shot episode)")
+                logging.info(
+                    "⏩ Step 5: Skipping campaign summarization (one-shot episode)")
 
             # Step 6: Send notification for all episodes
             logging.info("📬 Step 6: Sending summary available notification...")
@@ -466,7 +194,8 @@ def transcript_to_summary(ctx: DaprWorkflowContext, input: WorkflowInput):
                     "is_one_shot": input["is_one_shot"]
                 }
             )
-            logging.info("✅ Step 6 Complete. Summary available notification sent")
+            logging.info(
+                "✅ Step 6 Complete. Summary available notification sent")
 
             logging.info("🎉 Workflow completed successfully!")
             return episode_summary

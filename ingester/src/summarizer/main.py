@@ -18,6 +18,15 @@ from summarizer.utils.telemetry import (
     setup_traces_provider,
 )
 from summarizer.workflows import summarize_new_episode
+from summarizer.workflows.activities import (
+    notify_summary_available,
+    publish_scenes_to_lightrag,
+    split_into_scenes,
+    summarize_campaign,
+    summarize_episode,
+    summarize_scenes,
+    transcribe_audio,
+)
 from summarizer.workflows.runtime import wfr
 
 
@@ -32,8 +41,17 @@ def setup_DI() -> None:
     # Create container with validated configuration
     container = create_container(app_config)
 
-    # Wire the container to workflows
-    container.wire(modules=[summarize_new_episode])
+    # Wire the container to workflows and all activity modules
+    container.wire(modules=[
+        summarize_new_episode,
+        transcribe_audio,
+        split_into_scenes,
+        summarize_scenes,
+        publish_scenes_to_lightrag,
+        summarize_episode,
+        summarize_campaign,
+        notify_summary_available,
+    ])
 
 
 def setup_telemetry() -> None:
