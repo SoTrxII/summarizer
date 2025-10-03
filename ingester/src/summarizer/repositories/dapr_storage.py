@@ -1,7 +1,7 @@
 import json
 import logging
 from base64 import b64decode
-from typing import Any, Optional
+from typing import Any, Final, Optional
 
 from dapr.clients import DaprClient
 
@@ -10,6 +10,7 @@ from .storage import AudioRepository, SummaryRepository
 
 class BaseDaprRepository:
     """Base class for Dapr binding repositories."""
+    MAX_GRPC_MESSAGE_LENGTH_BYTES: Final[int] = 2500 * 1024 * 1024  # 2.5 GB
 
     def __init__(self, binding_name: str):
         self.binding_name = binding_name
@@ -17,7 +18,7 @@ class BaseDaprRepository:
     async def get(self, path: str) -> Optional[bytes]:
         """Get raw data from Dapr binding."""
         try:
-            with DaprClient() as client:
+            with DaprClient(max_grpc_message_length=self.MAX_GRPC_MESSAGE_LENGTH_BYTES) as client:
                 result = client.invoke_binding(
                     self.binding_name,
                     "get",
@@ -33,7 +34,7 @@ class BaseDaprRepository:
 
     async def save(self, path: str, data: bytes) -> None:
         """Save raw data to Dapr binding."""
-        with DaprClient() as client:
+        with DaprClient(max_grpc_message_length=self.MAX_GRPC_MESSAGE_LENGTH_BYTES) as client:
             client.invoke_binding(
                 self.binding_name,
                 "create",
