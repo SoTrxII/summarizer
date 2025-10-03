@@ -10,7 +10,7 @@ from .storage import AudioRepository, SummaryRepository
 
 class BaseDaprRepository:
     """Base class for Dapr binding repositories."""
-    MAX_GRPC_MESSAGE_LENGTH_BYTES: Final[int] = 2500 * 1024 * 1024  # 2.5 GB
+    MAX_GRPC_MESSAGE_LENGTH_BYTES: Final[int] = 500 * 1024 * 1024  # 500 MB
 
     def __init__(self, binding_name: str):
         self.binding_name = binding_name

@@ -163,3 +163,6 @@ The default components are configured for local development and use Redis for st
 All contributions are welcome! Please open issues or pull requests for any features, bug fixes, or improvements.
 
 You can use the provided devcontainer setup for a consistent development environment.
+
+### Limiations
+- The audio file size is currently limited to 500MB due to gRPC message size limits. This can be adjusted in `dapr_storage.py` if needed.
