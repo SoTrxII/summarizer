@@ -9,6 +9,10 @@ from typing import Any, Dict, Optional
 import whisperx
 from openai import AzureOpenAI
 
+# Global semaphore to limit concurrent requests across all instances
+_GLOBAL_SEMAPHORE: Optional[asyncio.Semaphore] = None
+_SEMAPHORE_LOCK = asyncio.Lock()
+
 
 class AzureOpenAITranscriber:
     """
@@ -54,11 +58,22 @@ class AzureOpenAITranscriber:
             api_version=self.API_VERSION,
         )
         self._deployment_name = deployment_name
-        self._max_file_size = max_file_size
-        self._concurrency = concurrency
-        self._max_concurrent_calls = max_concurrent_calls
-        self._rate_limit_delay = 1.0 / max_concurrent_calls
-        self._semaphore = asyncio.Semaphore(max_concurrent_calls)
+        self._max_file_size = max_file_size or self.DEFAULT_MAX_FILE_SIZE
+        self._concurrency = concurrency or self.DEFAULT_CONCURRENCY
+        self._max_concurrent_calls = max_concurrent_calls or self.DEFAULT_MAX_CONCURRENT_CALLS
+        self._rate_limit_delay = 1.0 / self._max_concurrent_calls
+
+    @classmethod
+    async def _get_global_semaphore(cls, max_concurrent_calls: int) -> asyncio.Semaphore:
+        """Get or create the global semaphore for limiting concurrent requests."""
+        global _GLOBAL_SEMAPHORE
+
+        async with _SEMAPHORE_LOCK:
+            if _GLOBAL_SEMAPHORE is None:
+                _GLOBAL_SEMAPHORE = asyncio.Semaphore(max_concurrent_calls)
+                logging.info(
+                    f"Created global semaphore with limit: {max_concurrent_calls}")
+            return _GLOBAL_SEMAPHORE
 
     async def transcribe_audio(self, audio_file: Path) -> Dict[str, Any]:
         """
@@ -100,7 +115,8 @@ class AzureOpenAITranscriber:
 
     async def _transcribe_single_file(self, audio_file: Path) -> Dict[str, Any]:
         """Transcribe a single audio file."""
-        async with self._semaphore:
+        semaphore = await self._get_global_semaphore(self._max_concurrent_calls)
+        async with semaphore:
             await asyncio.sleep(self._rate_limit_delay)
 
             with open(audio_file, "rb") as f:
