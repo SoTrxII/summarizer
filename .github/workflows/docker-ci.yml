@@ -395,6 +395,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch full history for release notes generation
+        
     - name: Create GitHub Release
       uses: ncipollo/release-action@v1
       env:
