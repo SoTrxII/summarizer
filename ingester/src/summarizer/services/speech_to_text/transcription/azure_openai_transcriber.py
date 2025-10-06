@@ -3,15 +3,17 @@ import logging
 import math
 import os
 import tempfile
+import threading
 from pathlib import Path
 from typing import Any, Dict, Optional
 
 import whisperx
 from openai import AzureOpenAI
 
-# Global semaphore to limit concurrent requests across all instances
-_GLOBAL_SEMAPHORE: Optional[asyncio.Semaphore] = None
-_SEMAPHORE_LOCK = asyncio.Lock()
+# Global semaphore to limit concurrent requests across all instances and event loops
+# Use threading.Semaphore to work across event loops
+_GLOBAL_SEMAPHORE: Optional[threading.Semaphore] = None
+_SEMAPHORE_LOCK = threading.Lock()
 
 
 class AzureOpenAITranscriber:
@@ -64,15 +66,15 @@ class AzureOpenAITranscriber:
         self._rate_limit_delay = 1.0 / self._max_concurrent_calls
 
     @classmethod
-    async def _get_global_semaphore(cls, max_concurrent_calls: int) -> asyncio.Semaphore:
-        """Get or create the global semaphore for limiting concurrent requests."""
+    async def _get_global_semaphore(cls, max_concurrent_calls: int) -> threading.Semaphore:
+        """Get or create the global semaphore for limiting concurrent requests across all event loops."""
         global _GLOBAL_SEMAPHORE
 
-        async with _SEMAPHORE_LOCK:
+        with _SEMAPHORE_LOCK:
             if _GLOBAL_SEMAPHORE is None:
-                _GLOBAL_SEMAPHORE = asyncio.Semaphore(max_concurrent_calls)
+                _GLOBAL_SEMAPHORE = threading.Semaphore(max_concurrent_calls)
                 logging.info(
-                    f"Created global semaphore with limit: {max_concurrent_calls}")
+                    f"Created global threading semaphore with limit: {max_concurrent_calls}")
             return _GLOBAL_SEMAPHORE
 
     async def transcribe_audio(self, audio_file: Path) -> Dict[str, Any]:
@@ -116,16 +118,24 @@ class AzureOpenAITranscriber:
     async def _transcribe_single_file(self, audio_file: Path) -> Dict[str, Any]:
         """Transcribe a single audio file."""
         semaphore = await self._get_global_semaphore(self._max_concurrent_calls)
-        async with semaphore:
-            await asyncio.sleep(self._rate_limit_delay)
 
-            with open(audio_file, "rb") as f:
-                response = self._client.audio.transcriptions.create(
-                    model=self._deployment_name,
-                    file=f,
-                    response_format="verbose_json"
-                )
-            return self._format_transcription_response(response)
+        # Use asyncio.to_thread to run the blocking operation in a thread
+        def transcribe_with_semaphore():
+            with semaphore:
+                with open(audio_file, "rb") as f:
+                    response = self._client.audio.transcriptions.create(
+                        model=self._deployment_name,
+                        file=f,
+                        response_format="verbose_json"
+                    )
+                return response
+
+        # Add rate limiting delay
+        await asyncio.sleep(self._rate_limit_delay)
+
+        # Run the transcription in a thread to avoid blocking the event loop
+        response = await asyncio.to_thread(transcribe_with_semaphore)
+        return self._format_transcription_response(response)
 
     def _format_transcription_response(self, response) -> Dict[str, Any]:
         """Format the API response into standard format."""
